@@ -28,8 +28,9 @@
         },
         requestTest: function ( data, next ){
 
+            $.post( API.REQUEST_TEST, data, next, 'json' );
         }
-    }
+    };
 
     /*== views ==*/
     var Views = {
@@ -50,13 +51,17 @@
             },
 
             events: {
-                'change #testcode-area': 'onTestcodeChange'
+                'change #testcode-area': 'onTestcodeChange',
+                'click #browsers input[type=checkbox]': 'onRequestBrowsersChange'
             },
 
-            render: function (){
+//            render: function (){
+//
+//            },
 
-            },
-
+            /**
+             * 绑定model事件
+             */
             attachModel: function (){
 
                 var that = this;
@@ -67,6 +72,9 @@
                 });
             },
 
+            /**
+             * 根据当前model.available的值，来更新浏览器选择列表
+             */
             updateBrowserList: function (){
 
                 var availableBrowser = this.model.get( 'availableBrowser' );
@@ -84,9 +92,14 @@
                     }
                 });
 
-                console.log( 'test');
+//                console.log( 'test');
             },
 
+            /**
+             * 修改浏览器选择部分是否为可用状态
+             * @param type
+             * @param ifAble
+             */
             toggleBrowserStat: function ( type, ifAble ){
 
 
@@ -123,6 +136,9 @@
 
             },
 
+            /**
+             * 当测试代码发生变化
+             */
             onTestcodeChange: function (){
 
                 this.model.set({
@@ -131,6 +147,35 @@
 
                 console.log( 'test' );
                 console.log( this.model.get( 'testcode' ) );
+            },
+
+            /**
+             * 当浏览器选择发生变化
+             */
+            onRequestBrowsersChange: function (){
+
+                var checkboxes = this.browserListEl.find( 'input[type=checkbox]' );
+                var requestBrowsers = [];
+
+                $( checkboxes).each(function (){
+
+                    var checkbox = $( this );
+                    var name;
+
+                    if( checkbox.prop( 'checked' ) ){
+
+                        name = checkbox.parent().attr( 'data-type' );
+
+                        requestBrowsers.push( name );
+                    }
+                });
+
+//                console.log( availableBrowsers );
+
+                this.model.set({
+                    requestBrowser: requestBrowsers
+                });
+
             }
         }),
 
@@ -250,6 +295,17 @@
         }),
 
         TestInfoItem: Backbone.Model.extend({
+
+            initialize: function (){
+
+                var data = this.toJSON();
+
+                command.requestTest( data,function (){
+
+
+                });
+
+            },
 
             defaults: {
                 stat: 'testing', // testing | finished | error
