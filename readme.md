@@ -40,7 +40,8 @@
                     	'msg': 'abcdefghij',	// log输出
                     	'level': '1' //为1,2,3	// log输出的级别 分别对应 error warning info
                	 	}
-            	]
-        	},
-        	'screen': 'http:///a.com/sss/1.jpg'	// 截图图片地址
+            	],
+            	'screen': 'http:///a.com/sss/1.jpg'	// 截图图片地址
+        	}
+
     	}
