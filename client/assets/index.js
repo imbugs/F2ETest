@@ -3,7 +3,7 @@
     var API = {
 
         BROWSER_STAT: 'http://localhost:8888/f2e-webDriver/fake/stat.php',
-        REQUEST_TEST: 'TEST'
+        REQUEST_TEST: 'http://localhost:8888/F2ETest/client/fake/test.php'
     };
 
     $( document).ready(function (){
@@ -52,7 +52,8 @@
 
             events: {
                 'change #testcode-area': 'onTestcodeChange',
-                'click #browsers input[type=checkbox]': 'onRequestBrowsersChange'
+                'click #browsers input[type=checkbox]': 'onRequestBrowsersChange',
+                'click #run-test-btn': 'onRunBtnClick'
             },
 
 //            render: function (){
@@ -123,15 +124,30 @@
 
                 var data = this.model.toJSON();
                 var requestBrowser = data.requestBrowser;
-                var testCode = data.code;
+                var testCode = data.testCode;
                 var that = this;
+                var firstTab;
+
+
+                // 清空原有结果
+                this.TestInfo.clear();
+
+
 
                 _.each( requestBrowser, function ( browser ){
 
-                    that.TestInfo.addItem( {
+                    var data = {
                         testCode: testCode,
                         type: browser
-                    });
+                    };
+
+                    if( !firstTab ){
+
+                        firstTab = browser;
+                        data.defaultActive = true;
+                    }
+
+                    that.TestInfo.addItem( data );
                 });
 
             },
@@ -142,11 +158,8 @@
             onTestcodeChange: function (){
 
                 this.model.set({
-                    testcode: this.codeTextarea.val()
+                    testCode: this.codeTextarea.val()
                 });
-
-                console.log( 'test' );
-                console.log( this.model.get( 'testcode' ) );
             },
 
             /**
@@ -176,6 +189,15 @@
                     requestBrowser: requestBrowsers
                 });
 
+            },
+
+            onRunBtnClick: function (){
+
+                this.model.set({
+                    testCode: this.codeTextarea.val()
+                });
+
+                this.runTest();
             }
         }),
 
@@ -183,7 +205,8 @@
 
             initialize: function (){
 
-                this.testInfoList = [];
+                this.testInfoList = {};
+                this.nav = this.$( '.nav-tabs' );
             },
 
             events: {
@@ -197,9 +220,34 @@
                 });
             },
 
+            setDefaultActive: function ( type ){
+
+                this.model.set({
+                    defaultActive: type
+                });
+            },
+
+            getDefaultActive: function (){
+
+                return this.model.get( 'defaultActive' );
+            },
+
             removeItem: function ( type ){
 
                 this.testInfoList[ type ].remove();
+                delete this.testInfoList[ type ];
+            },
+
+            activeItem: function ( type ){
+
+                this.testInfoList[ type ].triggerEl.click();
+            },
+
+            activeFirstIten: function (){
+
+                var firstType = $( this.nav.children()[ 0 ]).attr( 'data-type' );
+
+                this.activeItem( firstType );
             },
 
             clear: function (){
@@ -208,6 +256,8 @@
 
                     item.remove();
                 });
+
+                this.testInfoList = {};
             }
         }),
 
@@ -216,8 +266,13 @@
             initialize: function (){
 
                 this.parentEl = $( '#output-tabs' );
-                this.model = new Models.TestInfoItem( this.data );
+                this.model = new Models.TestInfoItem( this.options.data );
+                this.paneTplId = 'test-info-pane-tpl';
+                this.triggerTplId = 'test-info-trigger-tpl';
+                this.paneTpl = _.template( $( '#' + this.paneTplId).html() );
+                this.triggerTpl = _.template( $( '#' + this.triggerTplId).html() );
 
+                this.attachModel();
             },
 
             events: {
@@ -228,20 +283,57 @@
 
                 var that = this;
 
-                this.model( 'change', function (){
+                this.model.on( 'change:stat', function ( m ){
 
-                    that.render();
+                    var stat = m.get( 'stat' );
+
+                    if( stat === 'finished' ){
+
+                        that.render();
+                    }
+                    else if( stat === 'error' ){
+
+                        that.error();
+                    }
+                    else {
+
+                        that.testing();
+                    }
+
                 });
             },
 
             render: function (){
+
+                var data = this.model.toJSON();
+
+                if( this.triggerEl ){
+                    this.triggerEl.remove();
+                }
+                if( this.paneEl ){
+                    this.paneEl.remove();
+                }
+
+                this.triggerEl = $( this.triggerTpl( data ) );
+                this.paneEl = $( this.paneTpl( data ) );
+
+                this.parentEl.find( '.nav-tabs').append( this.triggerEl );
+                this.parentEl.find( '.tab-content').append( this.paneEl );
+            },
+
+            error: function (){
+
+            },
+
+            testing: function (){
 
             },
 
             remove: function (){
 
                 this.model.destroy();
-                this.el.remove();
+                this.triggerEl.remove();
+                this.paneEl.remove();
             }
         })
     };
@@ -260,6 +352,7 @@
             defaults: {
                 ifCheckStat: false,
                 testCode: '',
+                defaultActive: '',
                 availableBrowser: [],
                 isTesting: false,
                 requestBrowser: [],
@@ -294,24 +387,75 @@
             }
         }),
 
+
+        /**
+         * 单个浏览器测试结果视图
+         */
         TestInfoItem: Backbone.Model.extend({
 
             initialize: function (){
 
                 var data = this.toJSON();
 
-                command.requestTest( data,function (){
+                this.fetch();
 
+            },
 
-                });
+            fetch: function (){
+
+                var m = this.toJSON();
+                var that = this;
+                var data = {
+                    type: m.type,
+                    testcode: m.testCode
+                };
+
+               command.requestTest( data, function ( data ){
+
+                    that.dataHandle( data );
+               });
+
+            },
+
+            /**
+             * 对返回的数据进行预处理
+             * @param data
+             */
+            dataHandle: function ( data ){
+
+                var logs;
+                var screenShot;
+                var type;
+                var _data = data.data;
+
+                if( data.result ){
+
+                    logs = _data.logs;
+                    screenShot = _data.screen;
+                    type = _data.type;
+
+                    this.set({
+                        stat: 'finished',
+                        logs: logs,
+                        screenshot: screenShot,
+                        type: type
+                    });
+                }
+                else {
+
+                    this.set({
+                        stat: 'error'
+                    });
+                }
 
             },
 
             defaults: {
-                stat: 'testing', // testing | finished | error
+                stat: 'testing', // testing | finished | error,
+                defaultActive: false,
                 testCode: '',
                 screenshot: '',
-                output: '',
+                logs: '',
                 type: 'browser'
             }
         })
