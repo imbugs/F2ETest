@@ -31,9 +31,11 @@
                     <span class="browser ie8" data-type="ie8"><input type="checkbox" value="ie8">ie8</span>
                     <span class="browser ie9" data-type="ie9"><input type="checkbox" value="ie9">ie9</span>
                 </p>
-                <p class="span2 offset2">
-                    <input id="run-test-btn" type="button" class="btn btn-primary" value="测试" >
+                <p class="span1 offset3">
+                    <input id="run-test-btn" type="button" class="btn btn-primary btn-large" value="测试" >
                 </p>
+                <div class="input-error alert alert-error span10">
+                </div>
 
             </div>
             <div id="output-wrap" class="span11">

@@ -39,13 +39,11 @@
 
             initialize: function (){
 
-//                this.el = $( '#content' );
                 this.browserListEl = $( '#browsers' );
                 this.codeTextarea = $( '#testcode-area' );
                 this.model = new Models.TestInfo();
                 this.TestInfo = new Views.TestInfo();
-
-//                this.codeTextarea.on( 'change', this.onTestcodeChange );
+                this.alertEl = this.$( '.input-error').hide();
 
                 this.attachModel();
             },
@@ -128,11 +126,8 @@
                 var that = this;
                 var firstTab;
 
-
                 // 清空原有结果
                 this.TestInfo.clear();
-
-
 
                 _.each( requestBrowser, function ( browser ){
 
@@ -150,6 +145,17 @@
                     that.TestInfo.addItem( data );
                 });
 
+            },
+
+            showAlert: function( msg ){
+
+                this.alertEl.html( msg );
+                this.alertEl.fadeIn( 500 );
+            },
+
+            hideAlert: function (){
+
+                this.alertEl.fadeOut( 500 );
             },
 
             /**
@@ -197,7 +203,19 @@
                     testCode: this.codeTextarea.val()
                 });
 
-                this.runTest();
+                // 检查是否正确
+                var result = this.model.validation();
+
+                if( result.result ){
+
+                    this.hideAlert();
+                    this.runTest();
+                }
+                else {
+
+                    this.showAlert( result.msg );
+                }
+
             }
         }),
 
@@ -220,16 +238,9 @@
                 });
             },
 
-            setDefaultActive: function ( type ){
+            validation: function (){
 
-                this.model.set({
-                    defaultActive: type
-                });
-            },
-
-            getDefaultActive: function (){
-
-                return this.model.get( 'defaultActive' );
+                return this.model.validation();
             },
 
             removeItem: function ( type ){
@@ -384,6 +395,41 @@
                 });
 
                 return dataHandled;
+            },
+
+            /**
+             * 对数据进行验证
+             */
+            validation: function (){
+
+                var data = this.toJSON();
+                var requestBrowser = data.requestBrowser;
+                var testCode = data.testCode;
+                var result = true;
+                var msg = '';
+
+                if( requestBrowser.length === 0 ){
+
+                    msg += '必须制定需要测试的浏览器;\n';
+                    result = false;
+                }
+
+                if( !testCode ){
+
+                    msg += '测试代码不能为空';
+                    result = false;
+                }
+
+                if( !result ){
+
+                    msg = '错误！' + msg;
+                }
+
+                return {
+                    result: result,
+                    msg: msg
+                };
+
             }
         }),
 
