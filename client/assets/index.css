@@ -1,0 +1,13 @@
+#testcode-area {
+    height: 300px;
+}
+
+.browser {
+    margin-right: 10px;
+}
+.browser input {
+    margin-right: 5px;
+}
+.unavailable {
+    color: #bbb;
+}

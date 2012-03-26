@@ -43,5 +43,4 @@
             	],
             	'screen': 'http:///a.com/sss/1.jpg'	// 截图图片地址
         	}
-
     	}
