@@ -1,25 +1,46 @@
 ##F2ETEST 基于selenium2 & webdriverjs 的前端自动化测试平台
 
-##serverStatus接口数据约定
-[
-    'chrome',
-    'firefox',
-    'ie6',
-    'ie7',
-    'ie8',
-    'ie9',
-    'opera'
-]
+### Server API
 
-##doRequest运行结果数据
-{
-    'result': true,
-    'data': {
-        'type': 'ie6',
-        'logs': {
-            'msg': 'abcdefghij',
-            'level': '1' //为1,2,3
-        }
-    },
-    'screen': 'http:///a.com/sss/1.jpg'
-}
+####serverStatus接口数据约定
+
+* method: GET
+* params: null
+* return:
+	
+		[
+        	'chrome',
+        	'firefox',
+        	'ie6',
+        	'ie7',
+        	'ie8',
+        	'ie9',
+        	'opera'
+        ]
+        
+
+####doRequest运行结果数据
+
+* method: POST
+* params: 
+
+		{
+			type: 'chrome',					// 需要测试的浏览器类型
+			testCode: 'your test code',		// 测试脚本
+			options: ''						// 相关配置… 
+		}
+* return:
+
+    	{
+        	'result': true,					// 请求结果
+        	'data': {
+            	'type': 'ie6',				// 测试的浏览器类型
+            	'logs': [					// 测试结果的log数组
+                	{
+                    	'msg': 'abcdefghij',	// log输出
+                    	'level': '1' //为1,2,3	// log输出的级别 分别对应 error warning info
+               	 	}
+            	]
+        	},
+        	'screen': 'http:///a.com/sss/1.jpg'	// 截图图片地址
+    	}
