@@ -3,10 +3,32 @@
  * @overview 检查度武器列表可用性，并返回结果
  */
 $serverList = array(
-    array('id'=>1,'type'=>'ie6','ip'=>'10.13.15.49','port'=>4444),
-    array('id'=>2,'type'=>'firefox','ip'=>'10.13.15.49','port'=>4444),
-    array('id'=>3,'type'=>'chrome','ip'=>'10.13.15.49','port'=>4444),
-    array('id'=>4,'type'=>'opera','ip'=>'10.13.15.49','port'=>4444)
+    'ie6' => array(
+        array('ip'=>'10.13.15.49', 'port'=>4444),
+        array('ip'=>'10.13.15.48', 'port'=>4444),
+        array('ip'=>'10.13.15.47', 'port'=>4444)
+    ),
+    'ie7' => array(
+
+    ),
+    'ie8' => array(
+
+    ),
+    'ie9' => array(
+
+    ),
+    'ie10' => array(
+
+    ),
+    'firefox' => array(
+        array('ip'=>'10.13.15.49', 'port'=>4444)
+    ),
+    'chrome' => array(
+        array('ip'=>'10.13.15.49', 'port'=>4444)
+    ),
+    'opera' => array(
+        array('ip'=>'10.13.15.49', 'port'=>4444)
+    )
 );
 /**
  * 检查单个服务器是否可用
@@ -30,10 +52,14 @@ function isServerUp($ip, $port=4444){
  */
 function serverStatus($list){
     $result = array();
-    for($i = 0; $i < count($list); $i++){
-        $item = $list[$i];
-        if(isServerUp($item['ip'], $item['port'])){
-            $result[] = array('id'=>$item['id'], 'type'=>$item['type']);
+
+    foreach($list as $type => $servers){
+        for($i = 0; $i < count($servers); $i++){
+            $item = $servers[$i];
+            if(isServerUp($item['ip'], $item['port'])){
+                $result[] = $type;
+                break;
+            }
         }
     }
     return $result;

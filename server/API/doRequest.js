@@ -3,6 +3,11 @@ var http = require("http");
 http.createServer(function(request, response) {
     console.log(request.url);
 
+    if(request.url != 'doRequest'){
+        response.writeHead(404, {"Content-Type": "text/plain"});
+        response.end();
+    }
+
     response.writeHead(200, {"Content-Type": "text/plain"});
     var webdriverjs = require("webdriverjs");
 
@@ -20,7 +25,7 @@ http.createServer(function(request, response) {
         response.write(arguments[1]);
     }
 
-require("../writable/cases/1").run(client, response);
+    require("../writable/cases/1").run(client, response);
 
 
 }).listen(8888);
