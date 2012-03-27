@@ -35,5 +35,9 @@ $G_ServerList = array(
         array('ip'=>'10.13.15.49', 'port'=>4444)
     )
 );
+//用例文件目录
 $G_CasePath = '../writable/cases/';
+//文件截图目录
 $G_ScreenPath = '../writable/screenshots/';
+//NodeJs运行URL
+$G_NodeURL = 'http://127.0.0.1:8888/';
