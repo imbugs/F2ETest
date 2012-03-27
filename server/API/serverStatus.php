@@ -1,35 +1,9 @@
 <?php
+include('./config.php');
+
 /**
  * @overview 检查度武器列表可用性，并返回结果
  */
-$serverList = array(
-    'ie6' => array(
-        array('ip'=>'10.13.15.49', 'port'=>4444),
-        array('ip'=>'10.13.15.48', 'port'=>4444),
-        array('ip'=>'10.13.15.47', 'port'=>4444)
-    ),
-    'ie7' => array(
-
-    ),
-    'ie8' => array(
-
-    ),
-    'ie9' => array(
-
-    ),
-    'ie10' => array(
-
-    ),
-    'firefox' => array(
-        array('ip'=>'10.13.15.49', 'port'=>4444)
-    ),
-    'chrome' => array(
-        array('ip'=>'10.13.15.49', 'port'=>4444)
-    ),
-    'opera' => array(
-        array('ip'=>'10.13.15.49', 'port'=>4444)
-    )
-);
 /**
  * 检查单个服务器是否可用
  * @param $ip
@@ -65,5 +39,5 @@ function serverStatus($list){
     return $result;
 }
 
-$output = serverStatus($serverList);
+$output = serverStatus($G_ServerList);
 echo json_encode($output);
