@@ -36,4 +36,4 @@ $G_ServerList = array(
     )
 );
 $G_CasePath = '../writable/cases/';
-$G_ScreenPath = '../writable/screenshots/'
+$G_ScreenPath = '../writable/screenshots/';
