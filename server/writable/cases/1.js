@@ -1,4 +1,4 @@
-exports.run = function(client, response){
+exports.run = function(client, res){
     client
         .init()
         .url("http://www.google.com")
@@ -13,7 +13,7 @@ exports.run = function(client, response){
 //            console.log( e );
 //        })
         .end(function(){
-            response.end();
+            res.end();
         });
 
 };
