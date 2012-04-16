@@ -2,7 +2,7 @@
 
     var API = {
 
-        BROWSER_STAT: 'http://localhost:8888/f2e-webDriver/fake/stat.php',
+        BROWSER_STAT: './fake/stat.php',
         REQUEST_TEST: 'TEST'
     };
 

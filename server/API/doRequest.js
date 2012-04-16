@@ -28,7 +28,8 @@ http.createServer(function(request, response) {
         'port': data.port,
         "desiredCapabilities":{
             "browserName":data.type
-        }
+        },
+        screenshotPath: '../writable/Scrennshots/'
     });
 
     var showTest = client.showTest;

@@ -9,7 +9,7 @@ $server = '';
 $remoteMsg = '';
 
 //浏览器类型，如果不指定将使用HtmlUnit模式
-$type = isset($_REQUEST['type']) ? $_REQUEST['type'] :  'HtmlUnit';
+$type = isset($_REQUEST['type']) ? $_REQUEST['type'] :  'htmlunit';
 if(!in_array($type, array_keys($G_ServerList))){
     errorMsg('不支持的浏览器类型');
 }

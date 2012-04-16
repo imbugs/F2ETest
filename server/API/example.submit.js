@@ -4,13 +4,14 @@ http.createServer(function(request, response) {
     console.log(request.url);
 
     response.writeHead(200, {"Content-Type": "text/plain"});
-    var webdriverjs = require("webdriverjs");
+    var webdriverjs = require("webdriverNode");
 
     var client = webdriverjs.remote({
-        'host': '10.13.15.49',
+        'host': '10.13.15.69',
         "desiredCapabilities":{
             //"browserName":"internet explorer"
-        }
+        },
+        screenshotPath: './writable/Screenshots/'
     });
 
     var tmp = client.showTest;
