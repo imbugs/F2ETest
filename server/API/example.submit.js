@@ -1,14 +1,17 @@
 var http = require("http");
 
 http.createServer(function(request, response) {
+    console.log(request.url);
+
     response.writeHead(200, {"Content-Type": "text/plain"});
-    var webdriverjs = require("webdriverjs");
+    var webdriverjs = require("webdriverNode");
 
     var client = webdriverjs.remote({
-        'host': '10.13.15.49',
+        'host': '10.13.15.69',
         "desiredCapabilities":{
             //"browserName":"internet explorer"
-        }
+        },
+        screenshotPath: './writable/Screenshots/'
     });
 
     var tmp = client.showTest;
@@ -18,7 +21,7 @@ http.createServer(function(request, response) {
         response.write(arguments[1]);
     }
 
-require("./1").run(client, response);
+require("../writable/cases/1").run(client, response);
 
 
 }).listen(8888);

@@ -1,43 +1,9 @@
 <?php
-/**
- * @overview ¼ì²é¶ÈÎäÆ÷ÁĞ±í¿ÉÓÃĞÔ£¬²¢·µ»Ø½á¹û
- */
-$serverList = array(
-    array('id'=>1,'type'=>'ie6','ip'=>'10.13.15.49','port'=>4444),
-    array('id'=>2,'type'=>'firefox','ip'=>'10.13.15.49','port'=>4444),
-    array('id'=>3,'type'=>'chrome','ip'=>'10.13.15.49','port'=>4444),
-    array('id'=>4,'type'=>'opera','ip'=>'10.13.15.49','port'=>4444)
-);
-/**
- * ¼ì²éµ¥¸ö·şÎñÆ÷ÊÇ·ñ¿ÉÓÃ
- * @param $ip
- * @param int $port
- * @return bool
- */
-function isServerUp($ip, $port=4444){
-    $fp = @fsockopen($ip , $port, $errNo , $errstr, 0.8 );
-    if( !$fp ){
-        return false;
-    }else{
-        fclose($fp);
-        return true;
-    }
-}
-/**
- * ¼ì²éÁĞ±íÖĞ·şÎñÆ÷¿ÉÓÃµÄ²¿·Ö
- * @param $list
- * @return array
- */
-function serverStatus($list){
-    $result = array();
-    for($i = 0; $i < count($list); $i++){
-        $item = $list[$i];
-        if(isServerUp($item['ip'], $item['port'])){
-            $result[] = array('id'=>$item['id'], 'type'=>$item['type']);
-        }
-    }
-    return $result;
-}
+include('./common.php');
 
-$output = serverStatus($serverList);
+/**
+ * @overview æ£€æŸ¥åº¦æ­¦å™¨åˆ—è¡¨å¯ç”¨æ€§ï¼Œå¹¶è¿”å›ç»“æœ
+ */
+
+$output = serverStatus($G_ServerList);
 echo json_encode($output);
