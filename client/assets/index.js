@@ -4,6 +4,9 @@
 
         BROWSER_STAT: 'http://localhost:8888/f2e-webDriver/fake/stat.php',
         REQUEST_TEST: 'http://localhost:8888/F2ETest/client/fake/test.php'
+
+//        BROWSER_STAT: 'http://localhost:8888/F2ETest/server/API/serverStatus.php',
+//        REQUEST_TEST: 'http://localhost:8888/F2ETest/server/API/doRequest.php'
     };
 
     $( document).ready(function (){
@@ -391,7 +394,7 @@
 
                 _.each( data, function ( item ){
 
-                    dataHandled.push( item.type );
+                    dataHandled.push( item );
                 });
 
                 return dataHandled;
@@ -453,14 +456,13 @@
                 var that = this;
                 var data = {
                     type: m.type,
-                    testcode: m.testCode
+                    testcode: encodeURIComponent( m.testCode )
                 };
 
                command.requestTest( data, function ( data ){
 
                     that.dataHandle( data );
                });
-
             },
 
             /**
