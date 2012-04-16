@@ -1,9 +1,9 @@
 <?php
 /**
- * È«¾ÖÅäÖÃÎÄ¼ş
+ * å…¨å±€é…ç½®æ–‡ä»¶
  */
 
-//·şÎñÆ÷ÁĞ±íÅäÖÃ
+//æœåŠ¡å™¨åˆ—è¡¨é…ç½®
 $G_ServerList = array(
     'ie6' => array(
         array('ip'=>'10.13.15.69', 'port'=>4444),
@@ -35,9 +35,9 @@ $G_ServerList = array(
         array('ip'=>'10.13.15.69', 'port'=>4444)
     )
 );
-//ÓÃÀıÎÄ¼şÄ¿Â¼
+//ç”¨ä¾‹æ–‡ä»¶ç›®å½•
 $G_CasePath = '../writable/cases/';
-//ÎÄ¼ş½ØÍ¼Ä¿Â¼
+//æ–‡ä»¶æˆªå›¾ç›®å½•
 $G_ScreenPath = '../writable/screenshots/';
-//NodeJsÔËĞĞURL
+//NodeJsè¿è¡ŒURL
 $G_NodeURL = 'http://127.0.0.1:8888/';

@@ -2,7 +2,7 @@
 include('./common.php');
 
 /**
- * @overview ¼ì²é¶ÈÎäÆ÷ÁĞ±í¿ÉÓÃĞÔ£¬²¢·µ»Ø½á¹û
+ * @overview æ£€æŸ¥åº¦æ­¦å™¨åˆ—è¡¨å¯ç”¨æ€§ï¼Œå¹¶è¿”å›ç»“æœ
  */
 
 $output = serverStatus($G_ServerList);

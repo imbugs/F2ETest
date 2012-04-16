@@ -1,11 +1,11 @@
 <?php
 include('./config.php');
 /**
- * ¹«ÓÃ·½·¨¶¨Òå
+ * å…¬ç”¨æ–¹æ³•å®šä¹‰
  */
 
 /**
- * ¼ì²éµ¥¸ö·þÎñÆ÷ÊÇ·ñ¿ÉÓÃ
+ * æ£€æŸ¥å•ä¸ªæœåŠ¡å™¨æ˜¯å¦å¯ç”¨
  * @param $ip
  * @param int $port
  * @return bool
@@ -21,7 +21,7 @@ function isServerUp($ip, $port=4444){
 }
 
 /**
- * ¼ì²éÁÐ±íÖÐ·þÎñÆ÷¿ÉÓÃµÄ²¿·Ö
+ * æ£€æŸ¥åˆ—è¡¨ä¸­æœåŠ¡å™¨å¯ç”¨çš„éƒ¨åˆ†
  * @param $list
  * @return array
  */
@@ -41,9 +41,9 @@ function serverStatus($list){
 }
 
 /**
- * ´´½¨JSÎÄ¼þ
+ * åˆ›å»ºJSæ–‡ä»¶
  * @param $code
- * @return string ·µ»ØÎÄ¼þÂ·¾¶
+ * @return string è¿”å›žæ–‡ä»¶è·¯å¾„
  */
 function createTestJS($code){
     global $G_CasePath;
@@ -59,7 +59,7 @@ function createTestJS($code){
     return $filepath;
 }
 /**
- * ¹ýÂË²»°²È«µÄjs½Å±¾£¬±ÈÈçÏµÍ³º¯ÊýµÄµ÷ÓÃµÈ TODO
+ * è¿‡æ»¤ä¸å®‰å…¨çš„jsè„šæœ¬ï¼Œæ¯”å¦‚ç³»ç»Ÿå‡½æ•°çš„è°ƒç”¨ç­‰ TODO
  * @param $code
  * @return mixed
  */
@@ -67,7 +67,7 @@ function filterCode($code){
     return $code;
 }
 /**
- * ¸ù¾Ý127.0.0.1:4444 ·µ»Øip¡¢¶Ë¿Ú
+ * æ ¹æ®127.0.0.1:4444 è¿”å›žipã€ç«¯å£
  */
 function getHost($host){
     if(preg_match("/^(\d+\.\d+\.\d+\.\d+)(\:(\d+)){0,1}$/", $host, $ret)){
@@ -77,7 +77,7 @@ function getHost($host){
     return false;
 }
 /**
- * »ñÈ¡Ò»¸öÖ¸¶¨ÀàÐÍµÄ¿ÉÓÃ·þÎñÆ÷
+ * èŽ·å–ä¸€ä¸ªæŒ‡å®šç±»åž‹çš„å¯ç”¨æœåŠ¡å™¨
  * @param $type
  * @return array
  */
@@ -106,9 +106,9 @@ function resultMsg($type, $logs = array(), $screen = '', $halt = true){
         die();
     }}
 /**
- * Êä³ö´íÐÅÏ¢
- * @param $msg ´íÎóÔ­Òò
- * @param $halt ÊÇ·ñÍ£Ö¹Ö´ÐÐ
+ * è¾“å‡ºé”™ä¿¡æ¯
+ * @param $msg é”™è¯¯åŽŸå› 
+ * @param $halt æ˜¯å¦åœæ­¢æ‰§è¡Œ
  */
 function errorMsg($msg ,$halt = true){
     $ret = array(
@@ -123,15 +123,15 @@ function errorMsg($msg ,$halt = true){
     }
 }
 /**
- * @param string $url   ´ò¿ªµÄurl£¬¡¡Èç http://www.cnlist.net/post.php
- * @param int $limit   È¡·µ»ØµÄÊý¾ÝµÄ³¤¶È
- * @param string $post   Òª·¢ËÍµÄ POST Êý¾Ý£¬Èçc=cnlist&n=1234
- * @param string $cookie ÒªÄ£ÄâµÄ COOKIE Êý¾Ý£¬Èçuid=123&auth=2323
- * @param bool $bysocket TRUE/FALSE ÊÇ·ñÍ¨¹ýSOCKET´ò¿ª
- * @param string $ip   IPµØÖ·
- * @param int $timeout   Á¬½Ó³¬Ê±Ê±¼ä
- * @param bool $block   ÊÇ·ñÎª×èÈûÄ£Ê½
- * @return    È¡µ½µÄ×Ö·û´®
+ * @param string $url   æ‰“å¼€çš„urlï¼Œã€€å¦‚ http://www.cnlist.net/post.php
+ * @param int $limit   å–è¿”å›žçš„æ•°æ®çš„é•¿åº¦
+ * @param string $post   è¦å‘é€çš„ POST æ•°æ®ï¼Œå¦‚c=cnlist&n=1234
+ * @param string $cookie è¦æ¨¡æ‹Ÿçš„ COOKIE æ•°æ®ï¼Œå¦‚uid=123&auth=2323
+ * @param bool $bysocket TRUE/FALSE æ˜¯å¦é€šè¿‡SOCKETæ‰“å¼€
+ * @param string $ip   IPåœ°å€
+ * @param int $timeout   è¿žæŽ¥è¶…æ—¶æ—¶é—´
+ * @param bool $block   æ˜¯å¦ä¸ºé˜»å¡žæ¨¡å¼
+ * @return    å–åˆ°çš„å­—ç¬¦ä¸²
  */
 function uc_fopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = FALSE, $ip = '', $timeout = 15, $block = TRUE) {
     $return = '';

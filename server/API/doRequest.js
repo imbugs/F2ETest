@@ -2,22 +2,22 @@ var http = require("http");
 var querystring = require('querystring');
 
 http.createServer(function(request, response) {
-    //»ñÈ¡²ÎÊı
+    //è·å–å‚æ•°
     response.writeHead(200, {"Content-Type": "text/plain"});
     var query = request.url;
     if(!query){
-        errorMsg('À´Â·²»ÕıÈ·', response);
+        errorMsg('æ¥è·¯ä¸æ­£ç¡®', response);
         return;
     }
     var data = querystring.parse(query);
     console.log(data);
 
     if(!(data.path && data.type && data.ip && data.port)){
-        errorMsg('²ÎÊı²»ÍêÕû£¬ĞèÒªËÄ¸ö²ÎÊı', response);
+        errorMsg('å‚æ•°ä¸å®Œæ•´ï¼Œéœ€è¦å››ä¸ªå‚æ•°', response);
         return;
     }
 
-    //ieµÄ²»Í¬°æ±¾ĞèÒªµ¥¶À´¦Àí
+    //ieçš„ä¸åŒç‰ˆæœ¬éœ€è¦å•ç‹¬å¤„ç†
     if('^/ie\d$/'.test(data.type)){
         data.type = 'internet explorer';
     }
@@ -42,7 +42,7 @@ http.createServer(function(request, response) {
 }).listen(8888);
 
 /**
- * ´íÎóĞÅÏ¢
+ * é”™è¯¯ä¿¡æ¯
  * @param msg
  * @param res
  */
