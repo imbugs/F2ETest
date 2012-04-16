@@ -98,7 +98,7 @@ function resultMsg($type, $logs = array(), $screen = '', $halt = true){
         'data' => array(
             'type' => $type,
             'logs' => $logs,
-            'srceen' => $screen
+            'screen' => $screen
         )
     );
     echo json_encode($ret);

@@ -1,14 +1,18 @@
 var http = require("http");
+var url = require( 'url' );
 var querystring = require('querystring');
 
 http.createServer(function(request, response) {
     //获取参数
     response.writeHead(200, {"Content-Type": "text/plain"});
-    var query = request.url;
+
+    var query = url.parse(request.url).query;
+
     if(!query){
         errorMsg('来路不正确', response);
         return;
     }
+
     var data = querystring.parse(query);
     console.log(data);
 
@@ -18,7 +22,7 @@ http.createServer(function(request, response) {
     }
 
     //ie的不同版本需要单独处理
-    if('^/ie\d$/'.test(data.type)){
+    if(/^ie\d$/.test(data.type)){
         data.type = 'internet explorer';
     }
     var webdriverjs = require("webdriverjs");
@@ -29,7 +33,7 @@ http.createServer(function(request, response) {
         "desiredCapabilities":{
             "browserName":data.type
         },
-        screenshotPath: '../writable/Scrennshots/'
+        screenshotPath: '../writable/Screenshots/'
     });
 
     var showTest = client.showTest;
