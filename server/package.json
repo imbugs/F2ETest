@@ -1,0 +1,17 @@
+{
+    "name": "F2ETest-server",
+    "description": "server side of F2ETest",
+    "version": "0.0.0",
+    "contributors": {
+        "shenmao1989": "shenmao1989@gmail.com"
+    },
+    "keywords": [ "selenium" ],
+//    "main": "SyncRun.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/neekey/F2ETest"
+    },
+    "dependencies":{
+        "webdriverNode":"0.0.2"
+    }
+}
