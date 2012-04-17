@@ -76,8 +76,7 @@
                                 break;
                         }
                         %>"><%=log.type%></span>
-                           <span class="
-                        }log-text"><%=log.msg%></span>
+                           <span class="log-text"><%=log.msg%></span>
                         <% if( log.screenshot ) { %>
                         <span class="log-text">图片路径：<%=log.screenshot%></span>
                         <% } %>
