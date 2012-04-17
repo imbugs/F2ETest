@@ -11,3 +11,10 @@
 .unavailable {
     color: #bbb;
 }
+
+/* 用于 ace editor 的样式 */
+#script-wrap {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}

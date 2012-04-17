@@ -43,12 +43,26 @@
             initialize: function (){
 
                 this.browserListEl = $( '#browsers' );
-                this.codeTextarea = $( '#testcode-area' );
+//                this.codeTextarea = $( '#testcode-area' );
+
+                this.codeEditorInit();
                 this.model = new Models.TestInfo();
                 this.TestInfo = new Views.TestInfo();
                 this.alertEl = this.$( '.input-error').hide();
 
                 this.attachModel();
+            },
+
+            /**
+             * 初始化代码编辑器
+             */
+            codeEditorInit: function (){
+
+                this.codeEditor = ace.edit("script-wrap")
+                this.codeEditor.setTheme("ace/theme/twilight");
+                this.codeEditor.getSession().setMode("ace/mode/javascript");
+//                this.codeEditor.insert( '/* 在此处输入你的测试代码 */');
+//                this.codeEditor.gotoLine( 3 );
             },
 
             events: {
@@ -167,7 +181,7 @@
             onTestcodeChange: function (){
 
                 this.model.set({
-                    testCode: this.codeTextarea.val()
+                    testCode: this.codeEditor.getSession().getValue()
                 });
             },
 
@@ -203,7 +217,7 @@
             onRunBtnClick: function (){
 
                 this.model.set({
-                    testCode: this.codeTextarea.val()
+                    testCode: this.codeEditor.getSession().getValue()
                 });
 
                 // 检查是否正确
@@ -407,7 +421,7 @@
 
                 var data = this.toJSON();
                 var requestBrowser = data.requestBrowser;
-                var testCode = data.testCode;
+                var testCode = $.trim( data.testCode );
                 var result = true;
                 var msg = '';
 
