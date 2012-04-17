@@ -47,8 +47,8 @@ function serverStatus($list){
  */
 function createTestJS($code){
     global $G_CasePath;
-    $header = "exports.run = function(client, response){\n";
-    $footer = "\n};";
+    $header = "exports.run = function(client, response, next ){\n";
+    $footer = "client.end(function(){ next( logs ); } ); \n};";
 
     $filepath =  $G_CasePath.time().rand(100, 999).'.js';
 
