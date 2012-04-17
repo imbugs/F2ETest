@@ -55,6 +55,7 @@
 
             /**
              * 初始化代码编辑器
+             * todo 优化
              */
             codeEditorInit: function (){
 
