@@ -58,8 +58,26 @@
             <ul class="test-info-logs">
                 <% for( var i = 0, log; log = logs[ i ]; i++ ){ %>
                     <li class="test-info-log">
-                        <span class="log-type"><%=log.level%></span>
-                        <span class="log-text"><%=log.msg%></span>
+                        <span class="log-type label <% switch( log.type ){
+                            case 'command':
+                                print( 'label-info' );
+                                break;
+                            case 'data':
+                                print( 'label-warning');
+                                break;
+                            case 'result':
+                                print( 'label-success' );
+                                break;
+                            case 'error':
+                                print( 'label-important' );
+                                break;
+                            case 'screenshotSave':
+                                print( 'label-inverse');
+                                break;
+                        }
+                        %>"><%=log.type%></span>
+                           <span class="
+                        }log-text"><%=log.msg%></span>
                         <% if( log.screenshot ) { %>
                         <span class="log-text">图片路径：<%=log.screenshot%></span>
                         <% } %>
