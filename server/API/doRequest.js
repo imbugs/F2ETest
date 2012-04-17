@@ -1,8 +1,9 @@
 var http = require("http");
 var url = require( 'url' );
 var querystring = require('querystring');
-var webdriverjs = require("webdriverjs");
+var webdriverNode = require("webdriverNode");
 
+// todo 添加守护进程
 http.createServer(function(request, response) {
 
     var query = url.parse(request.url).query;
@@ -33,7 +34,7 @@ http.createServer(function(request, response) {
     }
 
     // 新建client实例
-    client = webdriverjs.remote({
+    client = webdriverNode.remote({
         'host': data.ip,
         'port': data.port,
         "desiredCapabilities":{

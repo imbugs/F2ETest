@@ -2,8 +2,11 @@
 
     var API = {
 
-        BROWSER_STAT: './fake/stat.php',
-        REQUEST_TEST: 'TEST'
+//        BROWSER_STAT: 'http://localhost:8888/f2e-webDriver/fake/stat.php',
+//        REQUEST_TEST: 'http://localhost:8888/F2ETest/client/fake/test.php'
+
+        BROWSER_STAT: 'http://f2etest/server/API/serverStatus.php',
+        REQUEST_TEST: 'http://f2etest/server/API/doRequest.php'
     };
 
     $( document).ready(function (){
@@ -28,8 +31,9 @@
         },
         requestTest: function ( data, next ){
 
+            $.post( API.REQUEST_TEST, data, next, 'json' );
         }
-    }
+    };
 
     /*== views ==*/
     var Views = {
@@ -38,25 +42,43 @@
 
             initialize: function (){
 
-//                this.el = $( '#content' );
                 this.browserListEl = $( '#browsers' );
-                this.codeTextarea = $( '#testcode-area' );
+//                this.codeTextarea = $( '#testcode-area' );
+
+                this.codeEditorInit();
                 this.model = new Models.TestInfo();
                 this.TestInfo = new Views.TestInfo();
-
-//                this.codeTextarea.on( 'change', this.onTestcodeChange );
+                this.alertEl = this.$( '.input-error').hide();
 
                 this.attachModel();
             },
 
+            /**
+             * 初始化代码编辑器
+             * todo 优化
+             */
+            codeEditorInit: function (){
+
+                this.codeEditor = ace.edit("script-wrap")
+                this.codeEditor.setTheme("ace/theme/twilight");
+                this.codeEditor.getSession().setMode("ace/mode/javascript");
+//                this.codeEditor.insert( '/* 在此处输入你的测试代码 */');
+//                this.codeEditor.gotoLine( 3 );
+            },
+
             events: {
-                'change #testcode-area': 'onTestcodeChange'
+                'change #testcode-area': 'onTestcodeChange',
+                'click #browsers input[type=checkbox]': 'onRequestBrowsersChange',
+                'click #run-test-btn': 'onRunBtnClick'
             },
 
-            render: function (){
+//            render: function (){
+//
+//            },
 
-            },
-
+            /**
+             * 绑定model事件
+             */
             attachModel: function (){
 
                 var that = this;
@@ -67,6 +89,9 @@
                 });
             },
 
+            /**
+             * 根据当前model.available的值，来更新浏览器选择列表
+             */
             updateBrowserList: function (){
 
                 var availableBrowser = this.model.get( 'availableBrowser' );
@@ -84,9 +109,14 @@
                     }
                 });
 
-                console.log( 'test');
+//                console.log( 'test');
             },
 
+            /**
+             * 修改浏览器选择部分是否为可用状态
+             * @param type
+             * @param ifAble
+             */
             toggleBrowserStat: function ( type, ifAble ){
 
 
@@ -110,27 +140,100 @@
 
                 var data = this.model.toJSON();
                 var requestBrowser = data.requestBrowser;
-                var testCode = data.code;
+                var testCode = data.testCode;
                 var that = this;
+                var firstTab;
+
+                // 清空原有结果
+                this.TestInfo.clear();
 
                 _.each( requestBrowser, function ( browser ){
 
-                    that.TestInfo.addItem( {
+                    var data = {
                         testCode: testCode,
                         type: browser
-                    });
+                    };
+
+                    if( !firstTab ){
+
+                        firstTab = browser;
+                        data.defaultActive = true;
+                    }
+
+                    that.TestInfo.addItem( data );
                 });
 
             },
 
+            showAlert: function( msg ){
+
+                this.alertEl.html( msg );
+                this.alertEl.fadeIn( 500 );
+            },
+
+            hideAlert: function (){
+
+                this.alertEl.fadeOut( 500 );
+            },
+
+            /**
+             * 当测试代码发生变化
+             */
             onTestcodeChange: function (){
 
                 this.model.set({
-                    testcode: this.codeTextarea.val()
+                    testCode: this.codeEditor.getSession().getValue()
+                });
+            },
+
+            /**
+             * 当浏览器选择发生变化
+             */
+            onRequestBrowsersChange: function (){
+
+                var checkboxes = this.browserListEl.find( 'input[type=checkbox]' );
+                var requestBrowsers = [];
+
+                $( checkboxes).each(function (){
+
+                    var checkbox = $( this );
+                    var name;
+
+                    if( checkbox.prop( 'checked' ) ){
+
+                        name = checkbox.parent().attr( 'data-type' );
+
+                        requestBrowsers.push( name );
+                    }
                 });
 
-                console.log( 'test' );
-                console.log( this.model.get( 'testcode' ) );
+//                console.log( availableBrowsers );
+
+                this.model.set({
+                    requestBrowser: requestBrowsers
+                });
+
+            },
+
+            onRunBtnClick: function (){
+
+                this.model.set({
+                    testCode: this.codeEditor.getSession().getValue()
+                });
+
+                // 检查是否正确
+                var result = this.model.validation();
+
+                if( result.result ){
+
+                    this.hideAlert();
+                    this.runTest();
+                }
+                else {
+
+                    this.showAlert( result.msg );
+                }
+
             }
         }),
 
@@ -138,7 +241,8 @@
 
             initialize: function (){
 
-                this.testInfoList = [];
+                this.testInfoList = {};
+                this.nav = this.$( '.nav-tabs' );
             },
 
             events: {
@@ -152,9 +256,27 @@
                 });
             },
 
+            validation: function (){
+
+                return this.model.validation();
+            },
+
             removeItem: function ( type ){
 
                 this.testInfoList[ type ].remove();
+                delete this.testInfoList[ type ];
+            },
+
+            activeItem: function ( type ){
+
+                this.testInfoList[ type ].triggerEl.click();
+            },
+
+            activeFirstIten: function (){
+
+                var firstType = $( this.nav.children()[ 0 ]).attr( 'data-type' );
+
+                this.activeItem( firstType );
             },
 
             clear: function (){
@@ -163,6 +285,8 @@
 
                     item.remove();
                 });
+
+                this.testInfoList = {};
             }
         }),
 
@@ -171,8 +295,13 @@
             initialize: function (){
 
                 this.parentEl = $( '#output-tabs' );
-                this.model = new Models.TestInfoItem( this.data );
+                this.model = new Models.TestInfoItem( this.options.data );
+                this.paneTplId = 'test-info-pane-tpl';
+                this.triggerTplId = 'test-info-trigger-tpl';
+                this.paneTpl = _.template( $( '#' + this.paneTplId).html() );
+                this.triggerTpl = _.template( $( '#' + this.triggerTplId).html() );
 
+                this.attachModel();
             },
 
             events: {
@@ -183,20 +312,57 @@
 
                 var that = this;
 
-                this.model( 'change', function (){
+                this.model.on( 'change:stat', function ( m ){
 
-                    that.render();
+                    var stat = m.get( 'stat' );
+
+                    if( stat === 'finished' ){
+
+                        that.render();
+                    }
+                    else if( stat === 'error' ){
+
+                        that.error();
+                    }
+                    else {
+
+                        that.testing();
+                    }
+
                 });
             },
 
             render: function (){
+
+                var data = this.model.toJSON();
+
+                if( this.triggerEl ){
+                    this.triggerEl.remove();
+                }
+                if( this.paneEl ){
+                    this.paneEl.remove();
+                }
+
+                this.triggerEl = $( this.triggerTpl( data ) );
+                this.paneEl = $( this.paneTpl( data ) );
+
+                this.parentEl.find( '.nav-tabs').append( this.triggerEl );
+                this.parentEl.find( '.tab-content').append( this.paneEl );
+            },
+
+            error: function (){
+
+            },
+
+            testing: function (){
 
             },
 
             remove: function (){
 
                 this.model.destroy();
-                this.el.remove();
+                this.triggerEl.remove();
+                this.paneEl.remove();
             }
         })
     };
@@ -215,6 +381,7 @@
             defaults: {
                 ifCheckStat: false,
                 testCode: '',
+                defaultActive: '',
                 availableBrowser: [],
                 isTesting: false,
                 requestBrowser: [],
@@ -242,20 +409,116 @@
 
                 _.each( data, function ( item ){
 
-                    dataHandled.push( item.type );
+                    dataHandled.push( item );
                 });
 
                 return dataHandled;
+            },
+
+            /**
+             * 对数据进行验证
+             */
+            validation: function (){
+
+                var data = this.toJSON();
+                var requestBrowser = data.requestBrowser;
+                var testCode = $.trim( data.testCode );
+                var result = true;
+                var msg = '';
+
+                if( requestBrowser.length === 0 ){
+
+                    msg += '必须制定需要测试的浏览器;\n';
+                    result = false;
+                }
+
+                if( !testCode ){
+
+                    msg += '测试代码不能为空';
+                    result = false;
+                }
+
+                if( !result ){
+
+                    msg = '错误！' + msg;
+                }
+
+                return {
+                    result: result,
+                    msg: msg
+                };
+
             }
         }),
 
+
+        /**
+         * 单个浏览器测试结果视图
+         */
         TestInfoItem: Backbone.Model.extend({
 
+            initialize: function (){
+
+                var data = this.toJSON();
+
+                this.fetch();
+
+            },
+
+            fetch: function (){
+
+                var m = this.toJSON();
+                var that = this;
+                var data = {
+                    type: m.type,
+                    testCode: encodeURIComponent( m.testCode )
+                };
+
+               command.requestTest( data, function ( data ){
+
+                    that.dataHandle( data );
+               });
+            },
+
+            /**
+             * 对返回的数据进行预处理
+             * @param data
+             */
+            dataHandle: function ( data ){
+
+                var logs;
+                var screenShot;
+                var type;
+                var _data = data.data;
+
+                if( data.result ){
+
+                    logs = _data.logs;
+                    screenShot = _data.screen;
+                    type = _data.type;
+
+                    this.set({
+                        stat: 'finished',
+                        logs: logs,
+                        screenshot: screenShot,
+                        type: type
+                    });
+                }
+                else {
+
+                    this.set({
+                        stat: 'error'
+                    });
+                }
+
+            },
+
             defaults: {
-                stat: 'testing', // testing | finished | error
+                stat: 'testing', // testing | finished | error,
+                defaultActive: false,
                 testCode: '',
                 screenshot: '',
-                output: '',
+                logs: '',
                 type: 'browser'
             }
         })
