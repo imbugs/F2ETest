@@ -1,22 +1,29 @@
 var http = require("http");
 var url = require( 'url' );
 var querystring = require('querystring');
+var webdriverNode = require("webdriverNode");
 
+// todo 添加守护进程
 http.createServer(function(request, response) {
-    //获取参数
-    response.writeHead(200, {"Content-Type": "text/plain"});
 
     var query = url.parse(request.url).query;
+    var client;
+    var data;
 
+    // 获取请求参数
     if(!query){
         errorMsg('来路不正确', response);
         return;
     }
 
-    var data = querystring.parse(query);
-    console.log(data);
+    data = querystring.parse(query);
 
-    if(!(data.path && data.type && data.ip && data.port)){
+    // 参数验证
+    if(!( typeof data.path !== undefined &&
+        typeof data.type !== undefined &&
+        typeof data.ip !== undefined &&
+        typeof data.port !== undefined )){
+
         errorMsg('参数不完整，需要四个参数', response);
         return;
     }
@@ -25,9 +32,9 @@ http.createServer(function(request, response) {
     if(/^ie\d$/.test(data.type)){
         data.type = 'internet explorer';
     }
-    var webdriverjs = require("webdriverjs");
 
-    var client = webdriverjs.remote({
+    // 新建client实例
+    client = webdriverNode.remote({
         'host': data.ip,
         'port': data.port,
         "desiredCapabilities":{
@@ -36,14 +43,14 @@ http.createServer(function(request, response) {
         screenshotPath: '../writable/Screenshots/'
     });
 
-    var showTest = client.showTest;
-    client.showTest = function(){
-        showTest.apply( webdriverjs, arguments);
-        response.write(arguments[1]);
-    }
+    // 执行用户脚本...并返回log
+    require(data.path).run(client, response, function ( logs ){
+        response.writeHead(200, {"Content-Type": "text/plain"});
+        response.write( JSON.stringify( logs ) );
+        response.end();
+    });
 
-    require(data.path).run(client, response);
-}).listen(8888);
+}).listen(8800);
 
 /**
  * 错误信息

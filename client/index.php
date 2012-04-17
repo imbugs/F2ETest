@@ -9,6 +9,7 @@
     <script type="text/javascript" src="assets/lib/backbone-min.js"></script>
     <script type="text/javascript" src="assets/lib/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/index.js"></script>
+    <script type="text/javascript" src="assets/lib/ace/build/src/ace.js"></script>
     <title></title>
 </head>
 <body>
@@ -19,9 +20,7 @@
         <div id="main" class="">
             <div id="input-wrap" class="span11">
 
-                <p id="script-wrap">
-                    <textarea id="testcode-area" class="span11" placeholder="输入你的测试代码"></textarea>
-                </p>
+                <div id="script-wrap" style=""><?php include( "exampleCode.php" ); ?></div>
                 <p id="browsers" class="span6">
                     <span class="browser chrome" data-type="chrome"><input type="checkbox" value="chrome">chrome</span>
                     <span class="browser firefox" data-type="firefox"><input type="checkbox" value="firefox">firefox</span>
@@ -73,6 +72,9 @@
 
     <script type="text/html" id="test-info-trigger-tpl">
         <li data-type="<%=type%>" class="test-info-trigger <% if( defaultActive ){ %>active<% } %>"><a href="#tab-pane-<%=type%>" data-toggle="tab"><%=type%></a></li>
+    </script>
+    <script type="text/javascript">
+
     </script>
 </body>
 </html>

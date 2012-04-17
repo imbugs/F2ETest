@@ -27,8 +27,16 @@ if(!$server){
 }
 
 //获取code
-$testCode = filterCode($_REQUEST['testCode']);
+$testCode = $_REQUEST['testCode'];
+
+// 对代码进行转码 但是其中的 ' 会被转化为 \'
 $testCode = urldecode( $testCode );
+// 将 \' 转化回 '
+$testCode = stripslashes( $testCode );
+// 对代码进行过滤处理
+$testCode = filterCode( $testCode );
+
+// 创建用于执行的js模块文件
 $jsPath = createTestJS($testCode);
 
 $url = $G_NodeURL."?path=$jsPath&type=$type&ip=".$server['ip']."&port=".$server['port'];
