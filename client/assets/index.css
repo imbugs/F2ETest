@@ -20,7 +20,6 @@
 }
 
 /*测试结果*/
-
 .test-info-logs {
     list-style: none;
 }
@@ -29,4 +28,37 @@
 }
 .test-info-logs li .log-type {
     margin-right: 10px;
+    cursor: default;
+}
+
+.label-custom {
+    background: #b01983;
+}
+
+#output-wrap {
+    position: relative;
+}
+
+/*过滤按钮样式*/
+.log-filter-list {
+    position: absolute;
+    right: 0;
+    top: 5px;
+}
+.log-filter-list .log-filter {
+    cursor: pointer;
+}
+
+/*过滤样式*/
+.log-item {
+    display: none;
+}
+
+.log-list-command .log-type-command,
+.log-list-data .log-type-data,
+.log-list-result .log-type-result,
+.log-list-error .log-type-error,
+.log-list-custom .log-type-custom,
+.log-list-screenshotSave .log-type-screenshotSave {
+    display: list-item;
 }

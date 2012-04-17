@@ -38,6 +38,14 @@
 
             </div>
             <div id="output-wrap" class="span11">
+                <div class="log-filter-list">
+                    <span class="label log-filter" data-type="command" data-label="label-info">command</span>
+                    <span class="label log-filter" data-type="data" data-label="label-warning">data</span>
+                    <span class="label log-filter" data-type="result" data-label="label-success">result</span>
+                    <span class="label log-filter" data-type="error" data-label="label-important">error</span>
+                    <span class="label log-filter" data-type="screenshotSave" data-label="label-inverse">screenshotSave</span>
+                    <span class="label log-filter" data-type="custom" data-label="label-custom">custom</span>
+                </div>
                 <div id="output-tabs" class="tabbable">
                     <ul class="hd nav nav-tabs">
 <!--                        <li class=""><a href="#tab1" data-toggle="tab">session 1</a></li>-->
@@ -55,9 +63,9 @@
     <script type="text/html" id="test-info-pane-tpl">
 
         <div class="tab-pane test-info-pane <% if( defaultActive ){ %>active<% } %>" data-type="<%=type%>" id="tab-pane-<%=type%>">
-            <ul class="test-info-logs">
+            <ul class="test-info-logs ">
                 <% for( var i = 0, log; log = logs[ i ]; i++ ){ %>
-                    <li class="test-info-log">
+                    <li class="test-info-log log-item log-type-<%=log.type%>" >
                         <span class="log-type label <% switch( log.type ){
                             case 'command':
                                 print( 'label-info' );
@@ -73,6 +81,9 @@
                                 break;
                             case 'screenshotSave':
                                 print( 'label-inverse');
+                                break;
+                            case 'custom':
+                                print( 'label-custom' );
                                 break;
                         }
                         %>"><%=log.type%></span>

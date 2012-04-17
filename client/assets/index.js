@@ -47,10 +47,11 @@
 
                 this.codeEditorInit();
                 this.model = new Models.TestInfo();
-                this.TestInfo = new Views.TestInfo();
+                this.TestInfo = new Views.TestInfo({ el: $( '#output-wrap')});
                 this.alertEl = this.$( '.input-error').hide();
                 this.runBtn = this.$( '#run-test-btn' );
 
+                this.TestInfo.hide();
                 this.attachModel();
                 this.attach();
             },
@@ -99,6 +100,7 @@
                     that.showAlert( '所有测试完毕!', 'success' );
                     that.runBtn.removeClass( 'disabled' );
                     that.codeEditor.setReadOnly( false );
+                    that.TestInfo.show();
                 });
             },
 
@@ -254,6 +256,7 @@
                     this.showAlert( '测试进行中，请耐心等待...' );
                     this.runBtn.addClass( 'disabled' );
                     this.codeEditor.setReadOnly( true );
+                    this.TestInfo.hide();
 
                 }
                 else {
@@ -266,14 +269,85 @@
 
         TestInfo: Backbone.View.extend({
 
+            filterClsPrefix: 'log-list-',
+            filterTypes: [ 'command', 'data', 'result', 'error', 'custom', 'screenshotSave' ],
+
             initialize: function (){
 
                 this.testInfoList = {};
                 this.nav = this.$( '.nav-tabs' );
+                this.pane = this.$( '.bd' );
+                this.filterList = this.$( '.log-filter-list' );
+                this.filterInit();
             },
 
-            events: {
+            hide: function (){
 
+                $( this.el ).hide();
+            },
+
+            show: function (){
+
+                $( this.el ).show();
+            },
+
+            // 初始化filter按钮们
+            filterInit: function (){
+
+                var that = this;
+
+                this.filterList.children().each( function (){
+
+                    var item = $( this );
+                    item.addClass( item.attr( 'data-label' ) );
+
+                    item.bind( 'click', function (){
+
+                        item.toggleClass( item.attr( 'data-label' ) );
+                        that.refreshFilterList();
+                    });
+                });
+
+                // 先去掉所有的filter
+                _.each( this.filterTypes, function ( type ){
+
+                    that.pane.addClass( that.filterClsPrefix + type );
+
+                });
+            },
+
+            /**
+             * 根据filter按钮的状态 更新列表
+             */
+            refreshFilterList: function (){
+
+                var avaliableType = [];
+                var that = this;
+
+                this.filterList.children().each( function (){
+
+                    var item = $( this );
+                    var label = item.attr( 'data-label' );
+                    var type;
+
+                    if( item.hasClass( label ) ){
+
+                        type = item.attr( 'data-type' );
+                        avaliableType.push( type );
+                    }
+                });
+
+                // 先去掉所有的filter
+                _.each( this.filterTypes, function ( type ){
+
+                    that.pane.removeClass( that.filterClsPrefix + type );
+
+                });
+
+                // 添加显示的filter
+                _.each( avaliableType, function ( type ){
+                    that.pane.addClass( that.filterClsPrefix + type );
+                });
             },
 
             addItem: function ( data ){
