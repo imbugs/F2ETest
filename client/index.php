@@ -13,10 +13,16 @@
     <title></title>
 </head>
 <body>
-    <div id="content" class="container">
-        <div id="header" class="hero-unit">
-            <h1>F2E 自动化页面测试</h1>
+<div id="nav" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand">F2E 自动化页面测试</a>
         </div>
+    </div>
+</div>
+    <div id="content" class="container">
+
+
         <div id="main" class="">
             <div id="input-wrap" class="span11">
 
@@ -30,7 +36,7 @@
                     <span class="browser ie8" data-type="ie8"><input type="checkbox" value="ie8">ie8</span>
                     <span class="browser ie9" data-type="ie9"><input type="checkbox" value="ie9">ie9</span>
                 </p>
-                <p class="span1 offset3">
+                <p id="run-btn-wrap" class=" span1 offset3">
                     <input id="run-test-btn" type="button" class="btn btn-primary btn-large" value="测试" >
                 </p>
                 <div class="input-error alert span10">
