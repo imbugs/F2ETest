@@ -33,7 +33,7 @@
                 <p class="span1 offset3">
                     <input id="run-test-btn" type="button" class="btn btn-primary btn-large" value="测试" >
                 </p>
-                <div class="input-error alert alert-error span10">
+                <div class="input-error alert span10">
                 </div>
 
             </div>
