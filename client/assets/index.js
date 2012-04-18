@@ -5,8 +5,8 @@
 //        BROWSER_STAT: 'http://f2etest/client/fake/stat.php',
 //        REQUEST_TEST: 'http://f2etest/client/fake/test.php'
 
-        BROWSER_STAT: 'http://f2etest/server/API/serverStatus.php',
-        REQUEST_TEST: 'http://f2etest/server/API/doRequest.php'
+        BROWSER_STAT: '../server/API/serverStatus.php',
+        REQUEST_TEST: '../server/API/doRequest.php'
     };
 
     $( document).ready(function (){

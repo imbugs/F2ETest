@@ -45,6 +45,7 @@ http.createServer(function(request, response) {
 
     // 执行用户脚本...并返回log
     require(data.path).run(client, response, function ( logs ){
+        //关闭浏览器前 截图
         response.writeHead(200, {"Content-Type": "text/plain"});
         response.write( JSON.stringify( logs ) );
         response.end();

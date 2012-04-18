@@ -43,5 +43,8 @@ $url = $G_NodeURL."?path=$jsPath&type=$type&ip=".$server['ip']."&port=".$server[
 
 $remoteMsg = uc_fopen($url);
 $remoteMsg = json_decode($remoteMsg);
+if(!$remoteMsg){
+    errorMsg('没有数据返回，请检查是否已经挂掉！');
+}
 
 resultMsg($type, $remoteMsg, $remoteMsg['screen']);
