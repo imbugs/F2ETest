@@ -65,6 +65,9 @@ function createTestJS($code){
  * @return mixed
  */
 function filterCode($code){
+    $black = array('spawn');
+
+    $code = str_replace($black, '', $code);
     return $code;
 }
 /**
