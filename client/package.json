@@ -1,0 +1,17 @@
+{
+    "name": "F2ETest-client",
+    "description": "client side of F2ETest",
+    "version": "0.0.0",
+    "contributors": {
+        "neekey": "ni184775761@gmail.com"
+    },
+    "keywords": [ "selenium" ],
+//    "main": "SyncRun.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/neekey/F2ETest"
+    },
+    "dependencies":{
+        "markdown": "0.3.1"
+    }
+}
