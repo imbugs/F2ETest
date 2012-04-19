@@ -490,8 +490,10 @@
                 this.parentEl.find( '.tab-content').append( this.paneEl );
             },
 
+            // 若出错 也render，信息已经在data中 模板会进行逻辑判断 显示错误
             error: function (){
 
+                this.render();
             },
 
             testing: function (){
@@ -630,27 +632,29 @@
                 var screenShot;
                 var type;
                 var _data = data.data;
+                var error = data.error;
 
                 if( data.result ){
 
-                    logs = _data.logs;
+                    logs = _data.logs || [];
                     screenShot = _data.screen;
-                    type = _data.type;
 
                     this.set({
                         stat: 'finished',
                         logs: logs,
                         screenshot: screenShot,
-                        type: type
+                        result: true
                     });
                 }
                 else {
 
+                    // 若出错，则添加错误字段
                     this.set({
-                        stat: 'error'
+                        stat: 'error',
+                        result: false,
+                        error: error.msg
                     });
                 }
-
             },
 
             defaults: {
@@ -659,7 +663,9 @@
                 testCode: '',
                 screenshot: '',
                 logs: '',
-                type: 'browser'
+                type: 'browser',
+                result: true,
+                error: ''
             }
         })
     }
