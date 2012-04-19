@@ -8,12 +8,12 @@
     <title></title>
 </head>
 <body>
-<?php $pageName = 'docs';  include "common/nav.php"; ?>
+<?php $pageName = 'about';  include "common/nav.php"; ?>
 <div id="content" class="container">
 
 
     <div id="main" class="">
-        <?php include "docs/docs.php" ?>
+        <?php include "docs/about.php" ?>
     </div>
     <div id="footer"></div>
 </div>

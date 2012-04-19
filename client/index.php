@@ -15,9 +15,8 @@
 <body>
 <?php $pageName = 'index'; include "common/nav.php"; ?>
 <div id="content" class="container">
-
-
         <div id="main" class="">
+            <div class="alert alert-info" id="index-intro"><?php include "docs/indexIntro.php"; ?></div>
             <div id="input-wrap" class="span11">
 
                 <div id="script-wrap" style=""><?php include("exampleCode/exampleCode.php"); ?></div>

@@ -2,6 +2,10 @@
     margin-top: 80px;
 }
 
+#index-intro {
+    /*margin-top: 10px;*/
+    margin-bottom: 30px;
+}
 #testcode-area {
     height: 300px;
 }
