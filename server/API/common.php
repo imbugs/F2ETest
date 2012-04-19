@@ -222,4 +222,16 @@ function formatLogs($logs = array()){
     }
     return $logs;
 }
+function getLastScreenShot($logs = array()){
+    $screenShot = '';
+    for($i = count($logs)-1; $i >= 0; $i--){
+        switch($logs[$i]->type){
+            case 'screenshotSave':
+                $screenShot = $logs[$i]->screenshot;
+                break;
+        }
+        if($screenShot) break;
+    }
+    return $screenShot;
+}
 ?>
