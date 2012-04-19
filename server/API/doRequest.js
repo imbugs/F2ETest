@@ -40,15 +40,27 @@ http.createServer(function(request, response) {
         "desiredCapabilities":{
             "browserName":data.type
         },
-        screenshotPath: '../writable/Screenshots/'
+        screenshotPath: '../writable/screenshots/'
     });
+    response.writeHead(200, {"Content-Type": "text/plain"});
+
+    var ifTimeout = false;
+    var maxTime = 5*60*1000;
+    var timer;
+    timer = setTimeout( function(){
+        errorMsg('有语法错误，请检查', response);
+        ifTimeout = true;
+        client.end();
+    }, maxTime);
 
     // 执行用户脚本...并返回log
     require(data.path).run(client, response, function ( logs ){
-        //关闭浏览器前 截图
-        response.writeHead(200, {"Content-Type": "text/plain"});
-        response.write( JSON.stringify( logs ) );
-        response.end();
+        if( !ifTimeout ){
+            clearTimeout( timer );
+            response.write( JSON.stringify( logs ) );
+            response.end();
+        }
+
     });
 
 }).listen(8800);
