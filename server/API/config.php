@@ -39,5 +39,7 @@ $G_ServerList = array(
 $G_CasePath = '../writable/cases/';
 //文件截图目录
 $G_ScreenPath = '../writable/screenshots/';
+//writeAble http地址
+$G_WriteURL = 'http://'.$_SERVER['HTTP_HOST'].'/F2ETest/server/writable/';
 //NodeJs运行URL
 $G_NodeURL = 'http://10.13.51.89:8800/';

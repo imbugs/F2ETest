@@ -43,8 +43,13 @@ $url = $G_NodeURL."?path=$jsPath&type=$type&ip=".$server['ip']."&port=".$server[
 
 $remoteMsg = uc_fopen($url);
 $remoteMsg = json_decode($remoteMsg);
+
+//处理screenshotSave类型日志，将其转换为可访问url
+formatLogs($remoteMsg);
+
+//die();
 if(!$remoteMsg){
-    errorMsg('没有数据返回，请检查是否已经挂掉！');
+    errorMsg('没有数据返回，请检查nodeJs路径是否可用！');
 }
 
 resultMsg($type, $remoteMsg, $remoteMsg['screen']);

@@ -195,4 +195,31 @@ function uc_fopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = FALSE,
         return $return;
     }
 }
+/**
+ * 根据URL获取文件名
+ * @param $url
+ * @return mixed
+ */
+function retrieve($url)
+{
+    preg_match('/\/([^\/]+\.[a-z]+)[^\/]*$/',$url,$match);
+    return $match[1];
+}
+/**
+ * 格式化日志，对日志做必要的处理
+ * 1、处理screenshotSave类型日志，将其转换为可访问url
+ * @param array $logs
+ * @return array
+ */
+function formatLogs($logs = array()){
+    global $G_WriteURL;
+    for($i = 0; $i < count($logs); $i++){
+        switch($logs[$i]->type){
+            case 'screenshotSave':
+                $logs[$i]->screenshot = $G_WriteURL .'screenshots/'.retrieve($logs[$i]->screenshot);
+                break;
+        }
+    }
+    return $logs;
+}
 ?>
