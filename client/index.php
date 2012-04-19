@@ -69,6 +69,8 @@
     <script type="text/html" id="test-info-pane-tpl">
 
         <div class="tab-pane test-info-pane <% if( defaultActive ){ %>active<% } %>" data-type="<%=type%>" id="tab-pane-<%=type%>">
+<!--            若测试结果正常-->
+            <% if( result === true ) { %>
             <ul class="test-info-logs ">
                 <% for( var i = 0, log; log = logs[ i ]; i++ ){ %>
                     <li class="test-info-log log-item log-type-<%=log.type%>" >
@@ -93,13 +95,15 @@
                                 break;
                         }
                         %>"><%=log.type%></span>
-                           <span class="log-text"><%=log.msg%></span>
-                        <% if( log.screenshot ) { %>
-                        <span class="log-text">图片路径：<%=log.screenshot%></span>
-                        <% } %>
+                           <span class="log-text"><% print(log.msg); if( log.screenshot ){ %>--- <a target="_blank" href="<%=log.screenshot%>">屏幕截图</a> <% } %></span>
+
                     </li>
                 <% } %>
             </ul>
+            <% } else { %>
+<!--            若错误，则显示错误信息-->
+            <div><div class="alert alert-error">测试出错啦！错误信息：<%=error%></div></div>
+            <% } %>
             <div class="test-screenshot"><img src="<%=screenshot%>"></div>
         </div>
     </script>
