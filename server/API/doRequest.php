@@ -47,9 +47,10 @@ $remoteMsg = json_decode($remoteMsg);
 //处理screenshotSave类型日志，将其转换为可访问url
 formatLogs($remoteMsg);
 
-//die();
 if(!$remoteMsg){
     errorMsg('没有数据返回，请检查nodeJs路径是否可用！');
 }
+//获取最后一个截图地址
+$defaultScreen = getLastScreenShot($remoteMsg);
 
-resultMsg($type, $remoteMsg, $remoteMsg['screen']);
+resultMsg($type, $remoteMsg, $defaultScreen);

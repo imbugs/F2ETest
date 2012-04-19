@@ -48,7 +48,7 @@ function serverStatus($list){
 function createTestJS($code){
     global $G_CasePath;
     $header = "exports.run = function(client, response, next ){\n";
-    $footer = "\n client.end(function( logs ){ next( logs ); } ); \n};";
+    $footer = "\n client.saveScreenshot();\n client.end(function( logs ){ next( logs ); } ); \n};";
 
     $filepath =  $G_CasePath.time().rand(100, 999).'.js';
 
@@ -221,5 +221,17 @@ function formatLogs($logs = array()){
         }
     }
     return $logs;
+}
+function getLastScreenShot($logs = array()){
+    $screenShot = '';
+    for($i = count($logs)-1; $i >= 0; $i--){
+        switch($logs[$i]->type){
+            case 'screenshotSave':
+                $screenShot = $logs[$i]->screenshot;
+                break;
+        }
+        if($screenShot) break;
+    }
+    return $screenShot;
 }
 ?>
