@@ -3,13 +3,13 @@
     $result = true;
     $logs = array();
     $type = $_POST[ 'type' ];
-    $levels = array( 'info', 'warning', 'error' );
+    $levels = array( 'command', 'result', 'data', 'screenshotSave', 'error', 'custom' );
     $browsers = array( 'chrome', 'firefox', 'opera', 'ie6' );
 
     for( $i = 0; $i < 20; $i++ ){
 
         array_push( $logs, array(
-            'type' => $levels[ $i % 3 ],
+            'type' => $levels[ $i % 6 ],
             'msg' => 'hello world' . $type
         ));
     }

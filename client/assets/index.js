@@ -2,8 +2,11 @@
 
     var API = {
 
-        BROWSER_STAT: 'http://localhost:8888/f2e-webDriver/fake/stat.php',
-        REQUEST_TEST: 'http://localhost:8888/F2ETest/client/fake/test.php'
+//        BROWSER_STAT: 'http://f2etest/client/fake/stat.php',
+//        REQUEST_TEST: 'http://f2etest/client/fake/test.php'
+
+        BROWSER_STAT: '../server/API/serverStatus.php',
+        REQUEST_TEST: '../server/API/doRequest.php'
     };
 
     $( document).ready(function (){
@@ -40,12 +43,30 @@
             initialize: function (){
 
                 this.browserListEl = $( '#browsers' );
-                this.codeTextarea = $( '#testcode-area' );
-                this.model = new Models.TestInfo();
-                this.TestInfo = new Views.TestInfo();
-                this.alertEl = this.$( '.input-error').hide();
+//                this.codeTextarea = $( '#testcode-area' );
 
+                this.codeEditorInit();
+                this.model = new Models.TestInfo();
+                this.TestInfo = new Views.TestInfo({ el: $( '#output-wrap')});
+                this.alertEl = this.$( '.input-error').hide();
+                this.runBtn = this.$( '#run-test-btn' );
+
+                this.TestInfo.hide();
                 this.attachModel();
+                this.attach();
+            },
+
+            /**
+             * 初始化代码编辑器
+             * todo 优化
+             */
+            codeEditorInit: function (){
+
+                this.codeEditor = ace.edit("script-wrap")
+                this.codeEditor.setTheme("ace/theme/twilight");
+                this.codeEditor.getSession().setMode("ace/mode/javascript");
+//                this.codeEditor.insert( '/* 在此处输入你的测试代码 */');
+//                this.codeEditor.gotoLine( 3 );
             },
 
             events: {
@@ -68,6 +89,18 @@
                 this.model.on( 'change:availableBrowser', function ( m, name ){
 
                     that.updateBrowserList();
+                });
+            },
+
+            attach: function (){
+
+                var that = this;
+                $( this.TestInfo ).bind( 'testFinished', function (){
+
+                    that.showAlert( '所有测试完毕!', 'success' );
+                    that.runBtn.removeClass( 'disabled' );
+                    that.codeEditor.setReadOnly( false );
+                    that.TestInfo.show();
                 });
             },
 
@@ -147,8 +180,18 @@
 
             },
 
-            showAlert: function( msg ){
+            showAlert: function( msg, type ){
 
+                type = type || '';
+
+                this.alertEl.removeClass( 'alert-error' );
+                this.alertEl.removeClass( 'alert-success' );
+                this.alertEl.removeClass( 'alert-info' );
+
+                if( type !== '' ){
+
+                    this.alertEl.addClass( 'alert-' + type );
+                }
                 this.alertEl.html( msg );
                 this.alertEl.fadeIn( 500 );
             },
@@ -164,7 +207,7 @@
             onTestcodeChange: function (){
 
                 this.model.set({
-                    testCode: this.codeTextarea.val()
+                    testCode: this.codeEditor.getSession().getValue()
                 });
             },
 
@@ -200,7 +243,7 @@
             onRunBtnClick: function (){
 
                 this.model.set({
-                    testCode: this.codeTextarea.val()
+                    testCode: this.codeEditor.getSession().getValue()
                 });
 
                 // 检查是否正确
@@ -210,10 +253,15 @@
 
                     this.hideAlert();
                     this.runTest();
+                    this.showAlert( '测试进行中，请耐心等待...' );
+                    this.runBtn.addClass( 'disabled' );
+                    this.codeEditor.setReadOnly( true );
+                    this.TestInfo.hide();
+
                 }
                 else {
 
-                    this.showAlert( result.msg );
+                    this.showAlert( result.msg, 'error' );
                 }
 
             }
@@ -221,21 +269,128 @@
 
         TestInfo: Backbone.View.extend({
 
+            filterClsPrefix: 'log-list-',
+            filterTypes: [ 'command', 'data', 'result', 'error', 'custom', 'screenshotSave' ],
+
             initialize: function (){
 
                 this.testInfoList = {};
                 this.nav = this.$( '.nav-tabs' );
+                this.pane = this.$( '.bd' );
+                this.filterList = this.$( '.log-filter-list' );
+                this.filterInit();
             },
 
-            events: {
+            hide: function (){
 
+                $( this.el ).hide();
+            },
+
+            show: function (){
+
+                $( this.el ).show();
+            },
+
+            // 初始化filter按钮们
+            filterInit: function (){
+
+                var that = this;
+
+                this.filterList.children().each( function (){
+
+                    var item = $( this );
+                    item.addClass( item.attr( 'data-label' ) );
+
+                    item.bind( 'click', function (){
+
+                        item.toggleClass( item.attr( 'data-label' ) );
+                        that.refreshFilterList();
+                    });
+                });
+
+                // 先去掉所有的filter
+                _.each( this.filterTypes, function ( type ){
+
+                    that.pane.addClass( that.filterClsPrefix + type );
+
+                });
+            },
+
+            /**
+             * 根据filter按钮的状态 更新列表
+             */
+            refreshFilterList: function (){
+
+                var avaliableType = [];
+                var that = this;
+
+                this.filterList.children().each( function (){
+
+                    var item = $( this );
+                    var label = item.attr( 'data-label' );
+                    var type;
+
+                    if( item.hasClass( label ) ){
+
+                        type = item.attr( 'data-type' );
+                        avaliableType.push( type );
+                    }
+                });
+
+                // 先去掉所有的filter
+                _.each( this.filterTypes, function ( type ){
+
+                    that.pane.removeClass( that.filterClsPrefix + type );
+
+                });
+
+                // 添加显示的filter
+                _.each( avaliableType, function ( type ){
+                    that.pane.addClass( that.filterClsPrefix + type );
+                });
             },
 
             addItem: function ( data ){
 
-                this.testInfoList[ data.type ] = new Views.TestInfoItem({
+                var newItem = new Views.TestInfoItem({
                     data: data
                 });
+                var that = this;
+
+                this.testInfoList[ data.type ] = newItem;
+
+                console.log( 'new', newItem );
+                $( newItem ).bind( 'testFinished', function (){
+
+                    that.checkIfAllFinished();
+                });
+            },
+
+            /**
+             * 检查是否所有的测试都已经完毕
+             */
+            checkIfAllFinished: function (){
+
+                var itemType;
+                var item;
+                var finished = true;
+
+                for( itemType in this.testInfoList ){
+
+                    var stat;
+                    item = this.testInfoList[ itemType ];
+                    stat = item.model.get( 'stat' );
+
+                    if( stat !== 'error' && stat !== 'finished' ){
+
+                        finished = false;
+                        return;
+                    }
+                }
+
+                if( finished ){
+                    $( this ).trigger( 'testFinished' );
+                }
             },
 
             validation: function (){
@@ -301,10 +456,13 @@
                     if( stat === 'finished' ){
 
                         that.render();
+                        console.log( 'testInfoItem', that );
+                        $( that ).trigger( 'testFinished' );
                     }
                     else if( stat === 'error' ){
 
                         that.error();
+                        $( that ).trigger( 'testFinished' );
                     }
                     else {
 
@@ -332,8 +490,10 @@
                 this.parentEl.find( '.tab-content').append( this.paneEl );
             },
 
+            // 若出错 也render，信息已经在data中 模板会进行逻辑判断 显示错误
             error: function (){
 
+                this.render();
             },
 
             testing: function (){
@@ -391,7 +551,7 @@
 
                 _.each( data, function ( item ){
 
-                    dataHandled.push( item.type );
+                    dataHandled.push( item );
                 });
 
                 return dataHandled;
@@ -404,7 +564,7 @@
 
                 var data = this.toJSON();
                 var requestBrowser = data.requestBrowser;
-                var testCode = data.testCode;
+                var testCode = $.trim( data.testCode );
                 var result = true;
                 var msg = '';
 
@@ -453,14 +613,13 @@
                 var that = this;
                 var data = {
                     type: m.type,
-                    testcode: m.testCode
+                    testCode: encodeURIComponent( m.testCode )
                 };
 
                command.requestTest( data, function ( data ){
 
                     that.dataHandle( data );
                });
-
             },
 
             /**
@@ -473,27 +632,29 @@
                 var screenShot;
                 var type;
                 var _data = data.data;
+                var error = data.error;
 
                 if( data.result ){
 
-                    logs = _data.logs;
+                    logs = _data.logs || [];
                     screenShot = _data.screen;
-                    type = _data.type;
 
                     this.set({
                         stat: 'finished',
                         logs: logs,
                         screenshot: screenShot,
-                        type: type
+                        result: true
                     });
                 }
                 else {
 
+                    // 若出错，则添加错误字段
                     this.set({
-                        stat: 'error'
+                        stat: 'error',
+                        result: false,
+                        error: error.msg
                     });
                 }
-
             },
 
             defaults: {
@@ -502,7 +663,9 @@
                 testCode: '',
                 screenshot: '',
                 logs: '',
-                type: 'browser'
+                type: 'browser',
+                result: true,
+                error: ''
             }
         })
     }

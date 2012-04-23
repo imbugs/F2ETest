@@ -27,6 +27,7 @@
 		{
 			type: 'chrome',					// 需要测试的浏览器类型
 			testCode: 'your test code',		// 测试脚本
+			host: '',                       // 用户自定义
 			options: ''						// 相关配置… 
 		}
 * return:
@@ -42,5 +43,8 @@
                	 	}
             	],
             	'screen': 'http:///a.com/sss/1.jpg'	// 截图图片地址
+        	},
+        	error: {
+        	   msg: 'error msg'
         	}
     	}
