@@ -21,7 +21,8 @@
         'data' => array(
             'type' => $type,
             'logs' => $logs,
-            'screen' => $screen
+            'screen' => $screen,
+            'tests' => json_decode('[{"description":"Main Suite","specs":[{"description":"title Test","items":[{"expected":"Google","received":"Google","operation":"toBe","result":true,"ifNot":false},{"expected":"webdriver","received":"webdriver","operation":"toBe","result":true,"ifNot":false}]}],"suites":[{"description":"Child Suite","specs":[{"description":"Simple Spec","items":[{"expected":2,"received":1,"operation":"toBe","result":true,"ifNot":true},{"expected":"^hello.+","received":"hellohahaa","operation":"toMatch","result":true,"ifNot":false},{"received":"hello","operation":"toBeDefined","result":true,"ifNot":false},{"operation":"toBeUndefined","result":true,"ifNot":false},{"expected":null,"received":null,"operation":"toBeNull","result":true,"ifNot":false}]}],"suites":[]}]},{"description":"The Other Main Suite","specs":[{"description":"The Other Simple Spec","items":[{"expected":true,"received":true,"operation":"toBe","result":true,"ifNot":false}]}],"suites":[]}]')
         )
     );
 

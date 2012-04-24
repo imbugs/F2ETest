@@ -3,10 +3,10 @@
     var API = {
 
 //        BROWSER_STAT: 'http://f2etest/client/fake/stat.php',
-//        REQUEST_TEST: 'http://f2etest/client/fake/test.php'
+        REQUEST_TEST: 'http://f2etest/client/fake/test.php',
 
-        BROWSER_STAT: '../server/API/serverStatus.php',
-        REQUEST_TEST: '../server/API/doRequest.php'
+        BROWSER_STAT: '../server/API/serverStatus.php'
+//        REQUEST_TEST: '../server/API/doRequest.php'
     };
 
     $( document).ready(function (){
@@ -299,7 +299,9 @@
                 this.filterList.children().each( function (){
 
                     var item = $( this );
-                    item.addClass( item.attr( 'data-label' ) );
+
+                    // 默认全部打开获取隐藏
+                    //item.addClass( item.attr( 'data-label' ) );
 
                     item.bind( 'click', function (){
 
@@ -311,9 +313,9 @@
                 // 先去掉所有的filter
                 _.each( this.filterTypes, function ( type ){
 
-                    that.pane.addClass( that.filterClsPrefix + type );
-
+//                    that.pane.addClass( that.filterClsPrefix + type );
                 });
+
             },
 
             /**
@@ -435,6 +437,8 @@
                 this.model = new Models.TestInfoItem( this.options.data );
                 this.paneTplId = 'test-info-pane-tpl';
                 this.triggerTplId = 'test-info-trigger-tpl';
+                this.testResultTplId = 'test-result-suite-tpl';
+                this.testResultTpl = _.template( $( '#' + this.testResultTplId).html() );
                 this.paneTpl = _.template( $( '#' + this.paneTplId).html() );
                 this.triggerTpl = _.template( $( '#' + this.triggerTplId).html() );
 
@@ -488,6 +492,42 @@
 
                 this.parentEl.find( '.nav-tabs').append( this.triggerEl );
                 this.parentEl.find( '.tab-content').append( this.paneEl );
+
+                this.paneEl.find( '#test-suite-list').html( this.renderTestResult() );
+            },
+
+            renderTestResult: function (){
+
+                var data = this.model.toJSON();
+                var testResult = data.testResult;
+                var html;
+
+                html = this._renderTestResult( testResult );
+
+                return html;
+            },
+
+            _renderTestResult: function ( testResult ){
+
+                debugger;
+                var i;
+                var suite;
+                var html;
+                var childHtml;
+
+                html = this.testResultTpl( { testResult: testResult } );
+
+                for( i = 0; suite = testResult[ i ]; i++ ){
+
+                    if( suite.suites.length > 0 ){
+
+                        childHtml = arguments.callee.call( this, suite.suites );
+
+                        html = html.replace( '##test-suite-list-tag-' + i + '##', childHtml );
+                    }
+                }
+
+                return html;
             },
 
             // 若出错 也render，信息已经在data中 模板会进行逻辑判断 显示错误
@@ -629,6 +669,7 @@
             dataHandle: function ( data ){
 
                 var logs;
+                var testResult;
                 var screenShot;
                 var type;
                 var _data = data.data;
@@ -637,11 +678,13 @@
                 if( data.result ){
 
                     logs = _data.logs || [];
+                    testResult = _data.tests;
                     screenShot = _data.screen;
 
                     this.set({
                         stat: 'finished',
                         logs: logs,
+                        testResult: testResult,
                         screenshot: screenShot,
                         result: true
                     });
@@ -663,6 +706,7 @@
                 testCode: '',
                 screenshot: '',
                 logs: '',
+                testResult: [],
                 type: 'browser',
                 result: true,
                 error: ''

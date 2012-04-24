@@ -52,6 +52,7 @@
                     </ul>
                     <div class="bd tab-content">
 <!--                        <div class="tab-pane" id="tab1">tab1 content</div>-->
+
                     </div>
                 </div>
             </div>
@@ -64,6 +65,11 @@
         <div class="tab-pane test-info-pane <% if( defaultActive ){ %>active<% } %>" data-type="<%=type%>" id="tab-pane-<%=type%>">
 <!--            若测试结果正常-->
             <% if( result === true ) { %>
+
+            <ul id="test-suite-list" class="test-suite-list">
+            </ul>
+            <hr>
+
             <ul class="test-info-logs ">
                 <% for( var i = 0, log; log = logs[ i ]; i++ ){ %>
                     <li class="test-info-log log-item log-type-<%=log.type%>" >
@@ -93,6 +99,8 @@
                     </li>
                 <% } %>
             </ul>
+
+
             <% } else { %>
 <!--            若错误，则显示错误信息-->
             <div><div class="alert alert-error">测试出错啦！错误信息：<%=error%></div></div>
@@ -104,8 +112,46 @@
     <script type="text/html" id="test-info-trigger-tpl">
         <li data-type="<%=type%>" class="test-info-trigger <% if( defaultActive ){ %>active<% } %>"><a href="#tab-pane-<%=type%>" data-toggle="tab"><%=type%></a></li>
     </script>
-    <script type="text/javascript">
 
+
+    <script type="text/html" id="test-result-suite-tpl">
+
+        <% for( var i = 0, suite; suite = testResult[ i ]; i++ ){ %>
+        <li>
+            <div class="hd suite-title">
+            <h4><%=suite.description%></h4>
+            </div>
+            <ul class="test-spec-list">
+
+                <% for( var j = 0, spec; spec = suite.specs[ j ]; j++ ){ %>
+                <li>
+                    <div class="hd spec-title">
+                    <h5><%=spec.description%></h5>
+                    </div>
+                    <ul class="test-assert-error-list">
+                        <% for( var k = 0; item = spec.items[ k ]; k++ ){ if( item.result === false ){ %>
+                        <li>
+                            <span class="received"><%=item.received%></span>
+                            <span class="operation"><%=item.ifNot%> <%=item.operation%></span>
+                            <span class="expected"><%=item.expected%></span>
+                        </li>
+                        <% } } %>
+                    </ul>
+                </li>
+                <% } %>
+            </ul>
+
+            <% if( suite.suites.length > 0 ){ %>
+            <ul class="test-suite-list">
+                ##test-suite-list-tag-<%=i%>##
+            </ul>
+            <% } %>
+        </li>
+        <% } %>
     </script>
+
+<!--</ul>-->
+<!--</div>-->
+
 </body>
 </html>
