@@ -12,6 +12,6 @@
         "url": "https://github.com/neekey/F2ETest"
     },
     "dependencies":{
-        "webdriverNode":"0.0.4"
+        "webdriverNode":"0.0.5"
     }
 }
