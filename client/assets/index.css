@@ -80,3 +80,52 @@
 .log-list-screenshotSave .log-type-screenshotSave {
     display: list-item;
 }
+
+/*测试结果*/
+#test-result-wrap div.test-summary {
+    margin-bottom: 20px;
+}
+
+#test-suite-list, #test-suite-list ul {
+
+    list-style: none;
+}
+
+#test-suite-list .test-item.alert.alert-success {
+    background-color: #468847;
+    color: white;
+    text-shadow: none;
+}
+#test-suite-list .test-item.alert.alert-error {
+    background-color: #B94A4B;
+    color: white;
+    text-shadow: none;
+}
+
+#test-suite-list .title {
+    border-bottom: 1px dotted;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+/*修改alert在测试结果中的外边距*/
+
+#test-result-wrap .alert {
+    margin-bottom: 5px;
+}
+/*用于折叠的按钮*/
+#test-result-wrap i.icon-plus, #test-result-wrap i.icon-minus  {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+#test-result-wrap .test-item i {
+    margin-right: 10px;
+}
+
+#test-result-wrap .fold ul {
+    display: none;
+}
+

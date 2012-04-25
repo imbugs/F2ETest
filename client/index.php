@@ -66,10 +66,17 @@
 <!--            若测试结果正常-->
             <% if( result === true ) { %>
 
-            <ul id="test-suite-list" class="test-suite-list">
-            </ul>
+            <!-- 测试结果容器 -->
+            <div id="test-result-wrap">
+                <div class="test-summary title alert alert-warning">
+                    <% var summary = testResult.summary; %>
+                    <h3>测试统计：Suite: <%=summary.suite%>, Spec: <%=summary.spec%>, Assert: <%=summary.item%>, <% if( summary.suiteFailure > 0 ){ %> <span class="alert alert-error">Suite-Failure: <%=summary.suiteFailure%>, Spec-Failure: <%=summary.specFailure%>, Assert-Failure: <%=summary.itemFailure%></span> <% } %></h3>
+                </div>
+                <ul id="test-suite-list" class="test-suite-list"></ul>
+            </div>
             <hr>
 
+            <!--测试log-->
             <ul class="test-info-logs ">
                 <% for( var i = 0, log; log = logs[ i ]; i++ ){ %>
                     <li class="test-info-log log-item log-type-<%=log.type%>" >
@@ -102,7 +109,7 @@
 
 
             <% } else { %>
-<!--            若错误，则显示错误信息-->
+            <!--若错误，则显示错误信息-->
             <div><div class="alert alert-error">测试出错啦！错误信息：<%=error%></div></div>
             <% } %>
             <div class="test-screenshot"><img src="<%=screenshot%>"></div>
@@ -113,35 +120,44 @@
         <li data-type="<%=type%>" class="test-info-trigger <% if( defaultActive ){ %>active<% } %>"><a href="#tab-pane-<%=type%>" data-toggle="tab"><%=type%></a></li>
     </script>
 
-
+<!--    解释结果suite单元模板-->
     <script type="text/html" id="test-result-suite-tpl">
 
+<!--        遍历所有的suite-->
         <% for( var i = 0, suite; suite = testResult[ i ]; i++ ){ %>
-        <li>
-            <div class="hd suite-title">
-            <h4><%=suite.description%></h4>
+<!--        根据测试结果是否完全通过 1、显示的颜色 2、是否折叠-->
+        <li class="test-suite-item alert <% if( suite.result === true ){ print( 'alert-info fold' ); } else { print( 'alert-error' ); } %>">
+            <div class="hd suite-title title">
+                <h4><%=suite.description%></h4>
+                <i class="<% if( suite.result === true ){ print( 'icon-plus' ); } else { print( 'icon-minus' ); } %>"></i>
             </div>
             <ul class="test-spec-list">
 
+<!--                遍历所有的spec-->
                 <% for( var j = 0, spec; spec = suite.specs[ j ]; j++ ){ %>
-                <li>
-                    <div class="hd spec-title">
-                    <h5><%=spec.description%></h5>
+                <!--        根据测试结果是否完全通过 1、显示的颜色 2、是否折叠-->
+                <li class="test-spec-item alert <% if( spec.result === true ){ print( 'alert-success  fold' ); } else { print( 'alert-error' ); } %>">
+                    <div class="hd spec-title title">
+                        <h5><%=spec.description%></h5>
+                        <i class="<% if( spec.result === true ){ print( 'icon-plus' ); } else { print( 'icon-minus' ); } %>"></i>
                     </div>
-                    <ul class="test-assert-error-list">
-                        <% for( var k = 0; item = spec.items[ k ]; k++ ){ if( item.result === false ){ %>
-                        <li>
+                    <ul class="test-assert-list">
+                        <% for( var k = 0; item = spec.items[ k ]; k++ ){ %>
+                        <li class="test-item alert <% if( item.result === true ){ print( 'alert-success' ); } else { print( 'alert-error' ); } %>">
+                            <i class="<% if( item.result ){ print( 'icon-ok' ); } else { print( 'icon-remove' ); } %>"></i>
                             <span class="received"><%=item.received%></span>
                             <span class="operation"><%=item.ifNot%> <%=item.operation%></span>
                             <span class="expected"><%=item.expected%></span>
                         </li>
-                        <% } } %>
+                        <% } %>
                     </ul>
                 </li>
                 <% } %>
             </ul>
 
+<!--            若存在子suite-->
             <% if( suite.suites.length > 0 ){ %>
+<!--            下面的字符串为子suite被渲染完成后，用于替换的标识-->
             <ul class="test-suite-list">
                 ##test-suite-list-tag-<%=i%>##
             </ul>
@@ -149,9 +165,6 @@
         </li>
         <% } %>
     </script>
-
-<!--</ul>-->
-<!--</div>-->
 
 </body>
 </html>

@@ -3,10 +3,10 @@
     var API = {
 
 //        BROWSER_STAT: 'http://f2etest/client/fake/stat.php',
-        REQUEST_TEST: 'http://f2etest/client/fake/test.php',
+//        REQUEST_TEST: 'http://f2etest/client/fake/test.php',
 
-        BROWSER_STAT: '../server/API/serverStatus.php'
-//        REQUEST_TEST: '../server/API/doRequest.php'
+        BROWSER_STAT: '../server/API/serverStatus.php',
+        REQUEST_TEST: '../server/API/doRequest.php'
     };
 
     $( document).ready(function (){
@@ -493,16 +493,26 @@
                 this.parentEl.find( '.nav-tabs').append( this.triggerEl );
                 this.parentEl.find( '.tab-content').append( this.paneEl );
 
-                this.paneEl.find( '#test-suite-list').html( this.renderTestResult() );
+                // 测试结果容器
+                this.testResultWrap = this.parentEl.find( '#test-result-wrap' );
+
+                this.testResultWrap.find( '#test-suite-list').html( this.renderTestResult() );
+
+                // 初始化测试结果部分的折叠逻辑
+                this.attachTestResult();
             },
 
+            /**
+             * 渲染测试结果列表
+             * @return {*}
+             */
             renderTestResult: function (){
 
                 var data = this.model.toJSON();
                 var testResult = data.testResult;
                 var html;
 
-                html = this._renderTestResult( testResult );
+                html = this._renderTestResult( testResult.list );
 
                 return html;
             },
@@ -530,14 +540,24 @@
                 return html;
             },
 
+            /**
+             * 为解释结果列表添加折叠逻辑
+             */
+            attachTestResult: function (){
+
+                this.testResultWrap.delegate( '.title i', 'click', function (){
+                    $( this ).toggleClass( 'icon-plus' );
+                    $( this ).toggleClass( 'icon-minus' );
+
+                    $( $( this ).parents( 'li' )[ 0 ] ).toggleClass( 'fold' );
+                });
+
+            },
+
             // 若出错 也render，信息已经在data中 模板会进行逻辑判断 显示错误
             error: function (){
 
                 this.render();
-            },
-
-            testing: function (){
-
             },
 
             remove: function (){
