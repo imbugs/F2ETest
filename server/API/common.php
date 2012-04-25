@@ -48,7 +48,7 @@ function serverStatus($list){
 function createTestJS($code){
     global $G_CasePath;
     $header = "exports.run = function(client, response, next ){\n";
-    $footer = "\n client.saveScreenshot();\n client.end(function( logs ){ next( logs ); } ); \n};";
+    $footer = "\n client.saveScreenshot();\n client.end(function( logs, results ){ next( logs, results ); } ); \n};";
 
     $filepath =  $G_CasePath.time().rand(100, 999).'.js';
 
@@ -81,6 +81,23 @@ function getHost($host){
     return false;
 }
 /**
+ * 获取随机数组
+ * @param $arr
+ * @param int $num
+ * @return array
+ */
+function array_random($arr, $num = 1) {
+    if(count($arr) == 0) return false;
+
+    shuffle($arr);
+
+    $r = array();
+    for ($i = 0; $i < $num; $i++) {
+        $r[] = $arr[$i];
+    }
+    return $num == 1 ? $r[0] : $r;
+}
+/**
  * 获取一个指定类型的可用服务器
  * @param $type
  * @return array
@@ -88,20 +105,22 @@ function getHost($host){
 function getServerByType($type){
     global $G_ServerList;
     $list = $G_ServerList[$type];
+    $a_list = array();
     foreach($list as $i){
         if(isServerUp($i['ip'], $i['port'])){
-            return $i;
+            array_push($a_list,$i);
         }
     }
-    return false;
+    return array_random($a_list);
 }
 
-function resultMsg($type, $logs = array(), $screen = '', $halt = true){
+function resultMsg($type, $logs = array(), $tests = array(), $screen = '', $halt = true){
     $ret = array(
         'result' => true,
         'data' => array(
             'type' => $type,
             'logs' => $logs,
+            'tests' => $tests,
             'screen' => $screen
         )
     );
@@ -236,5 +255,15 @@ function getLastScreenShot($logs = array()){
         if($screenShot) break;
     }
     return $screenShot;
+}
+function debugMsg($msg = '', $halt = false){
+    global $G_Debug;
+    echo $G_Debug;
+    if(!$G_Debug)return;
+
+    echo '/*'.$msg."*/\n";
+    if($halt){
+        die();
+    }
 }
 ?>

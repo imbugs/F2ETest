@@ -40,17 +40,18 @@ $testCode = filterCode( $testCode );
 $jsPath = createTestJS($testCode);
 
 $url = $G_NodeURL."?path=$jsPath&type=$type&ip=".$server['ip']."&port=".$server['port'];
+debugMsg('url:'.$url);
 
 $remoteMsg = uc_fopen($url);
 $remoteMsg = json_decode($remoteMsg);
 
 //处理screenshotSave类型日志，将其转换为可访问url
-formatLogs($remoteMsg);
+formatLogs($remoteMsg->logs);
 
 if(!$remoteMsg){
     errorMsg('没有数据返回，请检查nodeJs路径是否可用！');
 }
 //获取最后一个截图地址
-$defaultScreen = getLastScreenShot($remoteMsg);
+$defaultScreen = getLastScreenShot($remoteMsg->logs);
 
-resultMsg($type, $remoteMsg, $defaultScreen);
+resultMsg($type, $remoteMsg->logs, $remoteMsg->tests, $defaultScreen);
