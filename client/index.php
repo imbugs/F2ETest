@@ -145,9 +145,9 @@
                         <% for( var k = 0; item = spec.items[ k ]; k++ ){ %>
                         <li class="test-item alert <% if( item.result === true ){ print( 'alert-success' ); } else { print( 'alert-error' ); } %>">
                             <i class="<% if( item.result ){ print( 'icon-ok' ); } else { print( 'icon-remove' ); } %>"></i>
-                            <span class="received"><%=item.received%></span>
-                            <span class="operation"><%=item.ifNot%> <%=item.operation%></span>
-                            <span class="expected"><%=item.expected%></span>
+                            <span class="received"><% print( String( item.received ) ); %> </span>
+                            <span class="operation label label-inverse"><% if( item.ifNot ){ print( 'not' ); } %> <%=item.operation%></span>
+                            <span class="expected"><% print( String( item.expected ) ); %></span>
                         </li>
                         <% } %>
                     </ul>
