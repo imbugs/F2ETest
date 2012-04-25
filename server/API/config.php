@@ -3,15 +3,16 @@
  * 全局配置文件
  */
 
+$G_Debug = strstr($_SERVER['REQUEST_URI'], 'tdebug');
 //服务器列表配置
 $G_ServerList = array(
     'ie6' => array(
         array('ip'=>'10.13.51.85', 'port'=>4444),
-        array('ip'=>'10.13.15.48', 'port'=>4444),
+        array('ip'=>'10.13.51.97', 'port'=>4444),
         array('ip'=>'10.13.15.47', 'port'=>4444)
     ),
     'ie7' => array(
-
+        array('ip'=>'10.13.51.108', 'port'=>4444)
     ),
     'ie8' => array(
 
@@ -20,7 +21,6 @@ $G_ServerList = array(
 
     ),
     'ie10' => array(
-
     ),
     'firefox' => array(
         array('ip'=>'10.13.51.85', 'port'=>4444)
