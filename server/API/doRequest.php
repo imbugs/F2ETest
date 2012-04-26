@@ -54,4 +54,4 @@ if(!$remoteMsg){
 //获取最后一个截图地址
 $defaultScreen = getLastScreenShot($remoteMsg->logs);
 
-resultMsg($type, $remoteMsg->logs, $remoteMsg->tests, $defaultScreen);
+resultMsg(retrieve($jsPath), $type, $remoteMsg->logs, $remoteMsg->tests, $defaultScreen);

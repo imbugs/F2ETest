@@ -42,6 +42,18 @@
                     	'level': '1' //为1,2,3	// log输出的级别 分别对应 error warning info
                	 	}
             	],
+            	'tests':{                   //测试结果输出
+            	    'list': [{
+            	        desciption: '结果集名称',
+            	        result: false,      //结果集的最终结果
+            	        specs: [],
+            	        suites: [],
+            	        summary: {}
+            	    }],
+            	    'summary: {},
+            	    'type': 'chrome'
+            	},
+            	'script': '12345678900.js',       //此次测试的文件名
             	'screen': 'http:///a.com/sss/1.jpg'	// 截图图片地址
         	},
         	error: {
