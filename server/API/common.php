@@ -114,10 +114,11 @@ function getServerByType($type){
     return array_random($a_list);
 }
 
-function resultMsg($type, $logs = array(), $tests = array(), $screen = '', $halt = true){
+function resultMsg($script, $type, $logs = array(), $tests = array(), $screen = '', $halt = true){
     $ret = array(
         'result' => true,
         'data' => array(
+            'script' => $script,
             'type' => $type,
             'logs' => $logs,
             'tests' => $tests,
