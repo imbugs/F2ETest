@@ -69,8 +69,11 @@
             <!-- 测试结果容器 -->
             <div id="test-result-wrap">
                 <div class="test-summary title alert alert-warning">
-                    <% var summary = testResult.summary; %>
+                    <% var summary = testResult.summary; if( summary ){ %>
                     <h3>测试统计：Suite: <%=summary.suite%>, Spec: <%=summary.spec%>, Assert: <%=summary.item%>, <% if( summary.suiteFailure > 0 ){ %> <span class="alert alert-error">Suite-Failure: <%=summary.suiteFailure%>, Spec-Failure: <%=summary.specFailure%>, Assert-Failure: <%=summary.itemFailure%></span> <% } %></h3>
+                    <% } else { %>
+                    <h3>测试代码中未包含任何Suite</h3>
+                    <% } %>
                 </div>
                 <ul id="test-suite-list" class="test-suite-list"></ul>
             </div>
