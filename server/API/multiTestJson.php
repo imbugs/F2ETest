@@ -10,15 +10,16 @@
  *      passrate: 1,    //通过率，成功浏览器数/有效总浏览器数
  *      result: [
  *          'ie6': [
- *              passed: true    //是否通过
+ *              tests: 。。。    //测试结果集
  *          ]，
  *          'ie7': [
- *              passed: false
+ *              tests: 。。。
  *          ]
  *      ]
  * })
  */
 require('./common.php');
+header('Content-type: application/javascript');
 
 $json = array(
     'passrate' => 1,
@@ -34,7 +35,7 @@ if(count($types) == 0 || $testFile == ''){
     die();
 }
 
-$all_count = 0;
+$all_count = count($types);
 $avi_count = 0;
 while($type = array_pop($types)){
     $all_count++;
@@ -42,8 +43,9 @@ while($type = array_pop($types)){
     $ret = doRequest($type, '', $jsPath, $host);
     if(!$ret['errorMsg'] != ''){
         $avi_count++;
-        $json['result'][$type]['passed'] = true;
+        $json['result'][$type]['tests'] = $ret['result'][3];
     }
 }
-
+$json['passrate'] = $avi_count / $all_count;
+echo jsonp_encode($json);
 ?>

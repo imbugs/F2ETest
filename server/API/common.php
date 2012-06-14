@@ -1,9 +1,28 @@
 <?php
 include('./config.php');
 /**
+ * 安全过滤
+ */
+if(!MAGIC_QUOTES_GPC) {
+    $_GET = daddslashes($_GET);
+    $_POST = daddslashes($_POST);
+    $_COOKIE = daddslashes($_COOKIE);
+    $_FILES = daddslashes($_FILES);
+}
+
+
+/**
  * 公用方法定义
  */
 
+function jsonp_encode($arr = array()){
+    $callback = $_GET['callback'];
+    $ret = json_encode($arr);
+    if($callback != ''){
+        $ret = "$callback($ret);";
+    }
+    return $ret;
+}
 /**
  * 检查单个服务器是否可用
  * @param $ip

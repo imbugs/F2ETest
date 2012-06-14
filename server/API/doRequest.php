@@ -1,6 +1,8 @@
 <?php
 include('./common.php');
 
+header('Content-type: application/json');
+
 $type = '';
 $testCode = '';
 $jsPath = '';

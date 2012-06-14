@@ -6,7 +6,8 @@
 //        REQUEST_TEST: 'http://f2etest/client/fake/test.php',
 
         BROWSER_STAT: '../server/API/serverStatus.php',
-        REQUEST_TEST: '../server/API/doRequest.php'
+        REQUEST_TEST: '../server/API/doRequest.php',
+        MULT_REQUEST_TEST: '../server/API/multiTestJson.php'
     };
 
     $( document).ready(function (){
@@ -108,9 +109,10 @@
             },
             //显示 所有测试已完毕 状态
             showFinish: function(){
-                var msg =  '所有测试完毕! <a href="?testFile={{script}}">再次运行</a> | <a href="' + API.REQUEST_TEST + '?testFile={{script}}" target="_blank">JSON结果</a>';
+                var msg =  '所有测试完毕! <a href="?testFile={{script}}">再次运行</a> | <a href="' + API.MULT_REQUEST_TEST + '?testFile={{script}}&types={{types}}" target="_blank">JSON结果</a>';
                 try{
                     msg = msg.replace(/{{script}}/g, main.curData.script);
+                    msg = msg.replace(/{{types}}/g, main.model.attributes.requestBrowser.join('|'));
                 }catch(e){}
                 this.showAlert(msg, 'success' );
             },
