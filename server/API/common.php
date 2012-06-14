@@ -46,18 +46,42 @@ function serverStatus($list){
  * @return string 返回文件路径
  */
 function createTestJS($code){
-    global $G_CasePath;
-    $header = "exports.run = function(client, response, next ){\n";
-    $footer = "\n client.saveScreenshot();\n client.end(function( logs, results ){ next( logs, results ); } ); \n};";
+    global $G_CasePath, $G_Case_header, $G_Case_footer;
+    //$header = "exports.run = function(client, response, next ){\n";
+    //$footer = "\n client.saveScreenshot();\n client.end(function( logs, results ){ next( logs, results ); } ); \n};";
 
     $filepath =  $G_CasePath.time().rand(100, 999).'.js';
 
 
     $fp = fopen($filepath,"a");
-    fwrite($fp, $header.$code.$footer);
+    fwrite($fp, $G_Case_header.$code.$G_Case_footer);
     fclose($fp);
 
     return $filepath;
+}
+/**
+ * 载入测试用例代码,
+ * @param string $codeFile
+ * @return string
+ */
+function reloadCode($testFile = ''){
+    global $G_CasePath, $G_Case_header, $G_Case_footer;
+    $codeFile = $G_CasePath.$testFile;
+    if(!file_exists($codeFile)){
+        $code = '';
+    }
+
+    $file_handle = fopen($codeFile, "r");
+    while (!feof($file_handle)) {
+        $line = fgets($file_handle);
+        $code .= $line;
+    }
+    fclose($file_handle);
+
+    $code = str_replace($G_Case_header, '', $code);
+    $code = str_replace($G_Case_footer, '', $code);
+
+    return $code;
 }
 /**
  * 过滤不安全的js脚本，比如系统函数的调用等 TODO
@@ -266,5 +290,74 @@ function debugMsg($msg = '', $halt = false){
     if($halt){
         die();
     }
+}
+/**
+ * 利用NodeJs接口获取测试结果
+ * @param string $type 浏览器类型
+ * @param string $testCode 测试代码
+ * @param string $jsPath 测试脚本名
+ * @param string $host 自定义主机名（127.0.0.1:4444）
+ * @return array 测试结果
+ */
+function doRequest($type = '', $testCode = '', $jsPath = '', $host = ''){
+    global $G_ServerList, $G_NodeURL;
+
+    $ret = array(
+        'errorMsg' => '',
+        'result' => array()
+    );
+
+
+
+    //浏览器类型，如果不指定将使用HtmlUnit模式
+    if(!in_array($type, array_keys($G_ServerList))){
+        $ret->errorMsg = '不支持的浏览器类型';
+        return $ret;
+    }
+
+    //服务器配置
+    $server = getHost($host);
+    if(!$server){
+        $server = getServerByType($type);
+    }
+
+    //这样子都没办法找到服务器那就没办法咯
+    if(!$server){
+        $ret['errorMsg'] = '没有可用服务器';
+        return $ret;
+    }
+
+    if(!file_exists($jsPath) || is_dir($jsPath)){
+
+        // 对代码进行转码 但是其中的 ' 会被转化为 \'
+        $testCode = urldecode( $testCode );
+        // 将 \' 转化回 '
+        $testCode = stripslashes( $testCode );
+        // 对代码进行过滤处理
+        $testCode = filterCode( $testCode );
+
+        // 创建用于执行的js模块文件
+        $jsPath = createTestJS($testCode);
+    }
+
+    $url = $G_NodeURL."?path=$jsPath&type=$type&ip=".$server['ip']."&port=".$server['port'];
+    debugMsg('url:'.$url);
+
+    $remoteMsg = uc_fopen($url);
+    $remoteMsg = json_decode($remoteMsg);
+
+    //处理screenshotSave类型日志，将其转换为可访问url
+    formatLogs($remoteMsg->logs);
+
+    if(!$remoteMsg){
+        $ret['errorMsg'] = '没有数据返回，请检查nodeJs路径是否可用！';
+        return $ret;
+    }
+    //获取最后一个截图地址
+    $defaultScreen = getLastScreenShot($remoteMsg->logs);
+
+    $ret['result'] = array(retrieve($jsPath), $type, $remoteMsg->logs, $remoteMsg->tests, $defaultScreen);
+
+    return $ret;
 }
 ?>

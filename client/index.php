@@ -1,10 +1,5 @@
 <?php
-    /*common*/
-    require("../server/API/config.php");
-    $codeFile = $G_CasePath.$_GET['testFile'];
-    if(!file_exists($codeFile)){
-        $codeFile = '';
-    }
+    require("../server/API/common.php");
 ?>
 <!DOCTYPE HTML>
 <html >
@@ -27,7 +22,7 @@
             <div class="alert alert-info" id="index-intro"><?php include "docs/indexIntro.php"; ?></div>
             <div id="input-wrap" class="span11">
 
-                <div id="script-wrap" style=""><?php include($codeFile); ?></div>
+                <div id="script-wrap" style=""><?=reloadCode($_GET['testFile'])?></div>
                 <p id="browsers" class="span6">
                     <span class="browser chrome" data-type="chrome"><input type="checkbox" value="chrome">chrome</span>
                     <span class="browser firefox" data-type="firefox"><input type="checkbox" value="firefox">firefox</span>

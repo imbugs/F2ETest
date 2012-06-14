@@ -128,4 +128,7 @@
 #test-result-wrap .fold ul {
     display: none;
 }
+.test-screenshot {
+    border: 1px solid #ffcc00;
+}
 

@@ -41,5 +41,10 @@ $G_CasePath = ROOT.'../writable/cases/';
 $G_ScreenPath = ROOT.'../writable/screenshots/';
 //writeAble http地址
 $G_WriteURL = 'http://'.$_SERVER['HTTP_HOST'].'/server/writable/';
+//doRequest PHP http地址
+$G_WriteURL = 'http://'.$_SERVER['HTTP_HOST'].'/server/writable/';
 //NodeJs运行URL
 $G_NodeURL = 'http://localhost:8800/';
+
+$G_Case_header = "exports.run = function(client, response, next ){\n";
+$G_Case_footer = "\n client.saveScreenshot();\n client.end(function( logs, results ){ next( logs, results ); } ); \n};";

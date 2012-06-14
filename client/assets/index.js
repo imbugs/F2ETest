@@ -14,9 +14,13 @@
         var Main = new Views.Main({
             el: $( '#content' )
         });
+
         window[ 'main' ] = Main;
+        //混乱的代码，为了获取每次测试的原始数据,每次fetch data都会更新这个值
+        window[ 'main' ]['curData'] = '';
 
     });
+
 
     /*== util ==*/
     var command = {
@@ -96,12 +100,19 @@
 
                 var that = this;
                 $( this.TestInfo ).bind( 'testFinished', function (){
-                    debugger;
-                    that.showAlert( '所有测试完毕! <a href="?testFile=1.js">再次运行</a> | <a href="' + API.REQUEST_TEST + '?testFile=1.js" target="_blank">JSON结果</a>', 'success' );
+                    that.showFinish();
                     that.runBtn.removeClass( 'disabled' );
                     that.codeEditor.setReadOnly( false );
                     that.TestInfo.show();
                 });
+            },
+            //显示 所有测试已完毕 状态
+            showFinish: function(){
+                var msg =  '所有测试完毕! <a href="?testFile={{script}}">再次运行</a> | <a href="' + API.REQUEST_TEST + '?testFile={{script}}" target="_blank">JSON结果</a>';
+                try{
+                    msg = msg.replace(/{{script}}/g, main.curData.script);
+                }catch(e){}
+                this.showAlert(msg, 'success' );
             },
 
             /**
@@ -695,6 +706,8 @@
                 var type;
                 var _data = data.data;
                 var error = data.error;
+
+                window[ 'main' ]['curData'] = _data;
 
                 if( data.result ){
 
