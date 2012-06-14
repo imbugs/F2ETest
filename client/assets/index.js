@@ -96,8 +96,8 @@
 
                 var that = this;
                 $( this.TestInfo ).bind( 'testFinished', function (){
-
-                    that.showAlert( '所有测试完毕!', 'success' );
+                    debugger;
+                    that.showAlert( '所有测试完毕! <a href="?testFile=1.js">再次运行</a> | <a href="' + API.REQUEST_TEST + '?testFile=1.js" target="_blank">JSON结果</a>', 'success' );
                     that.runBtn.removeClass( 'disabled' );
                     that.codeEditor.setReadOnly( false );
                     that.TestInfo.show();
@@ -477,9 +477,11 @@
             },
 
             render: function (){
-
                 var data = this.model.toJSON();
-
+                if(!data.result){
+                    alert(data.error);
+                    return;
+                }
                 if( this.triggerEl ){
                     this.triggerEl.remove();
                 }
@@ -519,7 +521,6 @@
 
             _renderTestResult: function ( testResult ){
 
-                debugger;
                 var i;
                 var suite;
                 var html;
@@ -563,8 +564,8 @@
             remove: function (){
 
                 this.model.destroy();
-                this.triggerEl.remove();
-                this.paneEl.remove();
+                this.triggerEl && this.triggerEl.remove();
+                this.paneEl && this.paneEl.remove();
             }
         })
     };

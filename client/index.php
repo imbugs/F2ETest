@@ -1,3 +1,11 @@
+<?php
+    /*common*/
+    require("../server/API/config.php");
+    $codeFile = $G_CasePath.$_GET['testFile'];
+    if(!file_exists($codeFile)){
+        $codeFile = '';
+    }
+?>
 <!DOCTYPE HTML>
 <html >
 <head>
@@ -19,7 +27,7 @@
             <div class="alert alert-info" id="index-intro"><?php include "docs/indexIntro.php"; ?></div>
             <div id="input-wrap" class="span11">
 
-                <div id="script-wrap" style=""><?php include("exampleCode/exampleCode.php"); ?></div>
+                <div id="script-wrap" style=""><?php include($codeFile); ?></div>
                 <p id="browsers" class="span6">
                     <span class="browser chrome" data-type="chrome"><input type="checkbox" value="chrome">chrome</span>
                     <span class="browser firefox" data-type="firefox"><input type="checkbox" value="firefox">firefox</span>

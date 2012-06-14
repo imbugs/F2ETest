@@ -2,7 +2,7 @@
 /**
  * 全局配置文件
  */
-
+define('ROOT', dirname(__FILE__).'/');
 $G_Debug = strstr($_SERVER['REQUEST_URI'], 'tdebug');
 //服务器列表配置
 $G_ServerList = array(
@@ -36,9 +36,9 @@ $G_ServerList = array(
     )
 );
 //用例文件目录
-$G_CasePath = '../writable/cases/';
+$G_CasePath = ROOT.'../writable/cases/';
 //文件截图目录
-$G_ScreenPath = '../writable/screenshots/';
+$G_ScreenPath = ROOT.'../writable/screenshots/';
 //writeAble http地址
 $G_WriteURL = 'http://'.$_SERVER['HTTP_HOST'].'/server/writable/';
 //NodeJs运行URL
