@@ -1,5 +1,5 @@
 <?php
-include('./config.php');
+include(dirname(__FILE__).'/config.php');
 /**
  * 安全过滤
  */
