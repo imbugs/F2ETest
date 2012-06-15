@@ -86,8 +86,9 @@ function createTestJS($code){
 function reloadCode($testFile = ''){
     global $G_CasePath, $G_Case_header, $G_Case_footer;
     $codeFile = $G_CasePath.$testFile;
+
+    $code = '';
     if(!file_exists($codeFile)){
-        $code = '';
         return $code;
     }
 
