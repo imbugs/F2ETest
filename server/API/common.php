@@ -88,6 +88,7 @@ function reloadCode($testFile = ''){
     $codeFile = $G_CasePath.$testFile;
     if(!file_exists($codeFile)){
         $code = '';
+        return $code;
     }
 
     $file_handle = fopen($codeFile, "r");
