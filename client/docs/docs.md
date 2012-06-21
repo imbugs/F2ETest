@@ -70,67 +70,7 @@ webdriverNode中提供的所有方法都是异步的。为什么是异步？因�
         
 上面这段代码的执行顺序是 `a -> b -> c -> d -> e -> f `, 表明webdriverNode中的方法是支持嵌套的。具体的原理和细节，可以参考[SyncRun](https://github.com/neekey/syncrun).
 
-###目前提供的方法（不断添加中）
-
-* buttonDown
-* buttonUp
-* doDoubleClick
-* element
-* elementIdAttribute
-* elementIdClick
-* elementIdCssProperty
-* elementIdDisplayed
-* elementIdKeys
-* elementIdLocation
-* elementIdLocationInView
-* elementIdName
-* elementIdSize
-* elementIdText
-* elementIdValue
-* elements
-* execute
-* frame
-* init
-* moveTo
-* screenshot
-* session
-* status
-* submit
-* title
-* url
-* value
-* window
-* windowHandles
-* click
-* doubleClick
-* dragAndDrop
-* end
-* facebookLogin
-* getAttribute
-* getCssProperty
-* getElementCssProperty
-* getElementSize
-* getLocation
-* getLocationInView
-* getSize
-* getTagName
-* getText
-* getTitle
-* getValue
-* isVisible
-* lazySetValue
-* log
-* moveToObject
-* pause
-* saveScreenshot
-* sendKeys
-* setValue
-* submitForm
-* waitFor
-* textContainsile
-
-
-        
+###目前提供的方法[API](http://test.f2e.taobao.net/server/node_modules/webdriverNode/docs/index.html)
 
     
 
