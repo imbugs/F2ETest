@@ -18,6 +18,8 @@
 ##Server
 * （1）实现淘宝Login方法
 * （1）添加代码片段收集功能，增加custom文件夹，定期收集常用方法
+* （1）支持http外部测试脚本引入
+* （2）去回调化，返回的结果能够直接用=获取到，如var a = this.getAttribute('#d', 'src');
 * （2）实现测试脚本的录制，Selenium IDE
 * （3）opera浏览器多标签页bug
 * （4）用户脚本过滤，安全性
