@@ -6,6 +6,7 @@
                 <ul class="nav">
                     <li class="<?php if( isset( $pageName ) && $pageName === 'index' ) { ?>active<?php } ?>" ><a href="index.php">首页</a></li>
                     <li class="<?php if( isset( $pageName ) && $pageName === 'docs' ) { ?>active<?php } ?>" ><a href="docs.php">文档中心</a></li>
+                    <li class="<?php if( isset( $pageName ) && $pageName === 'apis' ) { ?>active<?php } ?>" ><a href="apis.php">API</a></li>
                     <li class="<?php if( isset( $pageName ) && $pageName === 'about' ) { ?>active<?php } ?>" ><a href="about.php">关于</a></li>
                 </ul>
             </div>

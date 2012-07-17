@@ -12,10 +12,10 @@ $G_ServerList = array(
         array('ip'=>'10.13.15.47', 'port'=>4444)
     ),
     'ie7' => array(
-        array('ip'=>'10.13.51.108', 'port'=>4444)
+        array('ip'=>'10.13.51.83', 'port'=>4444)
     ),
     'ie8' => array(
-
+        array('ip'=>'10.13.51.82', 'port'=>4444)
     ),
     'ie9' => array(
 
@@ -23,15 +23,21 @@ $G_ServerList = array(
     'ie10' => array(
     ),
     'firefox' => array(
-        array('ip'=>'10.13.51.85', 'port'=>4444)
+        array('ip'=>'10.13.51.82', 'port'=>4444),
+        array('ip'=>'10.13.51.83', 'port'=>4444)
     ),
     'chrome' => array(
+        array('ip'=>'10.13.51.83', 'port'=>4444),
         array('ip'=>'10.13.51.85', 'port'=>4444)
     ),
     'opera' => array(
+        array('ip'=>'10.13.51.82', 'port'=>4444),
+        array('ip'=>'10.13.51.83', 'port'=>4444),
         array('ip'=>'10.13.51.85', 'port'=>4444)
     ),
     'htmlunit' => array(
+        array('ip'=>'10.13.51.82', 'port'=>4444),
+        array('ip'=>'10.13.51.83', 'port'=>4444),
         array('ip'=>'10.13.51.85', 'port'=>4444)
     )
 );
@@ -48,3 +54,6 @@ $G_NodeURL = 'http://localhost:8800/';
 
 $G_Case_header = "exports.run = function(client, response, next ){\n";
 $G_Case_footer = "\n client.saveScreenshot();\n client.end(function( logs, results ){ next( logs, results ); } ); \n};";
+
+//邮件列表
+$G_MailListPath = ROOT.'../writable/mail_list.xml';

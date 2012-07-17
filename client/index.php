@@ -19,22 +19,29 @@
 <?php $pageName = 'index'; include "common/nav.php"; ?>
 <div id="content" class="container">
         <div id="main" class="">
-            <div class="alert alert-info" id="index-intro"><?php include "docs/indexIntro.php"; ?></div>
+            <div class="alert alert-info" id="index-intro">
+                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                <?php include "docs/indexIntro.php"; ?>
+            </div>
             <div id="input-wrap" class="span11">
 
-                <div id="script-wrap" style=""><?=reloadCode($_GET['testFile'])?></div>
-                <p id="browsers" class="span6">
-                    <span class="browser chrome" data-type="chrome"><input type="checkbox" value="chrome">chrome</span>
-                    <span class="browser firefox" data-type="firefox"><input type="checkbox" value="firefox">firefox</span>
-                    <span class="browser opera" data-type="opera"><input type="checkbox" value="opera">opera</span>
-                    <span class="browser ie6" data-type="ie6"><input type="checkbox" value="ie6">ie6</span>
-                    <span class="browser ie7" data-type="ie7"><input type="checkbox" value="ie7">ie7</span>
-                    <span class="browser ie8" data-type="ie8"><input type="checkbox" value="ie8">ie8</span>
-                    <span class="browser ie9" data-type="ie9"><input type="checkbox" value="ie9">ie9</span>
-                </p>
-                <p id="run-btn-wrap" class=" span1 offset3">
-                    <input id="run-test-btn" type="button" class="btn btn-primary btn-large" value="测试" >
-                </p>
+                    <div id="script-wrap" class=""><?=reloadCode($_GET['testFile'])?></div>
+                <div class="row">
+                    <div id="browsers" class="span6 btn-group" data-toggle="buttons-checkbox">
+                        <button class="browser btn" data-loading-text="chrome" data-type="chrome">chrome</button>
+                        <button class="browser btn" data-loading-text="firefox 7" data-type="firefox">firefox 7</button>
+                        <button class="browser btn" data-loading-text="opera 11" data-type="opera">opera 11</button>
+                        <button class="browser btn" data-loading-text="ie6" data-type="ie6">ie6</button>
+                        <button class="browser btn" data-loading-text="ie7" data-type="ie7">ie7</button>
+                        <button class="browser btn" data-loading-text="ie8" data-type="ie8">ie8</button>
+                        <button class="browser btn" data-loading-text="ie9" data-type="ie9">ie9</button>
+                        <button class="browser btn" data-loading-text="ie10" data-type="ie10">ie10</button>
+                    </div>
+                    <p id="run-btn-wrap" class=" span3 offset2">
+                        <a class="btn btn-large" id="view-jobs-btn" href="#viewJobsModal" >查看全部任务</a>
+                        <input id="run-test-btn" type="button" class="btn btn-primary btn-large" value="立即测试" />
+                    </p>
+                </div>
                 <div class="input-error alert span10">
                 </div>
 
@@ -61,6 +68,55 @@
             </div>
         </div>
         <div id="footer"></div>
+        <div class="modal fade hide" id="addEmailModal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>添加本测试到定时任务</h3>
+            </div>
+            <div class="modal-body">
+                <p>每天凌晨会将结果发送到您的邮箱，多个请用,隔开</p>
+                <div class="input-prepend">
+                    <span class="add-on" style="margin-bottom: 9px;"><i class="icon-pencil"></i></span><input class="span2" id="job-title" placeholder="任务标题" type="text">
+                </div>
+                <div class="input-prepend">
+                    <span class="add-on" style="margin-bottom: 9px;"><i class="icon-envelope"></i></span><input class="span2" id="job-emails" placeholder="Email" type="text">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">关闭</a>
+                <a href="#" id="add-email-btn" class="btn btn-primary">确定</a>
+            </div>
+        </div>
+        <div class="modal fade hide" id="viewJobsModal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>任务列表</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>标题</th>
+                        <th>邮箱</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>任务标题</td>
+                        <td>xixia.sm@taobao.com,xixia.sm@taobao.com</td>
+                        <td>
+                            <a href="#" class="btn btn-mini" target="_blank">查看</a>
+                            <a href="#" class="btn btn-mini btn-danger" target="_blank">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" data-dismiss="modal">关闭</a>
+            </div>
+        </div>
     </div>
 
     <script type="text/html" id="test-info-pane-tpl">
@@ -171,6 +227,5 @@
         </li>
         <% } %>
     </script>
-
 </body>
 </html>

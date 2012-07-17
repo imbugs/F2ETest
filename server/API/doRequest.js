@@ -40,7 +40,7 @@ http.createServer(function(request, response) {
         "desiredCapabilities":{
             "browserName":data.type
         },
-        screenshotPath: '../writable/screenshots/'
+        screenshotPath: __dirname + '/../writable/screenshots/'
     });
 
     // 执行用户脚本...并返回log

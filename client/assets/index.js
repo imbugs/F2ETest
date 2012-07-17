@@ -5,9 +5,10 @@
 //        BROWSER_STAT: 'http://f2etest/client/fake/stat.php',
 //        REQUEST_TEST: 'http://f2etest/client/fake/test.php',
 
-        BROWSER_STAT: '../server/API/serverStatus.php',
-        REQUEST_TEST: '../server/API/doRequest.php',
-        MULT_REQUEST_TEST: '../server/API/multiTestJson.php'
+        BROWSER_STAT: 'http://'+ location.hostname + '/server/API/serverStatus.php',
+        REQUEST_TEST: 'http://'+ location.hostname + '/server/API/doRequest.php',
+        DO_MAIL_LIST: 'http://'+ location.hostname + '/server/API/doMailList.php',
+        MULT_REQUEST_TEST: 'http://'+ location.hostname + '/server/API/multiTestJson.php'
     };
 
     $( document).ready(function (){
@@ -56,6 +57,7 @@
                 this.alertEl = this.$( '.input-error').hide();
                 this.runBtn = this.$( '#run-test-btn' );
 
+                $("button.browser").button('loading');
                 this.TestInfo.hide();
                 this.attachModel();
                 this.attach();
@@ -76,8 +78,11 @@
 
             events: {
                 'change #testcode-area': 'onTestcodeChange',
-                'click #browsers input[type=checkbox]': 'onRequestBrowsersChange',
-                'click #run-test-btn': 'onRunBtnClick'
+                'click #browsers button.browser': 'onRequestBrowsersChange',
+                'click #run-test-btn': 'onRunBtnClick',
+                'click #add-email-btn': 'addEmailBtnClick',
+                'click .J_Del_Job': 'delJobBtnClick',
+                'click #view-jobs-btn': 'viewJobsBtnClick'
             },
 
 //            render: function (){
@@ -109,12 +114,14 @@
             },
             //显示 所有测试已完毕 状态
             showFinish: function(){
-                var msg =  '所有测试完毕! <a href="?testFile={{script}}">再次运行</a> | <a href="' + API.MULT_REQUEST_TEST + '?testFile={{script}}&types={{types}}" target="_blank">JSON结果</a>';
+                var msg =  '所有测试完毕! <a href="?testFile={{script}}">再次运行</a>  ' +
+                           '| <a href="' + API.MULT_REQUEST_TEST + '?testFile={{script}}&types={{types}}" target="_blank">JSON结果</a> ' +
+                           '| <a href="#addEmailModal" data-toggle="modal"  title="每天凌晨会定时检查，并邮件结果给您">定时任务</a> ';
                 try{
                     msg = msg.replace(/{{script}}/g, main.curData.script);
                     msg = msg.replace(/{{types}}/g, main.model.attributes.requestBrowser.join('|'));
-                }catch(e){}
-                this.showAlert(msg, 'success' );
+                    this.showAlert(msg, 'success' );
+                }catch(e){}this.showAlert(msg, 'success' );
             },
 
             /**
@@ -152,13 +159,11 @@
 
                 if( ifAble ){
 
-                    browserSpan.removeClass( 'unavailable' );
-                    browserSpan.find( 'input').removeAttr( 'disabled' );
+                    browserSpan.button('reset');
                 }
                 else {
 
-                    browserSpan.addClass( 'unavailable' );
-                    browserSpan.find( 'input').attr( 'disabled', 'disabled' );
+                    browserSpan.button('loading');
                 }
 
             },
@@ -228,33 +233,81 @@
              * 当浏览器选择发生变化
              */
             onRequestBrowsersChange: function (){
+                var self = this;
+                setTimeout(function(){
+                    var checkboxes = self.browserListEl.find( 'button.browser' );
+                    var requestBrowsers = [];
 
-                var checkboxes = this.browserListEl.find( 'input[type=checkbox]' );
-                var requestBrowsers = [];
+                    $( checkboxes).each(function (){
 
-                $( checkboxes).each(function (){
+                        var checkbox = $( this );
+                        var name;
 
-                    var checkbox = $( this );
-                    var name;
+                        if( checkbox.hasClass( 'active' ) ){
 
-                    if( checkbox.prop( 'checked' ) ){
+                            name = checkbox.attr('data-type');
 
-                        name = checkbox.parent().attr( 'data-type' );
+                            requestBrowsers.push( name );
+                        }
+                    });
 
-                        requestBrowsers.push( name );
+    //                console.log( availableBrowsers );
+
+                    self.model.set({
+                        requestBrowser: requestBrowsers
+                    });
+                }, 0);
+            },
+            addEmailBtnClick: function(ev){
+                var emails = $('#job-emails').val(),
+                    title = $('#job-title').val();
+                var script;
+                try{
+                    script  = main.curData.script;
+                }catch(e){
+                    script = 'none';
+                }
+                if(!emails){
+                    return;
+                }
+                var reqURI = API.DO_MAIL_LIST + '?action=add&emails=' + emails + '&script=' +
+                    encodeURIComponent(API.MULT_REQUEST_TEST + '?testFile=' + script + '&types=' + main.model.attributes.requestBrowser.join('|')) +
+                    '&title=' + title;
+                $.ajax(reqURI).done(function(data){
+                    $('#addEmailModal').modal('hide');
+                });
+            },
+            viewJobsBtnClick: function(ev){
+                $.ajax(API.DO_MAIL_LIST,{dataType: 'jsonp'}).done(function(data){
+                    debugger
+                    var jobs = $.isArray(data.job) ? data.job : [data.job],
+                        job,
+                        trs = '';
+                    while(job = jobs.pop()){
+                        trs +='<tr>';
+                        trs += '<td>'+job["@attributes"]['title']+'</td>';
+                        trs += '<td>'+job.email+'</td>';
+                        trs += '<td><a href="'+ job["@attributes"]['script'].replace('server/API/multiTestJson.php', 'client/index.php') +'" class="btn btn-mini" target="_blank">查看</a>&nbsp;<a href="#" data-job-script="'+ job["@attributes"]['script'] +'" class="btn btn-mini btn-danger J_Del_Job" target="_blank">删除</a></td>';
+                        trs +='</tr>';
                     }
+                    $('#viewJobsModal tbody').html(trs);
+                    $('#viewJobsModal').modal('show');
                 });
+                return false;
+            },
+            delJobBtnClick: function(ev){
+                if(!confirm('确定要删除？'))return false;
 
-//                console.log( availableBrowsers );
-
-                this.model.set({
-                    requestBrowser: requestBrowsers
-                });
-
+                var reqURI = API.DO_MAIL_LIST + '?action=del&script=' + encodeURIComponent($(ev.currentTarget).attr('data-job-script'));
+                $.ajax(reqURI,{dataType: 'jsonp'});
+                $(ev.currentTarget).parent().parent().fadeOut(500).remove();
+                return false;
             },
 
-            onRunBtnClick: function (){
-
+            onRunBtnClick: function (ev){
+                if(this.runBtn.hasClass('disabled')){
+                    return;
+                }
                 this.model.set({
                     testCode: this.codeEditor.getSession().getValue()
                 });

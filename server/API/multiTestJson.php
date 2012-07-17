@@ -35,7 +35,7 @@ if(count($types) == 0 || $testFile == ''){
     die();
 }
 
-$all_count = count($types);
+$all_count = 0;
 $avi_count = 0;
 while($type = array_pop($types)){
     $all_count++;
@@ -46,6 +46,6 @@ while($type = array_pop($types)){
         $json['result'][$type]['tests'] = $ret['result'][3];
     }
 }
-$json['passrate'] = $avi_count / $all_count;
+$json['passrate'] = $all_count == 0 ? 0 : $avi_count / $all_count;
 echo jsonp_encode($json);
 ?>

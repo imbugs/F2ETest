@@ -88,16 +88,33 @@ function reloadCode($testFile = ''){
     $codeFile = $G_CasePath.$testFile;
 
     $code = '';
-    if(!file_exists($codeFile)){
-        return $code;
-    }
 
-    $file_handle = fopen($codeFile, "r");
-    while (!feof($file_handle)) {
-        $line = fgets($file_handle);
-        $code .= $line;
+    if(!preg_match("/^http/i", $testFile)){
+        //本地文件
+        if(is_dir($codeFile) || !file_exists($codeFile)){
+            $codeFile = $G_CasePath.'default.js';
+
+            if(!file_exists($codeFile)){
+                return '//无默认用例，请参看文档';
+            }
+        }
+
+        $file_handle = fopen($codeFile, "r");
+        while (!feof($file_handle)) {
+            $line = fgets($file_handle);
+            $code .= $line;
+        }
+        fclose($file_handle);
+    }else{
+        //http网络文件
+        $ch = curl_init();
+        $timeout = 5;
+        curl_setopt ($ch, CURLOPT_URL, $testFile);
+        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $code = curl_exec($ch);
+        curl_close($ch);
     }
-    fclose($file_handle);
 
     $code = str_replace($G_Case_header, '', $code);
     $code = str_replace($G_Case_footer, '', $code);
@@ -332,7 +349,7 @@ function doRequest($type = '', $testCode = '', $jsPath = '', $host = ''){
 
     //浏览器类型，如果不指定将使用HtmlUnit模式
     if(!in_array($type, array_keys($G_ServerList))){
-        $ret->errorMsg = '不支持的浏览器类型';
+        $ret['errorMsg'] = '不支持的浏览器类型';
         return $ret;
     }
 
