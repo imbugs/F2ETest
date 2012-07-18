@@ -27,7 +27,6 @@ $G_ServerList = array(
         array('ip'=>'10.13.51.83', 'port'=>4444)
     ),
     'chrome' => array(
-        array('ip'=>'10.13.51.83', 'port'=>4444),
         array('ip'=>'10.13.51.85', 'port'=>4444)
     ),
     'opera' => array(

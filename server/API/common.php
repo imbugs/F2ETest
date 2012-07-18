@@ -370,7 +370,8 @@ function doRequest($type = '', $testCode = '', $jsPath = '', $host = ''){
         // 对代码进行转码 但是其中的 ' 会被转化为 \'
         $testCode = urldecode( $testCode );
         // 将 \' 转化回 '
-        $testCode = stripslashes( $testCode );
+        $testCode = str_replace('\\\'', '\'', $testCode);
+        //$testCode = stripslashes( $testCode );
         // 对代码进行过滤处理
         $testCode = filterCode( $testCode );
 

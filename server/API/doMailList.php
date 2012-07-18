@@ -2,7 +2,7 @@
 include('./common.php');
 
 /**
- * ÔöÉ¾¶¨Ê±ÈÎÎñÁĞ±í
+ * å¢åˆ å®šæ—¶ä»»åŠ¡åˆ—è¡¨
  */
 
 if(is_dir($G_MailListPath) || !file_exists($G_MailListPath)){
@@ -46,21 +46,21 @@ function deleteJob($script){
     $mail_list->save($G_MailListPath);
 }
 /**
- * ¸ù¾İjsonÊı¾İ¸ñÊ½»¯ÓÊ¼ş
- * @param $message »ñÈ¡µ½µÄjsonÊı¾İ
- * @return string ¸ñÊ½»¯ºóµÄhtmlÄ£°å
+ * æ ¹æ®jsonæ•°æ®æ ¼å¼åŒ–é‚®ä»¶
+ * @param $message è·å–åˆ°çš„jsonæ•°æ®
+ * @return string æ ¼å¼åŒ–åçš„htmlæ¨¡æ¿
  */
 function _makeEMail($url){
     $message = uc_fopen($url);
-    $NO_RESULT_TMP = '<p class="MsoNormal"><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">¶Ô²»Æğ²âÊÔÏµÍ³Î´·µ»ØÊı¾İ£¬¿ÉÄÜÊÇ²âÊÔ¼¯Èº¹ÒÁË£¡</span></p><p class="MsoNormal"></p><p class="MsoNormal"align="right"style="text-align:right"><span style="font-size:9.0pt;color:#1f497d">F2E×Ô¶¯»¯Ò³Ãæ²âÊÔ£¬ÓĞÈÎºÎÎÊÌâÇëÁªÏµÏªÏÄ£¬ÒşÈô¡£</span></p>';
-    $OK_RESULT_TMP = '<p class="MsoNormal"><b><span style="font-size:18.0pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;;color:#00b050">¹§Ï²</span></b><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">£¬ÄúµÄ²âÊÔÓÃÓÚÍêÈ«Í¨¹ı£¡</span></p><p class="MsoNormal"></p><h3 style="margin:0cm;margin-bottom:.0001pt;line-height:20.25pt"><span style="font-size:12.0pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;;color:#00b050">²âÊÔÍ³¼Æ£º<span>Suite:{{suite}},Spec:{{spec}},Assert:{{item}}</span></span></h3><p class="MsoNormal"></p><p class="MsoNormal"><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">ÏêÇéÇë·ÃÎÊ£º<span><a href="{{detailURI}}" target="_blank">{{detailURI}}</a></span></span></p><p class="MsoNormal"><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">&nbsp;</span></p>';
-    $ERR_RESULT_TMP = '<p class="MsoNormal"><b><span style="font-size:18.0pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;;color:#c0504d">³öÎÊÌâÁË</span></b><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">£¬ÄúµÄ²âÊÔÓÃÀıÎ´ÍêÈ«Í¨¹ı£¡</span></p><p class="MsoNormal"></p><p class="MsoNormal"align="left"style="text-align:left;line-height:20.25pt"><b><span style="font-size:12.0pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;;color:#00b050">²âÊÔÍ³¼Æ£º<span>Suite:{{suite}},Spec:{{spec}},Assert:{{item}}</span></span></b><b><span style="font-size:12.0pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;;color:#c0504d">,&nbsp;Suite-Failure:{{suiteFailure}},Spec-Failure:{{specFailure}},Assert-Failure:{{itemFailure}}</span></b><b><span style="font-size:12.0pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;;color:#00b050"></span></b></p><p class="MsoNormal"><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">&nbsp;</span></p><p class="MsoNormal"><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">ÏêÇéÇë·ÃÎÊ£º<span><a href="{{detailURI}}"target="_blank">{{detailURI}}</a></span></span></p>';
+    $NO_RESULT_TMP = '<p class="MsoNormal"><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">å¯¹ä¸èµ·æµ‹è¯•ç³»ç»Ÿæœªè¿”å›æ•°æ®ï¼Œå¯èƒ½æ˜¯æµ‹è¯•é›†ç¾¤æŒ‚äº†ï¼</span></p><p class="MsoNormal"></p><p class="MsoNormal"align="right"style="text-align:right"><span style="font-size:9.0pt;color:#1f497d">F2Eè‡ªåŠ¨åŒ–é¡µé¢æµ‹è¯•ï¼Œæœ‰ä»»ä½•é—®é¢˜è¯·è”ç³»æºªå¤ï¼Œéšè‹¥ã€‚</span></p>';
+    $OK_RESULT_TMP = '<p class="MsoNormal"><b><span style="font-size:18.0pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;;color:#00b050">æ­å–œ</span></b><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">ï¼Œæ‚¨çš„æµ‹è¯•ç”¨äºå®Œå…¨é€šè¿‡ï¼</span></p><p class="MsoNormal"></p><h3 style="margin:0cm;margin-bottom:.0001pt;line-height:20.25pt"><span style="font-size:12.0pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;;color:#00b050">æµ‹è¯•ç»Ÿè®¡ï¼š<span>Suite:{{suite}},Spec:{{spec}},Assert:{{item}}</span></span></h3><p class="MsoNormal"></p><p class="MsoNormal"><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">è¯¦æƒ…è¯·è®¿é—®ï¼š<span><a href="{{detailURI}}" target="_blank">{{detailURI}}</a></span></span></p><p class="MsoNormal"><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">&nbsp;</span></p>';
+    $ERR_RESULT_TMP = '<p class="MsoNormal"><b><span style="font-size:18.0pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;;color:#c0504d">å‡ºé—®é¢˜äº†</span></b><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">ï¼Œæ‚¨çš„æµ‹è¯•ç”¨ä¾‹æœªå®Œå…¨é€šè¿‡ï¼</span></p><p class="MsoNormal"></p><p class="MsoNormal"align="left"style="text-align:left;line-height:20.25pt"><b><span style="font-size:12.0pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;;color:#00b050">æµ‹è¯•ç»Ÿè®¡ï¼š<span>Suite:{{suite}},Spec:{{spec}},Assert:{{item}}</span></span></b><b><span style="font-size:12.0pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;;color:#c0504d">,&nbsp;Suite-Failure:{{suiteFailure}},Spec-Failure:{{specFailure}},Assert-Failure:{{itemFailure}}</span></b><b><span style="font-size:12.0pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;;color:#00b050"></span></b></p><p class="MsoNormal"><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">&nbsp;</span></p><p class="MsoNormal"><span style="font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,&quot;sans-serif&quot;">è¯¦æƒ…è¯·è®¿é—®ï¼š<span><a href="{{detailURI}}"target="_blank">{{detailURI}}</a></span></span></p>';
 
     $MSG = json_decode($message);
     if(count($MSG->result) == 0){
         return $NO_RESULT_TMP;
     }
-    //´Ë´¦¼òµ¥´¦ÀíµÚÒ»¸öä¯ÀÀÆ÷½á¹û£¬µÈ´ıÓÊ¼şÄ£°å¼ÓÇ¿
+    //æ­¤å¤„ç®€å•å¤„ç†ç¬¬ä¸€ä¸ªæµè§ˆå™¨ç»“æœï¼Œç­‰å¾…é‚®ä»¶æ¨¡æ¿åŠ å¼º
     foreach($MSG->result as $result){
         break;
     };
@@ -83,7 +83,7 @@ function _makeEMail($url){
     return $formatted;
 }
 function mailInfo($mail_list_array){
-    //¼ÓÒ»¸öÈôÓĞÈôÎŞµÄ°²È«ÏŞÖÆ
+    //åŠ ä¸€ä¸ªè‹¥æœ‰è‹¥æ— çš„å®‰å…¨é™åˆ¶
     if($_GET['token'] != '9527'){
         return;
     }
@@ -94,11 +94,11 @@ function mailInfo($mail_list_array){
         $to = $job->email;
         $subject = $job->attributes()->title;
 
-        $from = 'F2ETest <F2ETest@feeqi.com>';//·¢¼şÈËµØÖ·
+        $from = 'F2ETest <F2ETest@feeqi.com>';//å‘ä»¶äººåœ°å€
         $headers = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=gb2312' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
         $headers .= 'From: ' . $from . "\r\n";
-        mail($to, $subject, $message, $headers);
+        mail($to, "=?utf-8?B?".base64_encode($subject)."?=", $message, $headers);
     }
 }
 
