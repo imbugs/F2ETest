@@ -1,4 +1,22 @@
-##F2ETEST 基于selenium2 & webdriverjs 的前端自动化测试平台
+#F2ETEST 基于selenium2 & webdriverjs 的前端自动化测试平台
+##如何让这个测试平台跑起来
+###服务端
+* 服务端需要有php运行环境
+* 服务端需要有nodeJs运行环境
+满足以上两条后运行
+
+    node server/API/doResquest.js
+
+推荐使用forever运行，以避免意外挂掉
+
+    forever server/API/doResquest.js
+###测试机配置
+* 测试机没有多余要求，只要能够运行JAVA即可，最新的selenium-server-standalone-x.x.x.jar请到http://code.google.com/p/selenium/downloads/list下载
+* windows机器请直接运行server/selenium.server/monitor.bat
+* 其他平台请参照start.cmd 适当修改
+* 测试机配置好厚需要修改服务端的server/API/config.php文件，增加相应的配置
+
+##相关接口约定
 
 ### Server API
 
