@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="assets/index.css" media="all">
     <script type="text/javascript" src="assets/lib/bootstrap/js/bootstrap.min.js"></script>
-    <title></title>
+    <title>关于 - F2E 自动化页面测试</title>
 </head>
 <body>
 <?php $pageName = 'about';  include "common/nav.php"; ?>

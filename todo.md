@@ -27,9 +27,9 @@
 * （1）添加代码片段收集功能，增加custom文件夹，定期收集常用方法
 * （2）去回调化，返回的结果能够直接用=获取到，如var a = this.getAttribute('#d', 'src');
 * （2）实现测试脚本的录制，Selenium IDE
-* （3）opera浏览器多标签页bug
 * （4）用户脚本过滤，安全性
 * （4）对client对象进一步封装,只暴露安全的方法
+* （0）opera浏览器多标签页bug 低版本opera无此bug
 * （0）实现定时任务，每天任务，邮件发送
 * （0）部署ie7、ie8、ie9
 * （0）实现类jasmine的describe it 等测试方法

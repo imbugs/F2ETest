@@ -13,7 +13,7 @@
     <script type="text/javascript" src="assets/lib/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/index.js"></script>
     <script type="text/javascript" src="assets/lib/ace/build/src/ace.js"></script>
-    <title></title>
+    <title>F2E 自动化页面测试</title>
 </head>
 <body>
 <?php $pageName = 'index'; include "common/nav.php"; ?>

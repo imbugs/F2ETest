@@ -6,7 +6,6 @@
 满足以上两条后运行
 
     node server/API/doResquest.js
-
 推荐使用forever运行，以避免意外挂掉
 
     forever server/API/doResquest.js
