@@ -27,17 +27,21 @@
 
                     <div id="script-wrap" class=""><?=reloadCode($_GET['testFile'])?></div>
                 <div class="row">
-                    <div id="browsers" class="span6 btn-group" data-toggle="buttons-checkbox">
-                        <button class="browser btn" data-loading-text="chrome" data-type="chrome">chrome</button>
-                        <button class="browser btn" data-loading-text="firefox 7" data-type="firefox">firefox 7</button>
-                        <button class="browser btn" data-loading-text="opera 11" data-type="opera">opera 11</button>
-                        <button class="browser btn" data-loading-text="ie6" data-type="ie6">ie6</button>
-                        <button class="browser btn" data-loading-text="ie7" data-type="ie7">ie7</button>
-                        <button class="browser btn" data-loading-text="ie8" data-type="ie8">ie8</button>
-                        <button class="browser btn" data-loading-text="ie9" data-type="ie9">ie9</button>
-                        <button class="browser btn" data-loading-text="ie10" data-type="ie10">ie10</button>
+                    <div class="span7 browser-info">
+                        <div id="browsers" class="span6 btn-group" data-toggle="buttons-checkbox">
+                            <button class="browser btn" data-loading-text="chrome" data-type="chrome">chrome</button>
+                            <button class="browser btn" data-loading-text="firefox 7" data-type="firefox">firefox 7</button>
+                            <button class="browser btn" data-loading-text="opera 11" data-type="opera">opera 11</button>
+                            <button class="browser btn" data-loading-text="ie6" data-type="ie6">ie6</button>
+                            <button class="browser btn" data-loading-text="ie7" data-type="ie7">ie7</button>
+                            <button class="browser btn" data-loading-text="ie8" data-type="ie8">ie8</button>
+                            <button class="browser btn" data-loading-text="ie9" data-type="ie9">ie9</button>
+                            <button class="browser btn" data-loading-text="ie10" data-type="ie10">ie10</button>
+                        </div>
+                        <span class="browser-stat-refresh btn btn-info"><i class="icon-refresh icon-white"></i></span>
                     </div>
-                    <p id="run-btn-wrap" class=" span3 offset2">
+
+                    <p id="run-btn-wrap" class="offset1 span3">
                         <a class="btn btn-large" id="view-jobs-btn" href="#viewJobsModal" >查看全部任务</a>
                         <input id="run-test-btn" type="button" class="btn btn-primary btn-large" value="立即测试" />
                     </p>

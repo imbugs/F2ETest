@@ -82,7 +82,8 @@
                 'click #run-test-btn': 'onRunBtnClick',
                 'click #add-email-btn': 'addEmailBtnClick',
                 'click .J_Del_Job': 'delJobBtnClick',
-                'click #view-jobs-btn': 'viewJobsBtnClick'
+                'click #view-jobs-btn': 'viewJobsBtnClick',
+                'click .browser-info .browser-stat-refresh': 'onBrowserStatRefresh'
             },
 
 //            render: function (){
@@ -302,6 +303,14 @@
                 $.ajax(reqURI,{dataType: 'jsonp'});
                 $(ev.currentTarget).parent().parent().fadeOut(500).remove();
                 return false;
+            },
+
+            /**
+             * 当浏览器状态更新按钮被按下
+             */
+            onBrowserStatRefresh: function(){
+
+                this.model.getBrowserStat();
             },
 
             onRunBtnClick: function (ev){

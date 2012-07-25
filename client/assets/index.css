@@ -17,7 +17,10 @@
 #browsers {
     margin-top: 20px;
 }
-
+.browser-stat-refresh {
+    margin: 20px 0 0 -70px;
+    position: relative;
+}
 .browser {
     margin-right: 10px;
 }
