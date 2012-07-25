@@ -53,18 +53,14 @@ function onMouseDown(e) {
     var ctrl = e.getAccelKey();
     var button = e.getButton();
 
+    if (e.editor.inMultiSelectMode && button == 2) {
+        e.editor.textInput.onContextMenu(e.domEvent);
+        return;
+    }
+    
     if (!ctrl && !alt) {
-        if (e.editor.inMultiSelectMode) {
-            if (button == 0) {
-                e.editor.exitMultiSelectMode();
-            } else if (button == 2) {
-                var editor = e.editor;
-                var selectionEmpty = editor.selection.isEmpty();
-                editor.textInput.onContextMenu({x: e.clientX, y: e.clientY}, selectionEmpty);
-                event.capture(editor.container, function(){}, editor.textInput.onContextMenuClose);
-                e.stop();
-            }
-        }
+        if (button == 0 && e.editor.inMultiSelectMode)
+            e.editor.exitMultiSelectMode();
         return;
     }
 
@@ -76,10 +72,10 @@ function onMouseDown(e) {
     var inSelection = e.inSelection() || (selection.isEmpty() && isSamePoint(pos, cursor));
 
 
-    var mouseX = e.pageX, mouseY = e.pageY;
+    var mouseX = e.x, mouseY = e.y;
     var onMouseSelection = function(e) {
-        mouseX = event.getDocumentX(e);
-        mouseY = event.getDocumentY(e);
+        mouseX = e.clientX;
+        mouseY = e.clientY;
     };
 
     var blockSelect = function() {

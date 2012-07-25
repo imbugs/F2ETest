@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/idle_fingers', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/idle_fingers', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-idle-fingers";
@@ -49,13 +49,13 @@ exports.cssText = "\
 }\
 \
 .ace-idle-fingers .ace_gutter {\
-  background: #e8e8e8;\
-  color: #333;\
+  background: #3b3b3b;\
+  color: #fff;\
 }\
 \
 .ace-idle-fingers .ace_print_margin {\
   width: 1px;\
-  background: #e8e8e8;\
+  background: #3b3b3b;\
 }\
 \
 .ace-idle-fingers .ace_scroller {\
@@ -63,12 +63,11 @@ exports.cssText = "\
 }\
 \
 .ace-idle-fingers .ace_text-layer {\
-  cursor: text;\
   color: #FFFFFF;\
 }\
 \
 .ace-idle-fingers .ace_cursor {\
-  border-left: 1px solid #91FF00;\
+  border-left: 2px solid #91FF00;\
 }\
 \
 .ace-idle-fingers .ace_cursor.ace_overwrite {\
@@ -80,8 +79,13 @@ exports.cssText = "\
   background: rgba(90, 100, 126, 0.88);\
 }\
 \
+.ace-idle-fingers.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #323232;\
+  border-radius: 2px;\
+}\
+\
 .ace-idle-fingers .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(102, 82, 0);\
 }\
 \
 .ace-idle-fingers .ace_marker-layer .ace_bracket {\
@@ -91,6 +95,10 @@ exports.cssText = "\
 \
 .ace-idle-fingers .ace_marker-layer .ace_active_line {\
   background: #353637;\
+}\
+\
+.ace-idle-fingers .ace_gutter_active_line {\
+  background-color: #353637;\
 }\
 \
 .ace-idle-fingers .ace_marker-layer .ace_selected_word {\

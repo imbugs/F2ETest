@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/crimson_editor', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/crimson_editor', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 exports.isDark = false;
 exports.cssText = ".ace-crimson-editor .ace_editor {\
   border: 2px solid rgb(159, 159, 159);\
@@ -46,8 +46,7 @@ exports.cssText = ".ace-crimson-editor .ace_editor {\
 }\
 \
 .ace-crimson-editor .ace_gutter {\
-  width: 50px;\
-  background: #e8e8e8;\
+  background: #ebebeb;\
   color: #333;\
   overflow : hidden;\
 }\
@@ -57,17 +56,12 @@ exports.cssText = ".ace-crimson-editor .ace_editor {\
   text-align: right;\
 }\
 \
-.ace-crimson-editor .ace_gutter-layer .ace_gutter-cell {\
-  padding-right: 6px;\
-}\
-\
 .ace-crimson-editor .ace_print_margin {\
   width: 1px;\
   background: #e8e8e8;\
 }\
 \
 .ace-crimson-editor .ace_text-layer {\
-  cursor: text;\
   color: rgb(64, 64, 64);\
 }\
 \
@@ -176,6 +170,10 @@ exports.cssText = ".ace-crimson-editor .ace_editor {\
 \
 .ace-crimson-editor .ace_marker-layer .ace_active_line {\
   background: rgb(232, 242, 254);\
+}\
+\
+.ace-crimson-editor .ace_gutter_active_line {\
+    background-color : #dcdcdc;\
 }\
 \
 .ace-crimson-editor .ace_meta.ace_tag {\

@@ -63,7 +63,7 @@ var Text = function(parentEl) {
 
     this.EOF_CHAR = "\xB6"; //"&para;";
     this.EOL_CHAR = "\xAC"; //"&not;";
-    this.TAB_CHAR = "\u2192"; //"&rarr;";
+    this.TAB_CHAR = "\u2192"; //"&rarr;" "\u21E5";
     this.SPACE_CHAR = "\xB7"; //"&middot;";
     this.$padding = 0;
 
@@ -131,7 +131,7 @@ var Text = function(parentEl) {
                 container.appendChild(measureNode);
             }
         }
-        
+
         // Size and width can be null if the editor is not visible or
         // detached from the document
         if (!this.element.offsetWidth)
@@ -153,7 +153,7 @@ var Text = function(parentEl) {
             return null;
 
         return size;
-    } 
+    }
     : function() {
         if (!this.$measureNode) {
             var measureNode = this.$measureNode = dom.createElement("div");
@@ -178,7 +178,7 @@ var Text = function(parentEl) {
 
             container.appendChild(measureNode);
         }
-        
+
         var rect = this.$measureNode.getBoundingClientRect();
 
         var size = {
@@ -259,8 +259,8 @@ var Text = function(parentEl) {
                 continue;
 
             var html = [];
-            var tokens = this.session.getTokens(i, i);
-            this.$renderLine(html, i, tokens[0].tokens, !this.$useLineGroups());
+            var tokens = this.session.getTokens(i);
+            this.$renderLine(html, i, tokens, !this.$useLineGroups());
             lineElement = dom.setInnerHtml(lineElement, html.join(""));
 
             i = this.session.getRowFoldEnd(i);
@@ -321,11 +321,8 @@ var Text = function(parentEl) {
             var html = [];
             // Get the tokens per line as there might be some lines in between
             // beeing folded.
-            // OPTIMIZE: If there is a long block of unfolded lines, just make
-            // this call once for that big block of unfolded lines.
-            var tokens = this.session.getTokens(row, row);
-            if (tokens.length == 1)
-                this.$renderLine(html, row, tokens[0].tokens, false);
+            var tokens = this.session.getTokens(row);
+            this.$renderLine(html, row, tokens, false);
 
             // don't use setInnerHtml since we are working with an empty DIV
             container.innerHTML = html.join("");
@@ -368,11 +365,8 @@ var Text = function(parentEl) {
 
             // Get the tokens per line as there might be some lines in between
             // beeing folded.
-            // OPTIMIZE: If there is a long block of unfolded lines, just make
-            // this call once for that big block of unfolded lines.
-            var tokens = this.session.getTokens(row, row);
-            if (tokens.length == 1)
-                this.$renderLine(html, row, tokens[0].tokens, false);
+            var tokens = this.session.getTokens(row);
+            this.$renderLine(html, row, tokens, false);
 
             if (this.$useLineGroups())
                 html.push("</div>"); // end the line group
@@ -388,23 +382,20 @@ var Text = function(parentEl) {
         "lparen": true
     };
 
-    this.$renderToken = function(stringBuilder, screenColumn, token, value) {        
+    this.$renderToken = function(stringBuilder, screenColumn, token, value) {
         var self = this;
-        var replaceReg = /\t|&|<|( +)|([\v\f \u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000])|[\u1100-\u115F]|[\u11A3-\u11A7]|[\u11FA-\u11FF]|[\u2329-\u232A]|[\u2E80-\u2E99]|[\u2E9B-\u2EF3]|[\u2F00-\u2FD5]|[\u2FF0-\u2FFB]|[\u3000-\u303E]|[\u3041-\u3096]|[\u3099-\u30FF]|[\u3105-\u312D]|[\u3131-\u318E]|[\u3190-\u31BA]|[\u31C0-\u31E3]|[\u31F0-\u321E]|[\u3220-\u3247]|[\u3250-\u32FE]|[\u3300-\u4DBF]|[\u4E00-\uA48C]|[\uA490-\uA4C6]|[\uA960-\uA97C]|[\uAC00-\uD7A3]|[\uD7B0-\uD7C6]|[\uD7CB-\uD7FB]|[\uF900-\uFAFF]|[\uFE10-\uFE19]|[\uFE30-\uFE52]|[\uFE54-\uFE66]|[\uFE68-\uFE6B]|[\uFF01-\uFF60]|[\uFFE0-\uFFE6]/g;
+        var replaceReg = /\t|&|<|( +)|([\u0000-\u0019\u00a0\u1680\u180E\u2000-\u200b\u2028\u2029\u202F\u205F\u3000\uFEFF])|[\u1100-\u115F\u11A3-\u11A7\u11FA-\u11FF\u2329-\u232A\u2E80-\u2E99\u2E9B-\u2EF3\u2F00-\u2FD5\u2FF0-\u2FFB\u3000-\u303E\u3041-\u3096\u3099-\u30FF\u3105-\u312D\u3131-\u318E\u3190-\u31BA\u31C0-\u31E3\u31F0-\u321E\u3220-\u3247\u3250-\u32FE\u3300-\u4DBF\u4E00-\uA48C\uA490-\uA4C6\uA960-\uA97C\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFAFF\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE66\uFE68-\uFE6B\uFF01-\uFF60\uFFE0-\uFFE6]/g;
         var replaceFunc = function(c, a, b, tabIdx, idx4) {
-            if (c.charCodeAt(0) == 32) {
+            if (a) {
                 return new Array(c.length+1).join("&#160;");
+            } else if (c == "&") {
+                return "&#38;";
+            } else if (c == "<") {
+                return "&#60;";
             } else if (c == "\t") {
                 var tabSize = self.session.getScreenTabSize(screenColumn + tabIdx);
                 screenColumn += tabSize - 1;
                 return self.$tabStrings[tabSize];
-            } else if (c == "&") {
-                if (useragent.isOldGecko)
-                    return "&";
-                else
-                    return "&amp;";
-            } else if (c == "<") {
-                return "&lt;";
             } else if (c == "\u3000") {
                 // U+3000 is both invisible AND full-width, so must be handled uniquely
                 var classToUse = self.showInvisibles ? "ace_cjk ace_invisible" : "ace_cjk";
@@ -413,13 +404,8 @@ var Text = function(parentEl) {
                 return "<span class='" + classToUse + "' style='width:" +
                     (self.config.characterWidth * 2) +
                     "px'>" + space + "</span>";
-            } else if (c.match(/[\v\f \u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]/)) {
-                if (self.showInvisibles) {
-                    var space = new Array(c.length+1).join(self.SPACE_CHAR);
-                    return "<span class='ace_invisible'>" + space + "</span>";
-                } else {
-                    return "&#160;";
-                }
+            } else if (b) {
+                return "<span class='ace_invisible ace_invalid'>" + self.SPACE_CHAR + "</span>";
             } else {
                 screenColumn += 1;
                 return "<span class='ace_cjk' style='width:" +
@@ -461,7 +447,7 @@ var Text = function(parentEl) {
                 "'>"
             );
         }
-        
+
         for (var i = 0; i < tokens.length; i++) {
             var token = tokens[i];
             var value = token.value;
@@ -475,12 +461,12 @@ var Text = function(parentEl) {
             else {
                 while (chars + value.length >= splitChars) {
                     screenColumn = self.$renderToken(
-                        stringBuilder, screenColumn, 
+                        stringBuilder, screenColumn,
                         token, value.substring(0, splitChars - chars)
                     );
                     value = value.substring(splitChars - chars);
                     chars = splitChars;
-                    
+
                     if (!onlyContents) {
                         stringBuilder.push("</div>",
                             "<div class='ace_line' style='height:",
@@ -524,9 +510,9 @@ var Text = function(parentEl) {
     };
 
     this.$renderFoldLine = function(stringBuilder, row, tokens, onlyContents) {
-        var session = this.session,
-            foldLine = session.getFoldLine(row),
-            renderTokens = [];
+        var session = this.session;
+        var foldLine = session.getFoldLine(row);
+        var renderTokens = [];
 
         function addTokens(tokens, from, to) {
             var idx = 0, col = 0;
@@ -534,16 +520,14 @@ var Text = function(parentEl) {
                 col += tokens[idx].value.length;
                 idx++;
 
-                if (idx == tokens.length) {
+                if (idx == tokens.length)
                     return;
-                }
             }
             if (col != from) {
                 var value = tokens[idx].value.substring(from - col);
                 // Check if the token value is longer then the from...to spacing.
-                if (value.length > (to - from)) {
+                if (value.length > (to - from))
                     value = value.substring(0, to - from);
-                }
 
                 renderTokens.push({
                     type: tokens[idx].type,
@@ -554,15 +538,15 @@ var Text = function(parentEl) {
                 idx += 1;
             }
 
-            while (col < to) {
+            while (col < to && idx < tokens.length) {
                 var value = tokens[idx].value;
                 if (value.length + col > to) {
-                    value = value.substring(0, to - col);
-                }
-                renderTokens.push({
-                    type: tokens[idx].type,
-                    value: value
-                });
+                    renderTokens.push({
+                        type: tokens[idx].type,
+                        value: value.substring(0, to - col)
+                    });
+                } else
+                    renderTokens.push(tokens[idx]);
                 col += value.length;
                 idx += 1;
             }
@@ -570,28 +554,27 @@ var Text = function(parentEl) {
 
         foldLine.walk(function(placeholder, row, column, lastColumn, isNewRow) {
             if (placeholder) {
-               renderTokens.push({
+                renderTokens.push({
                     type: "fold",
                     value: placeholder
                 });
             } else {
-                if (isNewRow) {
-                   tokens = this.session.getTokens(row, row)[0].tokens;
-                }
-                if (tokens.length != 0) {
-                    addTokens(tokens, lastColumn, column);
-                }
-            }
-        }.bind(this), foldLine.end.row, this.session.getLine(foldLine.end.row).length);
+                if (isNewRow)
+                    tokens = session.getTokens(row);
 
-        // TODO: Build a fake splits array!
-        var splits = this.session.$useWrapMode?this.session.$wrapData[row]:null;
+                if (tokens.length)
+                    addTokens(tokens, lastColumn, column);
+            }
+        }, foldLine.end.row, this.session.getLine(foldLine.end.row).length);
+
+        // splits for foldline are stored at its' first row
+        var splits = this.session.$useWrapMode ? this.session.$wrapData[row] : null;
         this.$renderLineCore(stringBuilder, row, renderTokens, splits, onlyContents);
     };
-    
+
     this.$useLineGroups = function() {
         // For the updateLines function to work correctly, it's important that the
-        // child nodes of this.element correspond on a 1-to-1 basis to rows in the 
+        // child nodes of this.element correspond on a 1-to-1 basis to rows in the
         // document (as distinct from lines on the screen). For sessions that are
         // wrapped, this means we need to add a layer to the node hierarchy (tagged
         // with the class name ace_line_group).

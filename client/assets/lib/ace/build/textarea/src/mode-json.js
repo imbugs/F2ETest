@@ -36,7 +36,7 @@
  * ***** END LICENSE BLOCK ***** */
 
 __ace_shadowed__.define('ace/mode/json', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text', 'ace/tokenizer', 'ace/mode/json_highlight_rules', 'ace/mode/matching_brace_outdent', 'ace/mode/behaviour/cstyle', 'ace/mode/folding/cstyle', 'ace/worker/worker_client'], function(require, exports, module) {
-"use strict";
+
 
 var oop = require("../lib/oop");
 var TextMode = require("./text").Mode;
@@ -79,7 +79,7 @@ oop.inherits(Mode, TextMode);
     };
 
     this.createWorker = function(session) {
-        var worker = new WorkerClient(["ace"], "worker-json.js", "ace/mode/json_worker", "JsonWorker");
+        var worker = new WorkerClient(["ace"], "ace/mode/json_worker", "JsonWorker");
         worker.attachToDocument(session.getDocument());
 
         worker.on("error", function(e) {
@@ -97,46 +97,10 @@ oop.inherits(Mode, TextMode);
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
-});/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *      Mihai Sucan <mihai DOT sucan AT gmail DOT com>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
+});
 
 __ace_shadowed__.define('ace/mode/json_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
-"use strict";
+
 
 var oop = require("../lib/oop");
 var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
@@ -148,8 +112,12 @@ var JsonHighlightRules = function() {
     this.$rules = {
         "start" : [
             {
+                token : "variable", // single line
+                regex : '["](?:(?:\\\\.)|(?:[^"\\\\]))*?["]\\s*(?=:)'
+            }, {
                 token : "string", // single line
-                regex : '["](?:(?:\\\\.)|(?:[^"\\\\]))*?["]'
+                regex : '"',
+                next  : "string"
             }, {
                 token : "constant.numeric", // hex
                 regex : "0[xX][0-9a-fA-F]+\\b"
@@ -175,6 +143,26 @@ var JsonHighlightRules = function() {
                 token : "text",
                 regex : "\\s+"
             }
+        ],
+        "string" : [
+            {
+                token : "constant.language.escape",
+                regex : /\\(?:x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})/
+            }, {
+                token : "string",
+                regex : '[^"\\\\]+',
+                merge : true
+            }, {
+                token : "string",
+                regex : '"',
+                next  : "start",
+                merge : true
+            }, {
+                token : "string",
+                regex : "",
+                next  : "start",
+                merge : true
+            }
         ]
     };
     
@@ -184,45 +172,9 @@ oop.inherits(JsonHighlightRules, TextHighlightRules);
 
 exports.JsonHighlightRules = JsonHighlightRules;
 });
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
 
 __ace_shadowed__.define('ace/mode/matching_brace_outdent', ['require', 'exports', 'module' , 'ace/range'], function(require, exports, module) {
-"use strict";
+
 
 var Range = require("../range").Range;
 
@@ -265,49 +217,12 @@ var MatchingBraceOutdent = function() {};
 
 exports.MatchingBraceOutdent = MatchingBraceOutdent;
 });
-/* vim:ts=4:sts=4:sw=4:
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Chris Spencer <chris.ag.spencer AT googlemail DOT com>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
 
 __ace_shadowed__.define('ace/mode/behaviour/cstyle', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/behaviour'], function(require, exports, module) {
-"use strict";
+
 
 var oop = require("../../lib/oop");
-var Behaviour = require('../behaviour').Behaviour;
+var Behaviour = require("../behaviour").Behaviour;
 
 var CstyleBehaviour = function () {
 
@@ -414,6 +329,49 @@ var CstyleBehaviour = function () {
         }
     });
 
+    this.add("brackets", "insertion", function (state, action, editor, session, text) {
+        if (text == '[') {
+            var selection = editor.getSelectionRange();
+            var selected = session.doc.getTextRange(selection);
+            if (selected !== "") {
+                return {
+                    text: '[' + selected + ']',
+                    selection: false
+                };
+            } else {
+                return {
+                    text: '[]',
+                    selection: [1, 1]
+                };
+            }
+        } else if (text == ']') {
+            var cursor = editor.getCursorPosition();
+            var line = session.doc.getLine(cursor.row);
+            var rightChar = line.substring(cursor.column, cursor.column + 1);
+            if (rightChar == ']') {
+                var matching = session.$findOpeningBracket(']', {column: cursor.column + 1, row: cursor.row});
+                if (matching !== null) {
+                    return {
+                        text: '',
+                        selection: [1, 1]
+                    };
+                }
+            }
+        }
+    });
+
+    this.add("brackets", "deletion", function (state, action, editor, session, range) {
+        var selected = session.doc.getTextRange(range);
+        if (!range.isMultiLine() && selected == '[') {
+            var line = session.doc.getLine(range.start.row);
+            var rightChar = line.substring(range.start.column + 1, range.start.column + 2);
+            if (rightChar == ']') {
+                range.end.column++;
+                return range;
+            }
+        }
+    });
+
     this.add("string_dquotes", "insertion", function (state, action, editor, session, text) {
         if (text == '"' || text == "'") {
             var quote = text;
@@ -435,7 +393,7 @@ var CstyleBehaviour = function () {
                 }
 
                 // Find what token we're inside.
-                var tokens = session.getTokens(selection.start.row, selection.start.row)[0].tokens;
+                var tokens = session.getTokens(selection.start.row);
                 var col = 0, token;
                 var quotepos = -1; // Track whether we're inside an open quote.
 
@@ -489,45 +447,10 @@ var CstyleBehaviour = function () {
 oop.inherits(CstyleBehaviour, Behaviour);
 
 exports.CstyleBehaviour = CstyleBehaviour;
-});/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
+});
 
 __ace_shadowed__.define('ace/mode/folding/cstyle', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/range', 'ace/mode/folding/fold_mode'], function(require, exports, module) {
-"use strict";
+
 
 var oop = require("../../lib/oop");
 var Range = require("../../range").Range;
@@ -583,45 +506,10 @@ oop.inherits(FoldMode, BaseFoldMode);
     
 }).call(FoldMode.prototype);
 
-});/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
+});
 
 __ace_shadowed__.define('ace/mode/folding/fold_mode', ['require', 'exports', 'module' , 'ace/range'], function(require, exports, module) {
-"use strict";
+
 
 var Range = require("../../range").Range;
 
@@ -643,25 +531,27 @@ var FoldMode = exports.FoldMode = function() {};
             return "end";
         return "";
     };
-    
+
     this.getFoldWidgetRange = function(session, foldStyle, row) {
         return null;
     };
 
     this.indentationBlock = function(session, row, column) {
-        var re = /^\s*/;
+        var re = /\S/;
+        var line = session.getLine(row);
+        var startLevel = line.search(re);
+        if (startLevel == -1)
+            return;
+
+        var startColumn = column || line.length;
+        var maxRow = session.getLength();
         var startRow = row;
         var endRow = row;
-        var line = session.getLine(row);
-        var startColumn = column || line.length;
-        var startLevel = line.match(re)[0].length;
-        var maxRow = session.getLength()
-        
-        while (++row < maxRow) {
-            line = session.getLine(row);
-            var level = line.match(re)[0].length;
 
-            if (level == line.length)
+        while (++row < maxRow) {
+            var level = session.getLine(row).search(re);
+
+            if (level == -1)
                 continue;
 
             if (level <= startLevel)
@@ -676,9 +566,9 @@ var FoldMode = exports.FoldMode = function() {};
         }
     };
 
-    this.openingBracketBlock = function(session, bracket, row, column) {
+    this.openingBracketBlock = function(session, bracket, row, column, typeRe) {
         var start = {row: row, column: column + 1};
-        var end = session.$findClosingBracket(bracket, start);
+        var end = session.$findClosingBracket(bracket, start, typeRe);
         if (!end)
             return;
 
@@ -686,7 +576,7 @@ var FoldMode = exports.FoldMode = function() {};
         if (fw == null)
             fw = this.getFoldWidget(session, end.row);
 
-        if (fw == "start") {
+        if (fw == "start" && end.row > start.row) {
             end.row --;
             end.column = session.getLine(end.row).length;
         }

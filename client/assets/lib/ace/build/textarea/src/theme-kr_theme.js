@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/kr_theme', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/kr_theme', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-kr-theme";
@@ -49,13 +49,13 @@ exports.cssText = "\
 }\
 \
 .ace-kr-theme .ace_gutter {\
-  background: #e8e8e8;\
-  color: #333;\
+  background: #1c1917;\
+  color: #FCFFE0;\
 }\
 \
 .ace-kr-theme .ace_print_margin {\
   width: 1px;\
-  background: #e8e8e8;\
+  background: #1c1917;\
 }\
 \
 .ace-kr-theme .ace_scroller {\
@@ -63,12 +63,11 @@ exports.cssText = "\
 }\
 \
 .ace-kr-theme .ace_text-layer {\
-  cursor: text;\
   color: #FCFFE0;\
 }\
 \
 .ace-kr-theme .ace_cursor {\
-  border-left: 1px solid #FF9900;\
+  border-left: 2px solid #FF9900;\
 }\
 \
 .ace-kr-theme .ace_cursor.ace_overwrite {\
@@ -80,8 +79,13 @@ exports.cssText = "\
   background: rgba(170, 0, 255, 0.45);\
 }\
 \
+.ace-kr-theme.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #0B0A09;\
+  border-radius: 2px;\
+}\
+\
 .ace-kr-theme .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(102, 82, 0);\
 }\
 \
 .ace-kr-theme .ace_marker-layer .ace_bracket {\
@@ -91,6 +95,10 @@ exports.cssText = "\
 \
 .ace-kr-theme .ace_marker-layer .ace_active_line {\
   background: #38403D;\
+}\
+\
+.ace-kr-theme .ace_gutter_active_line {\
+  background-color : #38403D;\
 }\
 \
 .ace-kr-theme .ace_marker-layer .ace_selected_word {\

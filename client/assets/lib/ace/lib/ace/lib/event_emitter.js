@@ -75,7 +75,7 @@ EventEmitter._dispatchEvent = function(eventName, e) {
     }
     
     if (defaultHandler && !e.defaultPrevented)
-        defaultHandler(e);
+        return defaultHandler(e);
 };
 
 EventEmitter.setDefaultHandler = function(eventName, callback) {
@@ -93,7 +93,7 @@ EventEmitter.addEventListener = function(eventName, callback) {
 
     var listeners = this._eventRegistry[eventName];
     if (!listeners)
-        var listeners = this._eventRegistry[eventName] = [];
+        listeners = this._eventRegistry[eventName] = [];
 
     if (listeners.indexOf(callback) == -1)
         listeners.push(callback);

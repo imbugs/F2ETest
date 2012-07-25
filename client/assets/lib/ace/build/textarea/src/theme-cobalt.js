@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/cobalt', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/cobalt', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-cobalt";
@@ -49,13 +49,13 @@ exports.cssText = "\
 }\
 \
 .ace-cobalt .ace_gutter {\
-  background: #e8e8e8;\
-  color: #333;\
+  background: #011e3a;\
+  color: #fff;\
 }\
 \
 .ace-cobalt .ace_print_margin {\
   width: 1px;\
-  background: #e8e8e8;\
+  background: #011e3a;\
 }\
 \
 .ace-cobalt .ace_scroller {\
@@ -63,12 +63,11 @@ exports.cssText = "\
 }\
 \
 .ace-cobalt .ace_text-layer {\
-  cursor: text;\
   color: #FFFFFF;\
 }\
 \
 .ace-cobalt .ace_cursor {\
-  border-left: 1px solid #FFFFFF;\
+  border-left: 2px solid #FFFFFF;\
 }\
 \
 .ace-cobalt .ace_cursor.ace_overwrite {\
@@ -80,8 +79,13 @@ exports.cssText = "\
   background: rgba(179, 101, 57, 0.75);\
 }\
 \
+.ace-cobalt.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #002240;\
+  border-radius: 2px;\
+}\
+\
 .ace-cobalt .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(127, 111, 19);\
 }\
 \
 .ace-cobalt .ace_marker-layer .ace_bracket {\
@@ -91,6 +95,10 @@ exports.cssText = "\
 \
 .ace-cobalt .ace_marker-layer .ace_active_line {\
   background: rgba(0, 0, 0, 0.35);\
+}\
+\
+.ace-cobalt .ace_gutter_active_line {\
+  background-color : rgba(0, 0, 0, 0.35);\
 }\
 \
 .ace-cobalt .ace_marker-layer .ace_selected_word {\

@@ -107,6 +107,10 @@ MockRenderer.prototype.on = function() {
 MockRenderer.prototype.updateCursor = function() {
 };
 
+MockRenderer.prototype.animateScrolling = function(fromValue, callback) {
+    callback && callback();
+};
+
 MockRenderer.prototype.scrollToX = function(scrollTop) {};
 MockRenderer.prototype.scrollToY = function(scrollLeft) {};
 
@@ -159,7 +163,7 @@ MockRenderer.prototype.updateBackMarkers = function() {
 MockRenderer.prototype.updateFrontMarkers = function() {
 };
 
-MockRenderer.prototype.setBreakpoints = function() {
+MockRenderer.prototype.updateBreakpoints = function() {
 };
 
 MockRenderer.prototype.onResize = function() {

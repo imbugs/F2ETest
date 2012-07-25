@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/tomorrow_night_eighties', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/tomorrow_night_eighties', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-tomorrow-night-eighties";
@@ -49,13 +49,13 @@ exports.cssText = "\
 }\
 \
 .ace-tomorrow-night-eighties .ace_gutter {\
-  background: #e8e8e8;\
-  color: #333;\
+  background: #272727;\
+  color: #CCC;\
 }\
 \
 .ace-tomorrow-night-eighties .ace_print_margin {\
   width: 1px;\
-  background: #e8e8e8;\
+  background: #272727;\
 }\
 \
 .ace-tomorrow-night-eighties .ace_scroller {\
@@ -63,12 +63,11 @@ exports.cssText = "\
 }\
 \
 .ace-tomorrow-night-eighties .ace_text-layer {\
-  cursor: text;\
   color: #CCCCCC;\
 }\
 \
 .ace-tomorrow-night-eighties .ace_cursor {\
-  border-left: 1px solid #CCCCCC;\
+  border-left: 2px solid #CCCCCC;\
 }\
 \
 .ace-tomorrow-night-eighties .ace_cursor.ace_overwrite {\
@@ -80,8 +79,13 @@ exports.cssText = "\
   background: #515151;\
 }\
 \
+.ace-tomorrow-night-eighties.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #2D2D2D;\
+  border-radius: 2px;\
+}\
+\
 .ace-tomorrow-night-eighties .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(102, 82, 0);\
 }\
 \
 .ace-tomorrow-night-eighties .ace_marker-layer .ace_bracket {\
@@ -91,6 +95,10 @@ exports.cssText = "\
 \
 .ace-tomorrow-night-eighties .ace_marker-layer .ace_active_line {\
   background: #393939;\
+}\
+\
+.ace-tomorrow-night-eighties .ace_gutter_active_line {\
+  background-color: #393939;\
 }\
 \
 .ace-tomorrow-night-eighties .ace_marker-layer .ace_selected_word {\

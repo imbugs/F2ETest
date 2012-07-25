@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/monokai', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/monokai', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-monokai";
@@ -49,8 +49,8 @@ exports.cssText = "\
 }\
 \
 .ace-monokai .ace_gutter {\
-  background: #e8e8e8;\
-  color: #333;\
+  background: #2f3129;\
+  color: #f1f1f1;\
 }\
 \
 .ace-monokai .ace_print_margin {\
@@ -63,12 +63,11 @@ exports.cssText = "\
 }\
 \
 .ace-monokai .ace_text-layer {\
-  cursor: text;\
   color: #F8F8F2;\
 }\
 \
 .ace-monokai .ace_cursor {\
-  border-left: 1px solid #F8F8F0;\
+  border-left: 2px solid #F8F8F0;\
 }\
 \
 .ace-monokai .ace_cursor.ace_overwrite {\
@@ -80,8 +79,13 @@ exports.cssText = "\
   background: #49483E;\
 }\
 \
+.ace-monokai.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #272822;\
+  border-radius: 2px;\
+}\
+\
 .ace-monokai .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(102, 82, 0);\
 }\
 \
 .ace-monokai .ace_marker-layer .ace_bracket {\
@@ -91,6 +95,9 @@ exports.cssText = "\
 \
 .ace-monokai .ace_marker-layer .ace_active_line {\
   background: #49483E;\
+}\
+.ace-monokai .ace_gutter_active_line {\
+  background-color: #191916;\
 }\
 \
 .ace-monokai .ace_marker-layer .ace_selected_word {\

@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/twilight', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/twilight', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-twilight";
@@ -49,13 +49,13 @@ exports.cssText = "\
 }\
 \
 .ace-twilight .ace_gutter {\
-  background: #e8e8e8;\
-  color: #333;\
+  background: #232323;\
+  color: #F8F8F8;\
 }\
 \
 .ace-twilight .ace_print_margin {\
   width: 1px;\
-  background: #e8e8e8;\
+  background: #232323;\
 }\
 \
 .ace-twilight .ace_scroller {\
@@ -63,12 +63,11 @@ exports.cssText = "\
 }\
 \
 .ace-twilight .ace_text-layer {\
-  cursor: text;\
   color: #F8F8F8;\
 }\
 \
 .ace-twilight .ace_cursor {\
-  border-left: 1px solid #A7A7A7;\
+  border-left: 2px solid #A7A7A7;\
 }\
 \
 .ace-twilight .ace_cursor.ace_overwrite {\
@@ -80,8 +79,13 @@ exports.cssText = "\
   background: rgba(221, 240, 255, 0.20);\
 }\
 \
+.ace-twilight.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #141414;\
+  border-radius: 2px;\
+}\
+\
 .ace-twilight .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(102, 82, 0);\
 }\
 \
 .ace-twilight .ace_marker-layer .ace_bracket {\
@@ -91,6 +95,10 @@ exports.cssText = "\
 \
 .ace-twilight .ace_marker-layer .ace_active_line {\
   background: rgba(255, 255, 255, 0.031);\
+}\
+\
+.ace-twilight .ace_gutter_active_line {\
+  background-color: rgba(255, 255, 255, 0.031);\
 }\
 \
 .ace-twilight .ace_marker-layer .ace_selected_word {\

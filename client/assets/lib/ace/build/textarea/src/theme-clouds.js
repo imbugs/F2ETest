@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/clouds', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/clouds', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = false;
 exports.cssClass = "ace-clouds";
@@ -49,7 +49,7 @@ exports.cssText = "\
 }\
 \
 .ace-clouds .ace_gutter {\
-  background: #e8e8e8;\
+  background: #ebebeb;\
   color: #333;\
 }\
 \
@@ -63,12 +63,11 @@ exports.cssText = "\
 }\
 \
 .ace-clouds .ace_text-layer {\
-  cursor: text;\
   color: #000000;\
 }\
 \
 .ace-clouds .ace_cursor {\
-  border-left: 1px solid #000000;\
+  border-left: 2px solid #000000;\
 }\
 \
 .ace-clouds .ace_cursor.ace_overwrite {\
@@ -80,8 +79,13 @@ exports.cssText = "\
   background: #BDD5FC;\
 }\
 \
+.ace-clouds.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #FFFFFF;\
+  border-radius: 2px;\
+}\
+\
 .ace-clouds .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(255, 255, 0);\
 }\
 \
 .ace-clouds .ace_marker-layer .ace_bracket {\
@@ -91,6 +95,10 @@ exports.cssText = "\
 \
 .ace-clouds .ace_marker-layer .ace_active_line {\
   background: #FFFBD1;\
+}\
+\
+.ace-clouds .ace_gutter_active_line {\
+  background-color : #dcdcdc;\
 }\
 \
 .ace-clouds .ace_marker-layer .ace_selected_word {\

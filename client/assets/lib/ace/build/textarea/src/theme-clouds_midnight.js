@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/clouds_midnight', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/clouds_midnight', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = true;
 exports.cssClass = "ace-clouds-midnight";
@@ -49,13 +49,13 @@ exports.cssText = "\
 }\
 \
 .ace-clouds-midnight .ace_gutter {\
-  background: #e8e8e8;\
-  color: #333;\
+  background: #232323;\
+  color: #929292;\
 }\
 \
 .ace-clouds-midnight .ace_print_margin {\
   width: 1px;\
-  background: #e8e8e8;\
+  background: #232323;\
 }\
 \
 .ace-clouds-midnight .ace_scroller {\
@@ -63,12 +63,11 @@ exports.cssText = "\
 }\
 \
 .ace-clouds-midnight .ace_text-layer {\
-  cursor: text;\
   color: #929292;\
 }\
 \
 .ace-clouds-midnight .ace_cursor {\
-  border-left: 1px solid #7DA5DC;\
+  border-left: 2px solid #7DA5DC;\
 }\
 \
 .ace-clouds-midnight .ace_cursor.ace_overwrite {\
@@ -80,8 +79,13 @@ exports.cssText = "\
   background: #000000;\
 }\
 \
+.ace-clouds-midnight.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #191919;\
+  border-radius: 2px;\
+}\
+\
 .ace-clouds-midnight .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(102, 82, 0);\
 }\
 \
 .ace-clouds-midnight .ace_marker-layer .ace_bracket {\
@@ -91,6 +95,10 @@ exports.cssText = "\
 \
 .ace-clouds-midnight .ace_marker-layer .ace_active_line {\
   background: rgba(215, 215, 215, 0.031);\
+}\
+\
+.ace-clouds-midnight .ace_gutter_active_line {\
+  background-color: rgba(215, 215, 215, 0.031);\
 }\
 \
 .ace-clouds-midnight .ace_marker-layer .ace_selected_word {\

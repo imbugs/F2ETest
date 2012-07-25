@@ -35,13 +35,13 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/mode/coffee', ['require', 'exports', 'module' , 'ace/tokenizer', 'ace/mode/coffee_highlight_rules', 'ace/mode/matching_brace_outdent', 'ace/mode/folding/pythonic', 'ace/range', 'ace/mode/text', 'ace/worker/worker_client', 'ace/lib/oop'], function(require, exports, module) {
-"use strict";
+__ace_shadowed__.define('ace/mode/coffee', ['require', 'exports', 'module' , 'ace/tokenizer', 'ace/mode/coffee_highlight_rules', 'ace/mode/matching_brace_outdent', 'ace/mode/folding/coffee', 'ace/range', 'ace/mode/text', 'ace/worker/worker_client', 'ace/lib/oop'], function(require, exports, module) {
+
 
 var Tokenizer = require("../tokenizer").Tokenizer;
 var Rules = require("./coffee_highlight_rules").CoffeeHighlightRules;
 var Outdent = require("./matching_brace_outdent").MatchingBraceOutdent;
-var PythonFoldMode = require("./folding/pythonic").FoldMode;
+var FoldMode = require("./folding/coffee").FoldMode;
 var Range = require("../range").Range;
 var TextMode = require("./text").Mode;
 var WorkerClient = require("../worker/worker_client").WorkerClient;
@@ -50,7 +50,7 @@ var oop = require("../lib/oop");
 function Mode() {
     this.$tokenizer = new Tokenizer(new Rules().getRules());
     this.$outdent   = new Outdent();
-    this.foldingRules = new PythonFoldMode("=|=>|->|\\s*class [^#]*");
+    this.foldingRules = new FoldMode();
 }
 
 oop.inherits(Mode, TextMode);
@@ -100,7 +100,7 @@ oop.inherits(Mode, TextMode);
     };
     
     this.createWorker = function(session) {
-        var worker = new WorkerClient(["ace"], "worker-coffee.js", "ace/mode/coffee_worker", "Worker");
+        var worker = new WorkerClient(["ace"], "ace/mode/coffee_worker", "Worker");
         worker.attachToDocument(session.getDocument());
         
         worker.on("error", function(e) {
@@ -118,45 +118,10 @@ oop.inherits(Mode, TextMode);
 
 exports.Mode = Mode;
 
-});/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Satoshi Murakami <murky.satyr AT gmail DOT com>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
+});
 
 __ace_shadowed__.define('ace/mode/coffee_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/lang', 'ace/lib/oop', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
-"use strict";
+
 
     var lang = require("../lib/lang");
     var oop = require("../lib/oop");
@@ -273,7 +238,7 @@ __ace_shadowed__.define('ace/mode/coffee_highlight_rules', ['require', 'exports'
                     regex : "\\?|\\:|\\,|\\."
                 }, {
                     token : "keyword.operator",
-                    regex : "(?:[\\-=]>|[-+*/%<>&|^!?=]=|>>>=?|\\-\\-|\\+\\+|::|&&=|\\|\\|=|<<=|>>=|\\?\\.|\\.{2,3}|\\!)"
+                    regex : "(?:[\\-=]>|[-+*/%<>&|^!?=]=|>>>=?|\\-\\-|\\+\\+|::|&&=|\\|\\|=|<<=|>>=|\\?\\.|\\.{2,3}|[!*+-=><])"
                 }, {
                     token : "paren.lparen",
                     regex : "[({[]"
@@ -345,45 +310,9 @@ __ace_shadowed__.define('ace/mode/coffee_highlight_rules', ['require', 'exports'
 
     exports.CoffeeHighlightRules = CoffeeHighlightRules;
 });
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
 
 __ace_shadowed__.define('ace/mode/matching_brace_outdent', ['require', 'exports', 'module' , 'ace/range'], function(require, exports, module) {
-"use strict";
+
 
 var Range = require("../range").Range;
 
@@ -426,109 +355,100 @@ var MatchingBraceOutdent = function() {};
 
 exports.MatchingBraceOutdent = MatchingBraceOutdent;
 });
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/mode/folding/pythonic', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/folding/fold_mode'], function(require, exports, module) {
-"use strict";
+__ace_shadowed__.define('ace/mode/folding/coffee', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/folding/fold_mode', 'ace/range'], function(require, exports, module) {
+
 
 var oop = require("../../lib/oop");
 var BaseFoldMode = require("./fold_mode").FoldMode;
+var Range = require("../../range").Range;
 
-var FoldMode = exports.FoldMode = function(markers) {
-    this.foldingStartMarker = new RegExp("(?:([\\[{])|(" + markers + "))(?:\\s*)(?:#.*)?$");
-};
+var FoldMode = exports.FoldMode = function() {};
 oop.inherits(FoldMode, BaseFoldMode);
 
 (function() {
 
     this.getFoldWidgetRange = function(session, foldStyle, row) {
+        var range = this.indentationBlock(session, row);
+        if (range)
+            return range;
+
+        var re = /\S/;
         var line = session.getLine(row);
-        var match = line.match(this.foldingStartMarker);
-        if (match) {
-            if (match[1])
-                return this.openingBracketBlock(session, match[1], row, match.index);
-            if (match[2])
-                return this.indentationBlock(session, row, match.index + match[2].length);
-            return this.indentationBlock(session, row);
+        var startLevel = line.search(re);
+        if (startLevel == -1 || line[startLevel] != "#")
+            return;
+
+        var startColumn = line.length;
+        var maxRow = session.getLength();
+        var startRow = row;
+        var endRow = row;
+
+        while (++row < maxRow) {
+            line = session.getLine(row);
+            var level = line.search(re);
+
+            if (level == -1)
+                continue;
+
+            if (line[level] != "#")
+                break;
+
+            endRow = row;
         }
-    }
+
+        if (endRow > startRow) {
+            var endColumn = session.getLine(endRow).length;
+            return new Range(startRow, startColumn, endRow, endColumn);
+        }
+    };
+
+    // must return "" if there's no fold, to enable caching
+    this.getFoldWidget = function(session, foldStyle, row) {
+        var line = session.getLine(row);
+        var indent = line.search(/\S/);
+        var next = session.getLine(row + 1);
+        var prev = session.getLine(row - 1);
+        var prevIndent = prev.search(/\S/);
+        var nextIndent = next.search(/\S/);
+
+        if (indent == -1) {
+            session.foldWidgets[row - 1] = prevIndent!= -1 && prevIndent < nextIndent ? "start" : "";
+            return "";
+        }
+
+        // documentation comments
+        if (prevIndent == -1) {
+            if (indent == nextIndent && line[indent] == "#" && next[indent] == "#") {
+                session.foldWidgets[row - 1] = "";
+                session.foldWidgets[row + 1] = "";
+                return "start";
+            }
+        } else if (prevIndent == indent && line[indent] == "#" && prev[indent] == "#") {
+            if (session.getLine(row - 2).search(/\S/) == -1) {
+                session.foldWidgets[row - 1] = "start";
+                session.foldWidgets[row + 1] = "";
+                return "";
+            }
+        }
+
+        if (prevIndent!= -1 && prevIndent < indent)
+            session.foldWidgets[row - 1] = "start";
+        else
+            session.foldWidgets[row - 1] = "";
+
+        if (indent < nextIndent)
+            return "start";
+        else
+            return "";
+    };
 
 }).call(FoldMode.prototype);
 
-});/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
+});
 
 __ace_shadowed__.define('ace/mode/folding/fold_mode', ['require', 'exports', 'module' , 'ace/range'], function(require, exports, module) {
-"use strict";
+
 
 var Range = require("../../range").Range;
 
@@ -550,25 +470,27 @@ var FoldMode = exports.FoldMode = function() {};
             return "end";
         return "";
     };
-    
+
     this.getFoldWidgetRange = function(session, foldStyle, row) {
         return null;
     };
 
     this.indentationBlock = function(session, row, column) {
-        var re = /^\s*/;
+        var re = /\S/;
+        var line = session.getLine(row);
+        var startLevel = line.search(re);
+        if (startLevel == -1)
+            return;
+
+        var startColumn = column || line.length;
+        var maxRow = session.getLength();
         var startRow = row;
         var endRow = row;
-        var line = session.getLine(row);
-        var startColumn = column || line.length;
-        var startLevel = line.match(re)[0].length;
-        var maxRow = session.getLength()
-        
-        while (++row < maxRow) {
-            line = session.getLine(row);
-            var level = line.match(re)[0].length;
 
-            if (level == line.length)
+        while (++row < maxRow) {
+            var level = session.getLine(row).search(re);
+
+            if (level == -1)
                 continue;
 
             if (level <= startLevel)
@@ -583,9 +505,9 @@ var FoldMode = exports.FoldMode = function() {};
         }
     };
 
-    this.openingBracketBlock = function(session, bracket, row, column) {
+    this.openingBracketBlock = function(session, bracket, row, column, typeRe) {
         var start = {row: row, column: column + 1};
-        var end = session.$findClosingBracket(bracket, start);
+        var end = session.$findClosingBracket(bracket, start, typeRe);
         if (!end)
             return;
 
@@ -593,7 +515,7 @@ var FoldMode = exports.FoldMode = function() {};
         if (fw == null)
             fw = this.getFoldWidget(session, end.row);
 
-        if (fw == "start") {
+        if (fw == "start" && end.row > start.row) {
             end.row --;
             end.column = session.getLine(end.row).length;
         }

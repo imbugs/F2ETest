@@ -114,45 +114,9 @@ oop.inherits(Mode, TextMode);
 
 exports.Mode = Mode;
 });
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
 
 __ace_shadowed__.define('ace/mode/liquid_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/css_highlight_rules', 'ace/mode/javascript_highlight_rules', 'ace/lib/lang', 'ace/mode/xml_util', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
-"use strict";
+
 
 var oop = require("../lib/oop");
 var CssHighlightRules = require("./css_highlight_rules").CssHighlightRules;
@@ -334,45 +298,9 @@ oop.inherits(LiquidHighlightRules, TextHighlightRules);
 
 exports.LiquidHighlightRules = LiquidHighlightRules;
 });
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
 
 __ace_shadowed__.define('ace/mode/css_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/lib/lang', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
-"use strict";
+
 
 var oop = require("../lib/oop");
 var lang = require("../lib/lang");
@@ -576,46 +504,9 @@ oop.inherits(CssHighlightRules, TextHighlightRules);
 exports.CssHighlightRules = CssHighlightRules;
 
 });
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *      Mihai Sucan <mihai DOT sucan AT gmail DOT com>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
 
 __ace_shadowed__.define('ace/mode/javascript_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/lib/lang', 'ace/unicode', 'ace/mode/doc_comment_highlight_rules', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
-"use strict";
+
 
 var oop = require("../lib/oop");
 var lang = require("../lib/lang");
@@ -694,7 +585,7 @@ var JavaScriptHighlightRules = function() {
                 token : "comment",
                 regex : /\/\/.*$/
             },
-            new DocCommentHighlightRules().getStartRule("doc-start"),
+            DocCommentHighlightRules.getStartRule("doc-start"),
             {
                 token : "comment", // multi line comment
                 merge : true,
@@ -702,11 +593,11 @@ var JavaScriptHighlightRules = function() {
                 next : "comment"
             }, {
                 token : "string",
-                regex : "'",
+                regex : "'(?=.)",
                 next  : "qstring"
             }, {
                 token : "string",
-                regex : '"',
+                regex : '"(?=.)',
                 next  : "qqstring"
             }, {
                 token : "constant.numeric", // hex
@@ -726,11 +617,10 @@ var JavaScriptHighlightRules = function() {
                     "text",
                     "storage.type",
                     "text",
-                    "paren.lparen",
-                    "variable.parameter",
-                    "paren.rparen"
+                    "paren.lparen"
                 ],
-                regex : "(" + identifierRe + ")(\\.)(prototype)(\\.)(" + identifierRe +")(\\s*)(=)(\\s*)(function)(\\s*)(\\()(.*?)(\\))"
+                regex : "(" + identifierRe + ")(\\.)(prototype)(\\.)(" + identifierRe +")(\\s*)(=)(\\s*)(function)(\\s*)(\\()",
+                next: "function_arguments"
             }, { // match stuff like: Sound.prototype.play = myfunc
                 token : [
                     "storage.type",
@@ -742,7 +632,8 @@ var JavaScriptHighlightRules = function() {
                     "keyword.operator",
                     "text"
                 ],
-                regex : "(" + identifierRe + ")(\\.)(prototype)(\\.)(" + identifierRe +")(\\s*)(=)(\\s*)"
+                regex : "(" + identifierRe + ")(\\.)(prototype)(\\.)(" + identifierRe +")(\\s*)(=)(\\s*)",
+                next: "function_arguments"
             }, { // match stuff like: Sound.play = function() {  }
                 token : [
                     "storage.type",
@@ -753,11 +644,10 @@ var JavaScriptHighlightRules = function() {
                     "text",
                     "storage.type",
                     "text",
-                    "paren.lparen",
-                    "variable.parameter",
-                    "paren.rparen"
+                    "paren.lparen"
                 ],
-                regex : "(" + identifierRe + ")(\\.)(" + identifierRe +")(\\s*)(=)(\\s*)(function)(\\s*)(\\()(.*?)(\\))"
+                regex : "(" + identifierRe + ")(\\.)(" + identifierRe +")(\\s*)(=)(\\s*)(function)(\\s*)(\\()",
+                next: "function_arguments"
             }, { // match stuff like: play = function() {  }
                 token : [
                     "entity.name.function",
@@ -766,22 +656,36 @@ var JavaScriptHighlightRules = function() {
                     "text",
                     "storage.type",
                     "text",
-                    "paren.lparen",
-                    "variable.parameter",
-                    "paren.rparen"
+                    "paren.lparen"
                 ],
-                regex : "(" + identifierRe +")(\\s*)(=)(\\s*)(function)(\\s*)(\\()(.*?)(\\))"
+                regex : "(" + identifierRe +")(\\s*)(=)(\\s*)(function)(\\s*)(\\()",
+                next: "function_arguments"
+            }, { // match stuff like: Sound.play = function play() {  }
+                token : [
+                    "storage.type",
+                    "punctuation.operator",
+                    "entity.name.function",
+                    "text",
+                    "keyword.operator",
+                    "text",
+                    "storage.type",
+                    "text",
+                    "entity.name.function",
+                    "text",
+                    "paren.lparen"
+                ],
+                regex : "(" + identifierRe + ")(\\.)(" + identifierRe +")(\\s*)(=)(\\s*)(function)(\\s+)(\\w+)(\\s*)(\\()",
+                next: "function_arguments"
             }, { // match regular function like: function myFunc(arg) { }
                 token : [
                     "storage.type",
                     "text",
                     "entity.name.function",
                     "text",
-                    "paren.lparen",
-                    "variable.parameter",
-                    "paren.rparen"
+                    "paren.lparen"
                 ],
-                regex : "(function)(\\s+)(" + identifierRe + ")(\\s*)(\\()(.*?)(\\))"
+                regex : "(function)(\\s+)(" + identifierRe + ")(\\s*)(\\()",
+                next: "function_arguments"
             }, { // match stuff like: foobar: function() { }
                 token : [
                     "entity.name.function",
@@ -790,22 +694,20 @@ var JavaScriptHighlightRules = function() {
                     "text",
                     "storage.type",
                     "text",
-                    "paren.lparen",
-                    "variable.parameter",
-                    "paren.rparen"
+                    "paren.lparen"
                 ],
-                regex : "(" + identifierRe + ")(\\s*)(:)(\\s*)(function)(\\s*)(\\()(.*?)(\\))"
+                regex : "(" + identifierRe + ")(\\s*)(:)(\\s*)(function)(\\s*)(\\()",
+                next: "function_arguments"
             }, { // Attempt to match : function() { } (this is for issues with 'foo': function() { })
                 token : [
                     "text",
                     "text",
                     "storage.type",
                     "text",
-                    "paren.lparen",
-                    "variable.parameter",
-                    "paren.rparen"
+                    "paren.lparen"
                 ],
-                regex : "(:)(\\s*)(function)?(\\s*)(\\()([^)]*)(\\))"
+                regex : "(:)(\\s*)(function)(\\s*)(\\()",
+                next: "function_arguments"
             }, {
                 token : "constant.language.boolean",
                 regex : /(?:true|false)\b/
@@ -875,6 +777,7 @@ var JavaScriptHighlightRules = function() {
         // regular expressions are only allowed after certain tokens. This
         // makes sure we don't mix up regexps with the divison operator
         "regex_allowed": [
+            DocCommentHighlightRules.getStartRule("doc-start"),
             {
                 token : "comment", // multi line comment
                 merge : true,
@@ -902,10 +805,9 @@ var JavaScriptHighlightRules = function() {
         "regex": [
             {
                 token: "regexp.keyword.operator",
-                regex: "\\\\(?:u[\\da-fA-F]{4}|x[\\da-fA-F]{2}|.)",
-                next: "regex"
+                regex: "\\\\(?:u[\\da-fA-F]{4}|x[\\da-fA-F]{2}|.)"
             }, {
-				// flag
+                // flag
                 token: "string.regexp",
                 regex: "/\\w*",
                 next: "start",
@@ -913,7 +815,6 @@ var JavaScriptHighlightRules = function() {
             }, {
                 token: "string.regexp",
                 regex: "[^\\\\/\\[]+",
-                next: "regex",
                 merge: true
             }, {
                 token: "string.regexp.charachterclass",
@@ -929,8 +830,7 @@ var JavaScriptHighlightRules = function() {
         "regex_character_class": [
             {
                 token: "regexp.keyword.operator",
-                regex: "\\\\(?:u[\\da-fA-F]{4}|x[\\da-fA-F]{2}|.)",
-                next: "regex_character_class"
+                regex: "\\\\(?:u[\\da-fA-F]{4}|x[\\da-fA-F]{2}|.)"
             }, {
                 token: "string.regexp.charachterclass",
                 regex: "]",
@@ -939,7 +839,24 @@ var JavaScriptHighlightRules = function() {
             }, {
                 token: "string.regexp.charachterclass",
                 regex: "[^\\\\\\]]+",
-                next: "regex_character_class",
+                merge: true
+            }, {
+                token: "empty",
+                regex: "",
+                next: "start"
+            }
+        ],
+        "function_arguments": [
+            {
+                token: "variable.parameter",
+                regex: identifierRe
+            }, {
+                token: "punctuation.operator",
+                regex: "[, ]+",
+                merge: true
+            }, {
+                token: "punctuation.operator",
+                regex: "$",
                 merge: true
             }, {
                 token: "empty",
@@ -977,11 +894,18 @@ var JavaScriptHighlightRules = function() {
                 regex : escapedRe
             }, {
                 token : "string",
-                regex : '[^"\\\\]+'
+                regex : '[^"\\\\]+',
+                merge : true
             }, {
                 token : "string",
-                regex : '"',
-                next  : "start"
+                regex : "\\\\$",
+                next  : "qqstring",
+                merge : true
+            }, {
+                token : "string",
+                regex : '"|$',
+                next  : "start",
+                merge : true
             }
         ],
         "qstring" : [
@@ -990,62 +914,33 @@ var JavaScriptHighlightRules = function() {
                 regex : escapedRe
             }, {
                 token : "string",
-                regex : "[^'\\\\]+"
+                regex : "[^'\\\\]+",
+                merge : true
             }, {
                 token : "string",
-                regex : "'",
-                next  : "start"
+                regex : "\\\\$",
+                next  : "qstring",
+                merge : true
+            }, {
+                token : "string",
+                regex : "'|$",
+                next  : "start",
+                merge : true
             }
         ]
     };
 
     this.embedRules(DocCommentHighlightRules, "doc-",
-        [ new DocCommentHighlightRules().getEndRule("start") ]);
+        [ DocCommentHighlightRules.getEndRule("start") ]);
 };
 
 oop.inherits(JavaScriptHighlightRules, TextHighlightRules);
 
 exports.JavaScriptHighlightRules = JavaScriptHighlightRules;
 });
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
 
 __ace_shadowed__.define('ace/mode/doc_comment_highlight_rules', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text_highlight_rules'], function(require, exports, module) {
-"use strict";
+
 
 var oop = require("../lib/oop");
 var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
@@ -1078,80 +973,31 @@ var DocCommentHighlightRules = function() {
 
 oop.inherits(DocCommentHighlightRules, TextHighlightRules);
 
-(function() {
-
-    this.getStartRule = function(start) {
-        return {
-            token : "comment.doc", // doc comment
-            merge : true,
-            regex : "\\/\\*(?=\\*)",
-            next  : start
-        };
+DocCommentHighlightRules.getStartRule = function(start) {
+    return {
+        token : "comment.doc", // doc comment
+        merge : true,
+        regex : "\\/\\*(?=\\*)",
+        next  : start
     };
-    
-    this.getEndRule = function (start) {
-        return {
-            token : "comment.doc", // closing comment
-            merge : true,
-            regex : "\\*\\/",
-            next  : start
-        };
-    };
+};
 
-}).call(DocCommentHighlightRules.prototype);
+DocCommentHighlightRules.getEndRule = function (start) {
+    return {
+        token : "comment.doc", // closing comment
+        merge : true,
+        regex : "\\*\\/",
+        next  : start
+    };
+};
+
 
 exports.DocCommentHighlightRules = DocCommentHighlightRules;
 
 });
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/mode/xml_util', ['require', 'exports', 'module' , 'ace/lib/lang'], function(require, exports, module) {
-"use strict";
+__ace_shadowed__.define('ace/mode/xml_util', ['require', 'exports', 'module' ], function(require, exports, module) {
 
-var lang = require("../lib/lang");
-
-var formTags = lang.arrayToMap(
-    ("button|form|input|label|select|textarea").split("|")
-);
-
-var tableTags = lang.arrayToMap(
-    ("table|tbody|td|tfoot|th|tr").split("|")
-);
 
 function string(state) {
     return [{
@@ -1186,7 +1032,7 @@ function multiLineString(quote, state) {
     }];
 }
 
-exports.tag = function(states, name, nextState) {
+exports.tag = function(states, name, nextState, tagMap) {
     states[name] = [{
         token : "text",
         regex : "\\s+"
@@ -1194,26 +1040,10 @@ exports.tag = function(states, name, nextState) {
         //token : "meta.tag",
         
     token : function(value) {
-            if ( value==='a' ) {
-                return "meta.tag.anchor";
-            }
-            else if ( value==='img' ) {
-                return "meta.tag.image";
-            }
-            else if ( value==='script' ) {
-                return "meta.tag.script";
-            }
-            else if ( value==='style' ) {
-                return "meta.tag.style";
-            }
-            else if (formTags.hasOwnProperty(value.toLowerCase())) {
-                return "meta.tag.form";
-            }
-            else if (tableTags.hasOwnProperty(value.toLowerCase())) {
-                return "meta.tag.table";
-            }
-            else {
-                return "meta.tag";
+            if (tagMap && tagMap[value]) {
+                return "meta.tag.tag-name" + '.' + tagMap[value];
+            } else {
+                return "meta.tag.tag-name";
             }
         },        
         merge : true,
@@ -1249,45 +1079,9 @@ exports.tag = function(states, name, nextState) {
 };
 
 });
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Ajax.org Code Editor (ACE).
- *
- * The Initial Developer of the Original Code is
- * Ajax.org B.V.
- * Portions created by the Initial Developer are Copyright (C) 2010
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *      Fabian Jakobs <fabian AT ajax DOT org>
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
 
 __ace_shadowed__.define('ace/mode/matching_brace_outdent', ['require', 'exports', 'module' , 'ace/range'], function(require, exports, module) {
-"use strict";
+
 
 var Range = require("../range").Range;
 

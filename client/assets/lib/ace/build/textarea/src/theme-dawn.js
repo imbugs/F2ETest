@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-__ace_shadowed__.define('ace/theme/dawn', ['require', 'exports', 'module' , 'ace/lib/dom'], function(require, exports, module) {
+__ace_shadowed__.define('ace/theme/dawn', ['require', 'exports', 'module', 'ace/lib/dom'], function(require, exports, module) {
 
 exports.isDark = false;
 exports.cssClass = "ace-dawn";
@@ -49,7 +49,7 @@ exports.cssText = "\
 }\
 \
 .ace-dawn .ace_gutter {\
-  background: #e8e8e8;\
+  background: #ebebeb;\
   color: #333;\
 }\
 \
@@ -63,12 +63,11 @@ exports.cssText = "\
 }\
 \
 .ace-dawn .ace_text-layer {\
-  cursor: text;\
   color: #080808;\
 }\
 \
 .ace-dawn .ace_cursor {\
-  border-left: 1px solid #000000;\
+  border-left: 2px solid #000000;\
 }\
 \
 .ace-dawn .ace_cursor.ace_overwrite {\
@@ -80,8 +79,13 @@ exports.cssText = "\
   background: rgba(39, 95, 255, 0.30);\
 }\
 \
+.ace-dawn.multiselect .ace_selection.start {\
+  box-shadow: 0 0 3px 0px #F9F9F9;\
+  border-radius: 2px;\
+}\
+\
 .ace-dawn .ace_marker-layer .ace_step {\
-  background: rgb(198, 219, 174);\
+  background: rgb(255, 255, 0);\
 }\
 \
 .ace-dawn .ace_marker-layer .ace_bracket {\
@@ -91,6 +95,10 @@ exports.cssText = "\
 \
 .ace-dawn .ace_marker-layer .ace_active_line {\
   background: rgba(36, 99, 180, 0.12);\
+}\
+\
+.ace-dawn .ace_gutter_active_line {\
+  background-color : #dcdcdc;\
 }\
 \
 .ace-dawn .ace_marker-layer .ace_selected_word {\
